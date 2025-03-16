@@ -1,0 +1,237 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilos generales */
+body {
+    background-color: #f4f4f4;
+}
+
+/*HEADER*/
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+
+}
+
+header nav button {
+    background-color: #ff9900;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5%;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+nav button:hover{
+    background-color: #e68a00;;
+}
+/*Main*/
+.registro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #69a2ff;
+    padding: 50px 0;
+    min-height: 100vh; /* Para que ocupe toda la altura de la pantalla */
+}
+
+/* Imagen de fondo */
+.imagen-de-fondo img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Contenedor del formulario */
+hr {
+    width: 80%;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+}
+.registro-container {
+    background: white; /* Fondo blanco */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 850px; /* Aumentamos el ancho */
+    display: flex;
+    justify-content: space-between; /* Alinea formulario e inicio de sesión */
+    gap: 30px;
+}
+
+.registro-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.registro-container p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+/* Campos de entrada */
+.campo {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 15px;
+}
+.campo label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.campo input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+/* Botones de Registro */
+.botones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.btn-registrarse {
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-registrarse:hover {
+    background-color: #e68a00;
+}
+
+.btn-empresa {
+    background-color: #4b2e1e;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-empresa:hover {
+    background-color: #3a2416;
+}
+/* Sección de iniciar sesión */
+.iniciar-sesion {
+    flex: 1; /* Ocupa menos espacio */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.iniciar-sesion button {
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.iniciar-sesion button:hover {
+    background-color: #e68a00;
+}
+
+/* Registro con Google y Facebook */
+.registro-social {
+    margin-top: 20px;
+    text-align: center;
+}
+.botones-sociales {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.botones-sociales button {
+    background-color: #ccc;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+.botones-sociales button:hover {
+    opacity: 0.8;
+}
+
+
+@media (max-width: 768px) {
+    .registro-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .botones {
+        flex-direction: column;
+    }
+
+    .botones-sociales {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+.formulario {
+    flex: 2; /* Hace que el formulario ocupe más espacio */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+/*footer*/
+
+.footer {
+    background-color: #333; /* Fondo oscuro */
+    color: white; /* Texto en color blanco */
+    padding: 20px 0; /* Espaciado superior e inferior */
+    text-align: center; /* Centrar todo el contenido */
+    padding-bottom: 20px;
+}
+
+.footer-contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Espaciado entre elementos */
+}
+
+.footer-contenido img {
+    width: 120px; /* Tamaño del logo */
+}
+
+.footer-contenido p {
+    font-size: 14px;
+    opacity: 0.8; /* Hace que el texto sea menos intenso */
+}
