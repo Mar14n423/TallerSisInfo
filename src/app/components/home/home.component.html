@@ -8,29 +8,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="imagenes/LOGONUEVO.png" alt="Logo" width="90">
-        <img src="imagenes/logoSF.png" alt="Logo" width="450">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Bolsa de Empleo</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Transporte</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Foro</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Eventos</a></li>
-        </ul>
-        <a routerLink="/registro" class="btn btn-primary btn-register">Regístrate</a>
-      </div>
-    </div>
-  </nav>
-
+  <app-navbar></app-navbar>
   <!-- Carrusel -->
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -43,7 +21,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <img src="imagenes/imagen2.jpg" class="d-block w-100" alt="...">
+        <img src="imagenes/reuniones.jpg" class="d-block w-100" alt="reunete con nosotros">
         <div class="carousel-caption d-none d-md-block">
           <h5>Únete a nuestra comunidad</h5>
           <p>Descubre nuevas oportunidades</p>

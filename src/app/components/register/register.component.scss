@@ -1,0 +1,27 @@
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    gap: 50px;
+    padding: 50px 0;
+}
+
+.btn-iniciar {
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-iniciar:hover {
+    background-color: #e68a00;
+}

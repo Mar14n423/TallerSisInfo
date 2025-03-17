@@ -4,6 +4,6 @@ import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Página de inicio
-  { path: 'registro', component: RegisterComponent }
+  { path: 'registrate', component: RegisterComponent }
 ];
 
