@@ -6,7 +6,7 @@
         <label for="name" class="form-label">Nombre Completo</label>
         <input id="name" type="text" class="form-control" formControlName="name" placeholder="Coloca tu nombre completo">
       </div>
-  
+
       <div class="mb-3">
         <label for="email" class="form-label">Correo Electrónico</label>
         <input id="email" type="email" class="form-control" formControlName="email" placeholder="Ingresa tu email">
@@ -15,7 +15,7 @@
         <label for="discapacidad" class="form-label">Discapacidad</label>
         <input id="discapacidad" type="text" class="form-control" formControlName="discapacidad" placeholder="Tipo de discapacidad">
       </div>
-  
+
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
         <input id="password" type="password" class="form-control" formControlName="password">
@@ -24,13 +24,18 @@
         <label for="password" class="form-label">Confirmar contraseña</label>
         <input id="password" type="password" class="form-control" formControlName="password">
       </div>
-  
+
       <button type="submit" class="btn btn-primary">Registrarse</button>
+
+
     </form>
     <div class="iniciar-sesion">
       <p>¿Ya tienes una cuenta?</p>
-      <button type="button" class="btn-iniciar">Iniciar Sesión</button>
-      
+      <button type="button" class="btn-iniciar" routerLink="/login">Iniciar Sesión</button>
+      <button routerLink="/registercompany" class="btn btn-secondary">Iniciar Sesión como Empresa</button>
+
+
+
       <div class="registro-social">
           <p>O si prefieres puedes registrarte con:</p>
           <div class="botones-sociales">
@@ -42,4 +47,4 @@
   </div>
 
   <app-footer></app-footer>
-  
+
