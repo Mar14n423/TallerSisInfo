@@ -1,50 +1,46 @@
 <app-navbar></app-navbar>
 <div class="container mt-5">
-    <h2>Registro de Usuario</h2>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label for="name" class="form-label">Nombre Completo</label>
-        <input id="name" type="text" class="form-control" formControlName="name" placeholder="Coloca tu nombre completo">
-      </div>
-
-      <div class="mb-3">
-        <label for="email" class="form-label">Correo Electrónico</label>
-        <input id="email" type="email" class="form-control" formControlName="email" placeholder="Ingresa tu email">
-      </div>
-      <div class="mb-3">
-        <label for="discapacidad" class="form-label">Discapacidad</label>
-        <input id="discapacidad" type="text" class="form-control" formControlName="discapacidad" placeholder="Tipo de discapacidad">
-      </div>
-
-      <div class="mb-3">
-        <label for="password" class="form-label">Contraseña</label>
-        <input id="password" type="password" class="form-control" formControlName="password">
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Confirmar contraseña</label>
-        <input id="password" type="password" class="form-control" formControlName="password">
-      </div>
-
-      <button type="submit" class="btn btn-primary">Registrarse</button>
-
-
-    </form>
-    <div class="iniciar-sesion">
-      <p>¿Ya tienes una cuenta?</p>
-      <button type="button" class="btn-iniciar" routerLink="/login">Iniciar Sesión</button>
-      <button routerLink="/registercompany" class="btn btn-secondary">Iniciar Sesión como Empresa</button>
-
-
-
-      <div class="registro-social">
-          <p>O si prefieres puedes registrarte con:</p>
-          <div class="botones-sociales">
-              <button class="btn-google">Google</button>
-              <button class="btn-facebook">Facebook</button>
-          </div>
-      </div>
+  <h2>Registro de Usuario</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre Completo</label>
+      <input id="name" type="text" class="form-control" formControlName="name" placeholder="Coloca tu nombre completo">
     </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo Electrónico</label>
+      <input id="email" type="email" class="form-control" formControlName="email" placeholder="Ingresa tu email">
+    </div>
+
+    <div class="mb-3">
+      <label for="discapacidad" class="form-label">Discapacidad</label>
+      <input id="discapacidad" type="text" class="form-control" formControlName="discapacidad" placeholder="Tipo de discapacidad">
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input id="password" type="password" class="form-control" formControlName="password">
+    </div>
+
+    <div class="mb-3">
+      <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+      <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Registrarse</button>
+  </form>
+
+  <div class="iniciar-sesion mt-3">
+    <p>¿Ya tienes una cuenta?</p>
+    <button type="button" class="btn-iniciar">Iniciar Sesión</button>
   </div>
 
-  <app-footer></app-footer>
-
+  <div class="registro-social mt-3">
+    <p>O si prefieres puedes registrarte con:</p>
+    <div class="botones-sociales">
+      <button class="btn-google">Google</button>
+      <button class="btn-facebook">Facebook</button>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
