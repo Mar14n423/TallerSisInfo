@@ -1,0 +1,54 @@
+<app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
+
+<main>
+  <!-- Sección de la imagen -->
+  <div class="imagen-de-fondo"></div>
+
+  <!-- Sección Azul con Título y Formulario -->
+  <section class="seccion-azul">
+    <h2 class="titulo">Crea tu cuenta en “Sin Fronteras”</h2>
+    <p class="subtitulo">Únete a nuestra comunidad inclusiva</p>
+
+    <div class="registro-container">
+      <form [formGroup]="registerCompanyForm" (ngSubmit)="onSubmit()">
+        <div class="formulario">
+          <!-- Columna Izquierda -->
+          <div class="columna">
+            <div class="campo">
+              <label for="empresa">Nombre de la Empresa:</label>
+              <input type="text" id="empresa" formControlName="empresa" placeholder="Coloca tu nombre completo">
+            </div>
+            <div class="campo">
+              <label for="email">Email:</label>
+              <input type="email" id="email" formControlName="email" placeholder="Ingresa tu email">
+            </div>
+            <div class="campo">
+              <label for="contraseña">Contraseña:</label>
+              <input type="password" id="contraseña" formControlName="password" placeholder="Ingresa una contraseña">
+            </div>
+            <div class="campo">
+              <label for="confirmar-contraseña">Confirmar Contraseña:</label>
+              <input type="password" id="confirmar-contraseña" formControlName="confirmPassword" placeholder="Vuelve a escribir tu contraseña">
+            </div>
+          </div>
+
+          <!-- Columna Derecha -->
+          <div class="columna">
+            <div class="campo">
+              <label for="telefono">Teléfono:</label>
+              <input type="text" id="telefono" formControlName="telefono" placeholder="Número de contacto">
+            </div>
+            <div class="campo">
+              <label for="correo">Correo Electrónico:</label>
+              <input type="email" id="correo" formControlName="correo" placeholder="Ingrese su correo">
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-empresa">Registrar como Empresa</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer> <!-- 🔹 Footer reutilizable -->

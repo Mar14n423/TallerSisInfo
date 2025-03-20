@@ -4,11 +4,12 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } 
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import axios from 'axios';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent,RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
