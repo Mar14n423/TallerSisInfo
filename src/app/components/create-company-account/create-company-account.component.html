@@ -1,54 +1,69 @@
-<app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
-
-<main>
-  <!-- Sección de la imagen -->
-  <div class="imagen-de-fondo"></div>
-
-  <!-- Sección Azul con Título y Formulario -->
-  <section class="seccion-azul">
-    <h2 class="titulo">Crea tu cuenta en “Sin Fronteras”</h2>
-    <p class="subtitulo">Únete a nuestra comunidad inclusiva</p>
-
-    <div class="registro-container">
-      <form [formGroup]="registerCompanyForm" (ngSubmit)="onSubmit()">
-        <div class="formulario">
-          <!-- Columna Izquierda -->
-          <div class="columna">
-            <div class="campo">
-              <label for="empresa">Nombre de la Empresa:</label>
-              <input type="text" id="empresa" formControlName="empresa" placeholder="Coloca tu nombre completo">
-            </div>
-            <div class="campo">
-              <label for="email">Email:</label>
-              <input type="email" id="email" formControlName="email" placeholder="Ingresa tu email">
-            </div>
-            <div class="campo">
-              <label for="contraseña">Contraseña:</label>
-              <input type="password" id="contraseña" formControlName="password" placeholder="Ingresa una contraseña">
-            </div>
-            <div class="campo">
-              <label for="confirmar-contraseña">Confirmar Contraseña:</label>
-              <input type="password" id="confirmar-contraseña" formControlName="confirmPassword" placeholder="Vuelve a escribir tu contraseña">
-            </div>
-          </div>
-
-          <!-- Columna Derecha -->
-          <div class="columna">
-            <div class="campo">
-              <label for="telefono">Teléfono:</label>
-              <input type="text" id="telefono" formControlName="telefono" placeholder="Número de contacto">
-            </div>
-            <div class="campo">
-              <label for="correo">Correo Electrónico:</label>
-              <input type="email" id="correo" formControlName="correo" placeholder="Ingrese su correo">
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-empresa">Registrar como Empresa</button>
-      </form>
+<app-navbar></app-navbar>
+<div class="container mt-5">
+  <h2>Registro de Empresa</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre de la Empresa</label>
+      <input id="nombre" type="text" class="form-control" formControlName="nombre" placeholder="Nombre de la empresa">
+      <div *ngIf="registerForm.get('nombre')?.invalid && registerForm.get('nombre')?.touched" class="text-danger">
+        El nombre es obligatorio.
+      </div>
     </div>
-  </section>
-</main>
 
-<app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
+    <div class="mb-3">
+      <label for="correo" class="form-label">Correo Electrónico</label>
+      <input id="correo" type="email" class="form-control" formControlName="correo" placeholder="Ingresa el email de la empresa">
+      <div *ngIf="registerForm.get('correo')?.invalid && registerForm.get('correo')?.touched" class="text-danger">
+        Ingresa un correo válido.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input id="password" type="password" class="form-control" formControlName="password">
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
+        La contraseña es obligatoria.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="confirmarPassword" class="form-label">Confirmar contraseña</label>
+      <input id="confirmarPassword" type="password" class="form-control" formControlName="confirmarPassword">
+      <div *ngIf="registerForm.get('confirmarPassword')?.invalid && registerForm.get('confirmarPassword')?.touched" class="text-danger">
+        Confirma tu contraseña.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="telefono" class="form-label">Teléfono</label>
+      <input id="telefono" type="text" class="form-control" formControlName="telefono" placeholder="Teléfono de la empresa">
+      <div *ngIf="registerForm.get('telefono')?.invalid && registerForm.get('telefono')?.touched" class="text-danger">
+        El teléfono es obligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="descripcion" class="form-label">Descripción</label>
+      <textarea id="descripcion" class="form-control" formControlName="descripcion" placeholder="Descripción de la empresa"></textarea>
+      <div *ngIf="registerForm.get('descripcion')?.invalid && registerForm.get('descripcion')?.touched" class="text-danger">
+        La descripción es obligatoria.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Registrar Empresa</button>
+  </form>
+
+  <div class="iniciar-sesion mt-3">
+    <p>¿Ya tienes una cuenta?</p>
+    <button type="button" class="btn-iniciar" routerLink="/login">Iniciar Sesión</button>
+  </div>
+
+  <div class="registro-social mt-3">
+    <p>O si prefieres puedes registrarte con:</p>
+    <div class="botones-sociales">
+      <button class="btn-google">Google</button>
+      <button class="btn-facebook">Facebook</button>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
