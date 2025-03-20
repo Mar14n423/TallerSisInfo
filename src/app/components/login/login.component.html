@@ -1,52 +1,59 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iniciar Sesión - Sin Fronteras</title>
-  <link rel="stylesheet" href="login.component.scss">
-</head>
-<body>
+<app-navbar></app-navbar>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">
-    <img src="imagenes/logo.PNG" alt="Logo Sin Fronteras" width="150px">
+<div class="container mt-5">
+  <h2>Iniciar Sesión</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="email" class="form-label">Correo Electrónico</label>
+      <input
+        id="email"
+        type="email"
+        class="form-control"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Ingresa tu email"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Ingresa tu contraseña"
+        required
+      />
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+  </form>
+
+  <div class="iniciar-sesion mt-3">
+    <p>¿No tienes una cuenta?</p>
+    <button type="button" class="btn btn-secondary" routerLink="/register">
+      Regístrate
+    </button>
+    <button type="button" class="btn btn-secondary" routerLink="/registercompany">
+      Iniciar Sesión como Empresa
+    </button>
   </div>
-</header>
 
-<!-- SECCIÓN DE LOGIN -->
-<main>
-  <section class="login-container">
-    <!-- Columna Izquierda: Imagen -->
-    <div class="imagen">
-      <img src="imagenes/iniciarSesionNormalFondo.PNG" alt="Persona con prótesis en brazo">
+  <div class="registro-social mt-3">
+    <p>O inicia sesión con:</p>
+    <div class="botones-sociales">
+      <button class="btn btn-google">Google</button>
+      <button class="btn btn-facebook">Facebook</button>
     </div>
-
-    <!-- Columna Derecha: Formulario -->
-    <div class="formulario">
-      <form action="#">
-        <div class="campo">
-          <label for="email">Ingrese su email</label>
-          <input type="email" id="email" placeholder="Ingrese su email">
-        </div>
-
-        <div class="campo">
-          <label for="password">Ingrese su contraseña</label>
-          <input type="password" id="password" placeholder="Ingrese su contraseña">
-        </div>
-
-        <button type="submit" class="btn-iniciar">Iniciar Sesión</button>
-      </form>
-
-      <button class="btn-home" routerLink="/">Home</button>
-
-
-    </div>
-  </section>
-</main>
+  </div>
+</div>
 
 <app-footer></app-footer>
-
-</body>
-</html>
