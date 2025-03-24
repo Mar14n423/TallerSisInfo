@@ -13,7 +13,7 @@ import { EmpresaService } from './empresa.service';
   styleUrls: ['./create-company-account.component.scss']
 })
 export class CreateCompanyAccountComponent {
-  registerForm = new FormGroup({
+  registerCompanyForm = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
     correo: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -25,14 +25,14 @@ export class CreateCompanyAccountComponent {
   constructor(private empresaService: EmpresaService) {}
 
   onSubmit() {
-    if (this.registerForm.valid) {
+    if (this.registerCompanyForm.valid) {
       const empresa = {
-        nombre: this.registerForm.value.nombre,
-        correo: this.registerForm.value.correo,
-        passwordHash: this.registerForm.value.password,
-        confirmarContraseña: this.registerForm.value.confirmarPassword,
-        telefono: this.registerForm.value.telefono,
-        descripcion: this.registerForm.value.descripcion
+        nombre: this.registerCompanyForm.value.nombre,
+        correo: this.registerCompanyForm.value.correo,
+        passwordHash: this.registerCompanyForm.value.password,
+        confirmarContraseña: this.registerCompanyForm.value.confirmarPassword,
+        telefono: this.registerCompanyForm.value.telefono,
+        descripcion: this.registerCompanyForm.value.descripcion
       };
 
       this.empresaService.registrarEmpresa(empresa)
