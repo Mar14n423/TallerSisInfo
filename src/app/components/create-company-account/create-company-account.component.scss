@@ -66,7 +66,7 @@ main {
 .formulario {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 20px 50px;
     width: 100%;
 }
 
@@ -126,4 +126,39 @@ main {
     .columna {
         width: 100%; /* Solo en móviles se vuelve una sola columna */
     }
+}
+
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+
+.iniciar-sesion {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.iniciar-sesion p {
+  margin-bottom: 5px;
+}
+
+.botones-sociales button {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.botones-sociales button:hover {
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
 }
