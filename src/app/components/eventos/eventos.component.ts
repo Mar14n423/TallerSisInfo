@@ -23,8 +23,9 @@ export class EventosComponent {
   //private findEvent = findEvent;
 
   headers: NCalendar.Header = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  eventosData: NCalendar.Body[] = [];
+  eventosData = new Array(42).fill(1);
 
+  OpenModal(){}
   
 
   removeEvent(eventosIndex: number, eventIndex: number) {
