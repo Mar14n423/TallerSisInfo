@@ -1,8 +1,68 @@
-<app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
+<app-navbar></app-navbar> 
+<section class="calendar-container">
+  <button mat-button color="primary">Agregar evento</button>
+
+  <article class="calendar-content">
+      <!-- Encabezados del calendario -->
+      <span class="calendar-header" *ngFor="let header of headers">
+          {{ header }}
+      </span>
+
+      <!-- Días del calendario -->
+      <div 
+          class="calendar-body" 
+          *ngFor="let item of eventosData; let calendarIndex = index" 
+          [ngClass]="{
+              'current-month': item.isCurrentMonth, 
+              'current-day': item.isCurrentDay
+          }">
+          <span>{{ item.day }}</span>
+
+          <section>
+              <!-- Eventos del día -->
+              <ng-container *ngFor="let event of item.events; let eventIndex = index">
+                  <button
+                      class="event"
+                      [matTooltip]="event.name" 
+                      [matMenuTriggerFor]="menu"
+                      [ngStyle]="{
+                          'background-color': event.background, 
+                          'color': event.color
+                      }">
+                      <mat-icon>{{ event.icon }}</mat-icon>
+                      <p>{{ event.name }}</p>
+                  </button>
+
+                  <mat-menu #menu="matMenu">
+                      <section class="menu-container">
+                          <button 
+                              class="event" 
+                              [matTooltip]="event.name" 
+                              [ngStyle]="{
+                                  'background-color': event.background, 
+                                  'color': event.color
+                              }">
+                              <mat-icon>{{ event.icon }}</mat-icon>
+                              <p>{{ event.name }}</p>
+                          </button>
+
+                          <p>Fecha: {{ event.date | date: 'yyyy/MM/dd' }}</p>
+
+                          <div>
+                              <button mat-button color="primary">Editar</button>
+                              <button mat-button color="warn">Eliminar</button>
+                          </div>
+                      </section>
+                  </mat-menu>
+              </ng-container>
+          </section>
+      </div>
+  </article>
+</section>
 
 <div class="container mt-5">
   <h2>En proceso</h2>
   <p>Contenido de la página <strong>eventos...</strong></p>
 </div>
 
-<app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
+<app-footer></app-footer> 
