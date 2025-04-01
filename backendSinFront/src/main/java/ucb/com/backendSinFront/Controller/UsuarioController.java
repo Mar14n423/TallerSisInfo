@@ -6,6 +6,7 @@ import ucb.com.backendSinFront.entity.Usuario;
 import ucb.com.backendSinFront.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import ucb.com.backendSinFront.LogHelper;
 
 
 import java.util.List;
@@ -49,27 +50,25 @@ public class UsuarioController {
         return usuarioService.actualizarUsuario(id, usuarioActualizado);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> autenticarUsuario(@RequestBody Usuario usuario) {
-        Optional<Usuario> usuarioExistente = usuarioService.obtenerPorCorreo(usuario.getCorreo());
+  @PostMapping("/login")
+  public ResponseEntity<?> autenticarUsuario(@RequestBody Usuario usuario) {
+    Optional<Usuario> usuarioExistente = usuarioService.obtenerPorCorreo(usuario.getCorreo());
 
-        if (usuarioExistente.isPresent()) {
-            System.out.println("Usuario encontrado: " + usuarioExistente.get().getCorreo());
-            System.out.println("Contraseña recibida: " + usuario.getPasswordHash());
-            System.out.println("Contraseña almacenada: " + usuarioExistente.get().getPasswordHash());
+    if (usuarioExistente.isPresent()) {
+      LogHelper.info(UsuarioController.class, "Usuario encontrado: " + usuarioExistente.get().getCorreo());
+      LogHelper.debug(UsuarioController.class, "Contraseña recibida: " + usuario.getPasswordHash());
+      LogHelper.debug(UsuarioController.class, "Contraseña almacenada: " + usuarioExistente.get().getPasswordHash());
 
-            if (usuarioExistente.get().getPasswordHash().equals(usuario.getPasswordHash())) {
-                return ResponseEntity.ok().body(usuarioExistente.get());
-            } else {
-                System.out.println("Contraseña incorrecta");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
-            }
-        } else {
-            System.out.println("Usuario no encontrado");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
-
-        }
-
+      if (usuarioExistente.get().getPasswordHash().equals(usuario.getPasswordHash())) {
+        return ResponseEntity.ok().body(usuarioExistente.get());
+      } else {
+        LogHelper.error(UsuarioController.class, "Contraseña incorrecta para el usuario: " + usuario.getCorreo());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+      }
+    } else {
+      LogHelper.error(UsuarioController.class, "Usuario no encontrado: " + usuario.getCorreo());
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
     }
+  }
 }
 
