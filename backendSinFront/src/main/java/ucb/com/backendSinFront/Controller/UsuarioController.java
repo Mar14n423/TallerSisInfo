@@ -6,6 +6,7 @@ import ucb.com.backendSinFront.entity.Usuario;
 import ucb.com.backendSinFront.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import ucb.com.backendSinFront.LogHelper;
 
 
 import java.util.List;

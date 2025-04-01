@@ -5,6 +5,7 @@ ucb\com\backendSinFront\entity\Usuario.class
 ucb\com\backendSinFront\Controller\UsuarioController.class
 ucb\com\backendSinFront\service\UsuarioService.class
 ucb\com\backendSinFront\repository\EmpresaRepository.class
+ucb\com\backendSinFront\LogHelper.class
 ucb\com\backendSinFront\BackendSinFrontApplication.class
 ucb\com\backendSinFront\repository\UsuarioRepository.class
 ucb\com\backendSinFront\entity\Empresa.class
