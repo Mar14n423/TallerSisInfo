@@ -11,39 +11,40 @@ import java.util.Optional;
 @Service
 public class EmpresaService {
 
-    @Autowired
-    private EmpresaRepository empresaRepository;
+  @Autowired
+  private EmpresaRepository empresaRepository;
 
-    public List<Empresa> obtenerTodas() {
-        return empresaRepository.findAll();
-    }
+  // Métodos existentes
+  public List<Empresa> obtenerTodas() {
+    return empresaRepository.findAll();
+  }
 
-    public Optional<Empresa> obtenerPorId(Long id) {
-        return empresaRepository.findById(id);
-    }
+  public Optional<Empresa> obtenerPorId(Long id) {
+    return empresaRepository.findById(id);
+  }
 
-    public Optional<Empresa> obtenerPorCorreo(String correo) {
-        return empresaRepository.findByCorreo(correo);
-    }
+  public Optional<Empresa> obtenerPorCorreo(String correo) {
+    return empresaRepository.findByCorreo(correo);
+  }
 
-    public Empresa guardar(Empresa empresa) {
+  public Empresa guardar(Empresa empresa) {
+    return empresaRepository.save(empresa);
+  }
+
+  public void eliminar(Long id) {
+    empresaRepository.deleteById(id);
+  }
+
+  public Empresa actualizarEmpresa(Long id, Empresa empresaActualizada) {
+    return empresaRepository.findById(id)
+      .map(empresa -> {
+        empresa.setNombre(empresaActualizada.getNombre());
+        empresa.setCorreo(empresaActualizada.getCorreo());
+        empresa.setPasswordHash(empresaActualizada.getPasswordHash());
+        empresa.setTelefono(empresaActualizada.getTelefono());
+        empresa.setDescripcion(empresaActualizada.getDescripcion());
         return empresaRepository.save(empresa);
-    }
-
-    public void eliminar(Long id) {
-        empresaRepository.deleteById(id);
-    }
-
-    public Empresa actualizarEmpresa(Long id, Empresa empresaActualizada) {
-        return empresaRepository.findById(id)
-                .map(empresa -> {
-                    empresa.setNombre(empresaActualizada.getNombre());
-                    empresa.setCorreo(empresaActualizada.getCorreo());
-                    empresa.setPasswordHash(empresaActualizada.getPasswordHash());
-                    empresa.setTelefono(empresaActualizada.getTelefono());
-                    empresa.setDescripcion(empresaActualizada.getDescripcion());
-                    return empresaRepository.save(empresa);
-                })
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada con id: " + id));
-    }
+      })
+      .orElseThrow(() -> new RuntimeException("Empresa no encontrada con id: " + id));
+  }
 }
