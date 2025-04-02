@@ -1,31 +1,50 @@
+// logincompany.component.ts
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { EmpresaService } from '../empresa.service'; // Asegúrate de que la ruta sea correcta
+import { FormsModule } from '@angular/forms'; // Importa FormsModule aquí
+import { CommonModule } from '@angular/common'; // Importa CommonModule aquí
+import { NavbarComponent } from '../../shared/navbar/navbar.component'; // Importa NavbarComponent
+import { FooterComponent } from '../../shared/footer/footer.component'; // Importa FooterComponent
 
 @Component({
   selector: 'app-logincompany',
+  standalone: true,
+    imports: [
+      FormsModule,
+      CommonModule, // Agrega CommonModule aquí
+      NavbarComponent,
+      FooterComponent,
+      ]
   templateUrl: './logincompany.component.html',
-  styleUrls: ['./iniciar-sesion-empresa.component.scss']
+  styleUrls: ['./logincompany.component.scss']
 })
 export class LoginCompanyComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private empresaService: EmpresaService, private router: Router) {}
 
+  // Método para manejar el formulario de login de empresa
   onSubmit() {
-    // Validación simple para ejemplo
-    if (this.email === '' || this.password === '') {
-      this.errorMessage = 'Por favor, ingrese ambos campos.';
-      return;
-    }
+                 const usuario = {
+                   correo: this.email, // Asegúrate de que el campo se llame "correo"
+                   passwordHash: this.password, // Asegúrate de que el campo se llame "passwordHash"
+                 };
 
-    // Aquí pondrías la lógica para autenticar la empresa
-    // Este es solo un ejemplo de la estructura que podrías seguir.
-    if (this.email === 'empresa@dominio.com' && this.password === 'contraseñaSegura') {
-      this.router.navigate(['/dashboard']); // Redirigir a dashboard o página interna
-    } else {
-      this.errorMessage = 'Credenciales incorrectas';
-    }
-  }
+                 this.usuarioService
+                   .loginUsuario(usuario)
+                   .then((response) => {
+                     console.log('Inicio de sesión exitoso', response);
+                     // Redirigir al usuario a la página de inicio o dashboard
+                     this.router.navigate(['/']); // Cambia '/' por la ruta que desees
+                   })
+                   .catch((error) => {
+                     console.error('Error al iniciar sesión', error);
+                     // Mostrar mensaje de error al usuario
+                     this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
+                   });
+               }
 }

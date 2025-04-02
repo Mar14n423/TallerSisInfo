@@ -1,39 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iniciar Sesión - Empresas</title>
-  <link rel="stylesheet" href="iniciar-sesion-empresa.component.scss">
-</head>
-<body>
-
-<!-- HEADER -->
+<app-navbar></app-navbar>
 <header>
   <div class="logo">
-    <img src="imagenes/logo.PNG" alt="Logo Sin Fronteras" width="150px">
+    <img src="assets/imagenes/logo.PNG" alt="Logo Sin Fronteras" width="150">
   </div>
 </header>
 
-<!-- SECCIÓN DE LOGIN -->
 <main>
-  <section class="login-container">
-    <!-- Columna Izquierda: Imagen -->
+  <div class="login-container">
     <div class="imagen">
-      <img src="imagenes/FondoIniciarSesionEmpresa.PNG" alt="Empresas colaborando">
+      <img src="assets/imagenes/iniciarSesionEmpresaFondo.PNG" alt="Imagen de empresas">
     </div>
 
-    <!-- Columna Derecha: Formulario -->
     <div class="formulario">
       <form (ngSubmit)="onSubmit()">
         <div class="campo">
-          <label for="email">Email de la Empresa</label>
+          <label for="email">Correo Electrónico de la Empresa</label>
           <input
             type="email"
             id="email"
             [(ngModel)]="email"
             name="email"
-            placeholder="Ingrese su email empresarial"
+            placeholder="Ingresa tu email empresarial"
             required
           >
         </div>
@@ -45,7 +32,7 @@
             id="password"
             [(ngModel)]="password"
             name="password"
-            placeholder="Ingrese su contraseña"
+            placeholder="Ingresa tu contraseña"
             required
           >
         </div>
@@ -58,10 +45,7 @@
         <button type="button" class="btn-home" routerLink="/">Volver al Inicio</button>
       </form>
     </div>
-  </section>
+  </div>
 </main>
 
 <app-footer></app-footer>
-
-</body>
-</html>
