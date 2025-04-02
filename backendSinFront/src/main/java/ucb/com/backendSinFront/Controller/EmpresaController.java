@@ -6,7 +6,6 @@ import ucb.com.backendSinFront.entity.Empresa;
 import ucb.com.backendSinFront.service.EmpresaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import ucb.com.backendSinFront.LogHelper;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,18 +54,12 @@ public class EmpresaController {
     Optional<Empresa> empresaExistente = empresaService.obtenerPorCorreo(empresa.getCorreo());
 
     if (empresaExistente.isPresent()) {
-      LogHelper.info(EmpresaController.class, "Empresa encontrada: " + empresaExistente.get().getCorreo());
-      LogHelper.debug(EmpresaController.class, "Contraseña recibida: " + empresa.getPasswordHash());
-      LogHelper.debug(EmpresaController.class, "Contraseña almacenada: " + empresaExistente.get().getPasswordHash());
-
       if (empresaExistente.get().getPasswordHash().equals(empresa.getPasswordHash())) {
         return ResponseEntity.ok().body(empresaExistente.get());
       } else {
-        LogHelper.error(EmpresaController.class, "Contraseña incorrecta para la empresa: " + empresa.getCorreo());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
       }
     } else {
-      LogHelper.error(EmpresaController.class, "Empresa no encontrada: " + empresa.getCorreo());
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
     }
   }
