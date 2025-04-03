@@ -11,6 +11,7 @@ import { MarketplaceComponent } from './components/marketplace/marketplace.compo
 import { EventosComponent } from './components/eventos/eventos.component';
 import { HomeadminComponent } from './components/homeadmin/homeadmin.component';
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { LoginAdminComponent } from './components/login-admin/login-admin.component';
 
 
 
@@ -26,7 +27,9 @@ export const routes: Routes = [
   { path: 'marketplace', component: MarketplaceComponent },
   { path: 'eventos', component: EventosComponent },
   { path: 'admin', component: HomeadminComponent },
-  { path: 'usuarios', component: UsuariosComponent }
+  { path: 'usuarios', component: UsuariosComponent },
+  { path: 'login-admin', component: LoginAdminComponent },
+
 
 ];
 
