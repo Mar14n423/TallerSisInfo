@@ -1,66 +1,51 @@
 package ucb.com.backendSinFront.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ucb.com.backendSinFront.entity.Empresa;
 import ucb.com.backendSinFront.service.EmpresaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import ucb.com.backendSinFront.LogHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/empresas")
+@RequestMapping("/empresas")
 @CrossOrigin(origins = "http://localhost:4200")
 public class EmpresaController {
 
   @Autowired
   private EmpresaService empresaService;
 
-  // Get general
-  @GetMapping
-  public List<Empresa> obtenerEmpresas() {
-    return empresaService.obtenerTodas();
+  @PostMapping("/registro")
+  public ResponseEntity<String> registrarEmpresa(@RequestBody Empresa empresa) {
+    if (empresaService.obtenerPorCorreo(empresa.getCorreo()).isPresent()) {
+      return ResponseEntity.badRequest().body("Ya existe una empresa con este correo.");
+    }
+
+    empresaService.guardar(empresa);
+    return ResponseEntity.ok("Empresa registrada exitosamente");
   }
 
-  // Get por id
-  @GetMapping("/{id}")
-  public Optional<Empresa> obtenerEmpresa(@PathVariable Long id) {
-    return empresaService.obtenerPorId(id);
-  }
+  @PostMapping("/iniciar-sesion")
+  public ResponseEntity<String> iniciarSesion(@RequestBody Empresa empresa) {
+    if (empresa.getCorreo() == null || empresa.getCorreo().isEmpty() ||
+      empresa.getPasswordHash() == null || empresa.getPasswordHash().isEmpty()) {
+      return ResponseEntity.badRequest().body("Los campos de correo y contraseña son obligatorios.");
+    }
 
-  // Crear
-  @PostMapping("/create")
-  public Empresa crearEmpresa(@RequestBody Empresa empresa) {
-    return empresaService.guardar(empresa);
-  }
-
-  // Eliminar
-  @DeleteMapping("/{id}")
-  public void eliminarEmpresa(@PathVariable Long id) {
-    empresaService.eliminar(id);
-  }
-
-  // Editar
-  @PutMapping("/{id}")
-  public Empresa actualizarEmpresa(@PathVariable Long id, @RequestBody Empresa empresaActualizada) {
-    return empresaService.actualizarEmpresa(id, empresaActualizada);
-  }
-
-  // Login para empresas
-  @PostMapping("/login")
-  public ResponseEntity<?> autenticarEmpresa(@RequestBody Empresa empresa) {
     Optional<Empresa> empresaExistente = empresaService.obtenerPorCorreo(empresa.getCorreo());
 
     if (empresaExistente.isPresent()) {
       if (empresaExistente.get().getPasswordHash().equals(empresa.getPasswordHash())) {
-        return ResponseEntity.ok().body(empresaExistente.get());
+        return ResponseEntity.ok("Inicio de sesión exitoso.");
       } else {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta.");
       }
-    } else {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
     }
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Correo no encontrado.");
   }
 }

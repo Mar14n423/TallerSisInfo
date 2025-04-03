@@ -18,7 +18,7 @@
           <input
             type="email"
             id="email"
-            [(ngModel)]="email"
+            [(ngModel)]="credenciales.email"
             name="email"
             placeholder="Ingresa tu email empresarial"
             required
@@ -30,15 +30,15 @@
           <input
             type="password"
             id="password"
-            [(ngModel)]="password"
+            [(ngModel)]="credenciales.password"
             name="password"
             placeholder="Ingresa tu contraseña"
             required
           >
         </div>
 
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
+        <div *ngIf="mensaje" class="error-message">
+          {{ mensaje }}
         </div>
 
         <button type="submit" class="btn-iniciar">Iniciar Sesión</button>

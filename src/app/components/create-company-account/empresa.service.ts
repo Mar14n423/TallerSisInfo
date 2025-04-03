@@ -1,31 +1,27 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmpresaService {
-  private apiUrl = 'http://localhost:8080/api/empresas'; // Cambia la URL base
+  private apiUrl = 'http://localhost:8080/empresas'; // URL del backend para empresas
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  // Método para registrar una empresa
-  registrarEmpresa(empresa: any) {
-    return axios.post(`${this.apiUrl}/create`, empresa) // Endpoint para registro de empresa
-      .then((response) => response.data) // Devuelve los datos de la respuesta
-      .catch((error) => {
-        console.error('Error al registrar empresa', error);
-        throw error; // Lanza el error para manejarlo en el componente
-      });
+  // Método para registrar una empresa (si lo necesitas más adelante)
+  registrarEmpresa(empresa: any): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/registro`, empresa);
   }
 
-  // Método para el login de la empresa
-  loginEmpresa(empresa: any) {
-    return axios.post(`${this.apiUrl}/login`, empresa) // Endpoint para login de empresa
-      .then((response) => response.data) // Devuelve los datos de la respuesta
-      .catch((error) => {
-        console.error('Error al iniciar sesión', error);
-        throw error; // Lanza el error para manejarlo en el componente
-      });
+  // Método para iniciar sesión de empresa
+  iniciarSesionEmpresa(credenciales: { email: string; password: string }) {
+    return this.http.post(this.apiUrl + '/empresas/iniciar-sesion', {
+      correo: credenciales.email,
+      passwordHash: credenciales.password
+    }, { responseType: 'text' }); // importante para manejar mensajes string
   }
+
 }

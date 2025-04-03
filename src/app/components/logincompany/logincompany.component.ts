@@ -1,50 +1,61 @@
-// logincompany.component.ts
-
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { EmpresaService } from '../../services/empresa.service';
 import { Router } from '@angular/router';
-import { EmpresaService } from '../empresa.service'; // Asegúrate de que la ruta sea correcta
-import { FormsModule } from '@angular/forms'; // Importa FormsModule aquí
-import { CommonModule } from '@angular/common'; // Importa CommonModule aquí
-import { NavbarComponent } from '../../shared/navbar/navbar.component'; // Importa NavbarComponent
-import { FooterComponent } from '../../shared/footer/footer.component'; // Importa FooterComponent
-
 @Component({
   selector: 'app-logincompany',
-  standalone: true,
-    imports: [
-      FormsModule,
-      CommonModule, // Agrega CommonModule aquí
-      NavbarComponent,
-      FooterComponent,
-      ]
   templateUrl: './logincompany.component.html',
   styleUrls: ['./logincompany.component.scss']
 })
 export class LoginCompanyComponent {
-  email: string = '';
-  password: string = '';
-  errorMessage: string = '';
+  credenciales = {
+    email: '',
+    password: ''
+  };
+
+  mensaje: string = '';
 
   constructor(private empresaService: EmpresaService, private router: Router) {}
 
-  // Método para manejar el formulario de login de empresa
-  onSubmit() {
-                 const usuario = {
-                   correo: this.email, // Asegúrate de que el campo se llame "correo"
-                   passwordHash: this.password, // Asegúrate de que el campo se llame "passwordHash"
-                 };
+  validarEmail(email: string): boolean {
+    // Expresión regular básica para validar email
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
 
-                 this.usuarioService
-                   .loginUsuario(usuario)
-                   .then((response) => {
-                     console.log('Inicio de sesión exitoso', response);
-                     // Redirigir al usuario a la página de inicio o dashboard
-                     this.router.navigate(['/']); // Cambia '/' por la ruta que desees
-                   })
-                   .catch((error) => {
-                     console.error('Error al iniciar sesión', error);
-                     // Mostrar mensaje de error al usuario
-                     this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
-                   });
-               }
+  onSubmit() {
+    if (!this.credenciales.email || !this.credenciales.password) {
+      this.mensaje = 'Por favor completa todos los campos.';
+      return;
+    }
+
+    if (!this.validarEmail(this.credenciales.email)) {
+      this.mensaje = 'El correo electrónico no es válido.';
+      return;
+    }
+
+    this.empresaService.iniciarSesionEmpresa(this.credenciales).subscribe({
+      next: (respuesta: any) => {
+        this.mensaje = '';
+        if (respuesta === 'Inicio de sesión exitoso.') {
+          this.router.navigate(['/empresa/dashboard']); // Ajustar según tu ruta real
+        } else {
+          this.mensaje = respuesta;
+        }
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          this.mensaje = err.error;
+        } else if (err.status === 401) {
+          this.mensaje = 'Contraseña incorrecta.';
+        } else if (err.status === 404) {
+          this.mensaje = 'Correo no encontrado.';
+        } else {
+          this.mensaje = 'Ocurrió un error al intentar iniciar sesión.';
+        }
+      }
+    });
+  }
 }
+
