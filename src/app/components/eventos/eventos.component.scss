@@ -1,61 +1,55 @@
-$default-color-text : #333333;
-$default-color-text-red : #ff4040;
-$border-color : #e5e5e5;
-$border-width : 1px;
+$default-color-text: #333333; 
+$default-color-text-red: #ff4040;
+$border-color: #e5e5e5;
+$border-width: 1px;
 
-$last-positions: 36, 37, 38, 39 ,40 ,41, 42;
+$last-positions: (36, 37, 38, 39, 40, 41, 42);
 
-.calendar-container {
+.eventos-container {
     padding-bottom: 2rem;
+    max-width: 90%; 
+    margin: 0 auto; 
 
-    .calendar-content {
+    .eventos-content {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
+        gap: 0.5rem;
 
-        .calendar-header {
+        .eventos-header {
             padding: 0.25rem;
             text-align: center;
             color: $default-color-text;
+
             &:first-of-type {
                 color: $default-color-text-red;
             }
         }
 
-        .calendar-body {
+        .eventos-body {
             min-height: 6rem;
             border-top: $border-width solid $border-color;
             border-left: $border-width solid $border-color;
             padding: 0.25rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
-            &:not(.current-month) {
-                &:nth-of-type(7n +1) {
-                    span {
-                        color: #ff404066;
-                    }
-                }
-
-                span {
-                    color: #33333366;
-                }
-            }
-
-            &.current-day {
-                span {
-                    width: 1.7rem;
-                    height: 1.7rem;
-                    border-radius: 50%;
-                    background-color: #135de6;
-                    padding: 0.025rem;
-                    display: grid;
-                    place-content: center;
-                    color: white;
-                }
+            &.current-day span {
+                width: 1.7rem;
+                height: 1.7rem;
+                border-radius: 50%;
+                background-color: #135de6;
+                padding: 0.025rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
             }
 
             &:nth-of-type(7n) {
                 border-right: $border-width solid $border-color;
             }
-            
 
             @each $el in $last-positions {
                 &:nth-of-type(#{$el}) {
@@ -67,12 +61,19 @@ $last-positions: 36, 37, 38, 39 ,40 ,41, 42;
                 color: $default-color-text;
             }
 
-            &:nth-of-type(7n + 1) {
-                span {
-                    color: $default-color-text-red;
-                }
+            &:nth-of-type(7n + 1) span {
+                color: $default-color-text-red;
             }
 
+            &:not(.current-month) {
+                span {
+                    color: rgba($default-color-text, 0.4);
+                }
+
+                &:nth-of-type(7n + 1) span {
+                    color: rgba($default-color-text-red, 0.4);
+                }
+            }
         }
     }
 }

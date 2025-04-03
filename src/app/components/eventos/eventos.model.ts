@@ -1,4 +1,4 @@
-export namespace NCalendar {
+export namespace NEventos {
     export type Header = [string, string, string, string, string, string, string];
 
     export interface Body {
@@ -20,9 +20,7 @@ export namespace NCalendar {
 
     export interface FoundEvent {
         eventIndex: number;
-        calendarIndex: number;
+        eventosIndex: number;
         isSameDate: boolean;
     }
-
-    export type FindEvent = FoundEvent | null | undefined;
 }

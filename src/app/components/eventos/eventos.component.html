@@ -1,17 +1,17 @@
 <app-navbar></app-navbar> 
-<section class="calendar-container">
-  <button mat-button color="primary" (click)= "OpenModal()">Agregar evento</button>
+<section class="eventos-container">
+  <button mat-button color="primary" (click)= "openModal()">Agregar evento</button>
 
-  <article class="calendar-content">
+  <article class="eventos-content">
       <!-- Encabezados del calendario -->
-      <span class="calendar-header" *ngFor="let header of headers">
+      <span class="eventos-header" *ngFor="let header of headers">
           {{ header }}
       </span>
 
       <!-- Días del calendario -->
       <div 
-          class="calendar-body" 
-          *ngFor="let item of eventosData; let calendarIndex = index" 
+          class="eventos-body" 
+          *ngFor="let item of eventosData; let eventosIndex = index" 
           [ngClass]="{
               'current-month': item.isCurrentMonth, 
               'current-day': item.isCurrentDay
@@ -65,4 +65,4 @@
   <p>Contenido de la página <strong>eventos...</strong></p>
 </div>
 
-<app-footer></app-footer> 
+<app-footer></app-footer>
