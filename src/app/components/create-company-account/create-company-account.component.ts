@@ -4,11 +4,18 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } 
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { EmpresaService } from './empresa.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button'; // Si vas a usar botones Material
+import { MatIconModule } from '@angular/material/icon';     // Opcional si usas íconos
+import { RouterModule } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-register-company',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent, MatFormFieldModule,MatInputModule,MatButtonModule,MatIconModule ,RouterModule],
   templateUrl: './create-company-account.component.html',
   styleUrls: ['./create-company-account.component.scss']
 })
