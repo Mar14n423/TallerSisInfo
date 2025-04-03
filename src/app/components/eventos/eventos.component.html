@@ -49,8 +49,8 @@
                           <p>Fecha: {{ event.date | date: 'yyyy/MM/dd' }}</p>
 
                           <div>
-                              <button mat-button color="primary">Editar</button>
-                              <button mat-button color="warn">Eliminar</button>
+                            <button mat-button color="primary" (click)="openModalEdit(event)">Editar</button>
+                            <button mat-button color="warn" (click)="removeEvent(eventosIndex, eventIndex)">Eliminar</button>
                           </div>
                       </section>
                   </mat-menu>
@@ -59,10 +59,5 @@
       </div>
   </article>
 </section>
-
-<div class="container mt-5">
-  <h2>En proceso</h2>
-  <p>Contenido de la página <strong>eventos...</strong></p>
-</div>
 
 <app-footer></app-footer>
