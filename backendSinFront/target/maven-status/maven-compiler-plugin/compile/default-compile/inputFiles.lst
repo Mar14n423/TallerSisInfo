@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 C:\Users\Vivi\source\Taller\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\BackendSinFrontApplication.java
 C:\Users\Vivi\source\Taller\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\Controller\EmpresaController.java
 C:\Users\Vivi\source\Taller\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\Controller\EventoController.java
@@ -14,16 +13,3 @@ C:\Users\Vivi\source\Taller\TallerSinInfo\backendSinFront\src\main\java\ucb\com\
 C:\Users\Vivi\source\Taller\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\service\EmpresaService.java
 C:\Users\Vivi\source\Taller\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\service\EventoService.java
 C:\Users\Vivi\source\Taller\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\service\UsuarioService.java
-=======
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\BackendSinFrontApplication.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\Controller\EmpresaController.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\Controller\HelloController.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\Controller\UsuarioController.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\entity\Empresa.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\entity\Usuario.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\LogHelper.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\repository\EmpresaRepository.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\repository\UsuarioRepository.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\service\EmpresaService.java
-C:\fer\tallersisInfo\SinFronterasFrontEnd\TallerSinInfo\backendSinFront\src\main\java\ucb\com\backendSinFront\service\UsuarioService.java
->>>>>>> origin/main

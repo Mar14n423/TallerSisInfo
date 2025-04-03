@@ -47,3 +47,6 @@ target/
 *.jar
 *.war
 *.log
+# Ignorar archivos generados por Maven
+maven-status/
+target/
