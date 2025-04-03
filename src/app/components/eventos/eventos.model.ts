@@ -23,4 +23,5 @@ export namespace NEventos {
         eventosIndex: number;
         isSameDate: boolean;
     }
+    export type FindEvent = FoundEvent | null | undefined;
 }

@@ -1,19 +1,29 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { NEventos } from '../../app/components/eventos/eventos.model';
+import { Injectable, signal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../shared/dialog/dialog.component';
+import { NEventos } from '../components/eventos/eventos.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
-  private eventSubject = new BehaviorSubject<NEventos.IEvent | null>(null);
-  getEvent = this.eventSubject.asObservable();
+  private dialogData = signal<NEventos.IEvent | null>(null);
 
-  openDialog(event?: NEventos.IEvent) {
-    this.eventSubject.next(event || null);
+  constructor(public dialog: MatDialog) {}
+
+  openDialog(data?: NEventos.IEvent): void {
+    this.dialog.open(DialogComponent, {
+      data,
+      width: '70vw'
+    });
   }
 
-  closeDialog() {
-    this.eventSubject.next(null);
+  setEvent(item: NEventos.IEvent) {
+    this.dialogData.set(item);
   }
+
+  get getEvent() {
+    return this.dialogData();
+  }
+
 }
