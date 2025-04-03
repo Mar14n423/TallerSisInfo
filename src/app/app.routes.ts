@@ -9,6 +9,10 @@ import { TransporteComponent } from './components/transporte/transporte.componen
 import { ForoComponent } from './components/foro/foro.component';
 import { MarketplaceComponent } from './components/marketplace/marketplace.component';
 import { EventosComponent } from './components/eventos/eventos.component';
+import { HomeadminComponent } from './components/homeadmin/homeadmin.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+
+
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Página de inicio
@@ -20,6 +24,9 @@ export const routes: Routes = [
   { path: 'transporte', component: TransporteComponent },
   { path: 'foro', component: ForoComponent },
   { path: 'marketplace', component: MarketplaceComponent },
-  { path: 'eventos', component: EventosComponent }
+  { path: 'eventos', component: EventosComponent },
+  { path: 'admin', component: HomeadminComponent },
+  { path: 'usuarios', component: UsuariosComponent }
+
 ];
 
