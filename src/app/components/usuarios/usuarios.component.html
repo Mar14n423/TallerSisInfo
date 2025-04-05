@@ -1,42 +1,29 @@
-
-
 <div class="container mt-5">
   <h2 class="text-center mb-4">Usuarios registrados</h2>
 
+  <div *ngIf="isLoading" class="text-center">
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
   <div class="row justify-content-center g-4">
-    <!-- Usuario 1 -->
-    <mat-card class="col-md-4">
+    <mat-card class="col-md-4 m-2" *ngFor="let usuario of usuarios">
       <mat-card-header>
-        <mat-card-title>Camila Rojas</mat-card-title>
+        <mat-card-title>{{ getNombreCompleto(usuario) }}</mat-card-title>
+        <mat-card-subtitle>{{ usuario.correo }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p><strong>Correo:</strong> camila.rojas&#64;email.com</p>
-        <p><strong>Estado:</strong> Activa</p>
+        <p><strong>Tipo:</strong> {{ getTipoUsuario(usuario.tipo) }}</p>
+        <!-- Eliminada la línea del estado -->
       </mat-card-content>
     </mat-card>
 
-    <!-- Usuario 2 -->
-    <mat-card class="col-md-4">
-      <mat-card-header>
-        <mat-card-title>Juan Pérez</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p><strong>Correo:</strong> juan.perez&#64;admin.com</p>
-        <p><strong>Estado:</strong> Activo</p>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Usuario 3 -->
-    <mat-card class="col-md-4">
-      <mat-card-header>
-        <mat-card-title>Sofía García</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p><strong>Correo:</strong> sofia.garcia&#64;correo.com</p>
-        <p><strong>Estado:</strong> Inactiva</p>
-      </mat-card-content>
-    </mat-card>
+    <div *ngIf="!isLoading && usuarios.length === 0" class="col-12 text-center">
+      <p>No se encontraron usuarios registrados.</p>
+    </div>
   </div>
 </div>
-
 

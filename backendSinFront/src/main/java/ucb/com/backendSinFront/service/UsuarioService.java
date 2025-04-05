@@ -26,28 +26,38 @@ public class UsuarioService {
         return usuarioRepository.findByCorreo(correo);
     }
 
-    public Usuario guardar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+  public Usuario guardar(Usuario usuario) {
+    if (usuario.getTipo() == null) {
+      usuario.setTipo(null); // O puedes asignar un valor por defecto, por ejemplo: usuario.setTipo("U");
     }
+    return usuarioRepository.save(usuario);
+  }
 
 
 
 
 
-    public void eliminar(Long id) {
+  public void eliminar(Long id) {
         usuarioRepository.deleteById(id);
     }
-    public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
-        return usuarioRepository.findById(id)
-                .map(usuario -> {
-                    usuario.setNombre(usuarioActualizado.getNombre());
-                    usuario.setCorreo(usuarioActualizado.getCorreo());
-                    usuario.setDiscapacidad(usuarioActualizado.getDiscapacidad());
-                 //   usuario.setPasswordHash(usuarioActualizado.getPasswordHash());
-                    return usuarioRepository.save(usuario);
-                })
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
-    }
+  public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
+    return usuarioRepository.findById(id)
+      .map(usuario -> {
+        usuario.setNombre(usuarioActualizado.getNombre());
+        usuario.setCorreo(usuarioActualizado.getCorreo());
+        usuario.setDiscapacidad(usuarioActualizado.getDiscapacidad());
+        usuario.setPasswordHash(usuarioActualizado.getPasswordHash());
+
+        // Solo actualiza 'tipo' si se proporciona en la petición
+        if (usuarioActualizado.getTipo() != null) {
+          usuario.setTipo(usuarioActualizado.getTipo());
+        }
+
+        return usuarioRepository.save(usuario);
+      })
+      .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+  }
+
 
 
 
