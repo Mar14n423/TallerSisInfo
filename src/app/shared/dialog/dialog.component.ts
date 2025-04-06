@@ -50,11 +50,13 @@ export class DialogComponent {
   eventType = [
     {
       id: 'schedule',
-      value: 'Reunión' 
+      value: 'Reunión',
+      icon: 'event' 
     },
     {
       id: 'task',
-      value: 'Tarea' 
+      value: 'Tarea',
+      icon: 'task' 
     }
   ];
 
@@ -70,6 +72,8 @@ export class DialogComponent {
     private dialogService: DialogService,
     @Inject(MAT_DIALOG_DATA) data?: NEventos.IEvent
   ) {
+    // Parsear la fecha si viene del backend
+    const eventDate = data?.date ? new Date(data.date) : new Date();
 
     this.formEvent = this.fb.group({
       name: [data?.name, [Validators.required]],
@@ -79,13 +83,30 @@ export class DialogComponent {
       background: [data?.background],
       color: [data?.color],
     });
+    // Actualizar icono cuando cambia el tipo de evento
+    this.formEvent.get('icon')?.valueChanges.subscribe(value => {
+      const selectedType = this.eventType.find(type => type.icon === value);
+      if (selectedType) {
+        this.formEvent.patchValue({
+          icon: selectedType.icon
+        }, { emitEvent: false });
+      }
+    });
   }
 
 
-  save(){
-    this.dialogRef.close();
-    this.dialogService.setEvent(this.formEvent.value);
+  save(): void {
+    if (this.formEvent.valid) {
+      const formValue = this.formEvent.value;
+      const eventData: NEventos.IEvent = {
+        ...formValue,
+        date: formValue.date.toISOString() // Convertir a formato ISO para el backend
+      };
+      this.dialogRef.close();
+      this.dialogService.setEvent(eventData);
+    }
   }
-
-  
+  compareEventTypes(type1: any, type2: any): boolean {
+    return type1 && type2 ? type1.id === type2.id : type1 === type2;
+  }  
 }

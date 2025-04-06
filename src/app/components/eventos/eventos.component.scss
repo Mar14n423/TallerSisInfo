@@ -106,3 +106,32 @@ $last-positions: (36, 37, 38, 39, 40, 41, 42);
         }
     }
 }
+.truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px; // Ajusta según necesites
+  }
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  
+    h2 {
+      margin: 0;
+      min-width: 200px;
+      text-align: center;
+    }
+  
+    button {
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+  
+  /* Añade al resto de tus estilos existentes */
