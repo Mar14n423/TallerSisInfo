@@ -11,6 +11,8 @@ import ucb.com.backendSinFront.LogHelper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -49,7 +51,22 @@ public class UsuarioController {
     public Usuario actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
         return usuarioService.actualizarUsuario(id, usuarioActualizado);
     }
+  @PatchMapping("/{id}")
+  public ResponseEntity<Usuario> actualizarTipoUsuario(
+    @PathVariable Long id,
+    @RequestBody Map<String, String> updates) {
 
+    if (!updates.containsKey("tipo")) {
+      return ResponseEntity.badRequest().build();
+    }
+
+    try {
+      Usuario usuarioActualizado = usuarioService.actualizarTipoUsuario(id, updates.get("tipo"));
+      return ResponseEntity.ok(usuarioActualizado);
+    } catch (RuntimeException e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
   @PostMapping("/login")
   public ResponseEntity<?> autenticarUsuario(@RequestBody Usuario usuario) {
     Optional<Usuario> usuarioExistente = usuarioService.obtenerPorCorreo(usuario.getCorreo());

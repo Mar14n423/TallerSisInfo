@@ -58,7 +58,19 @@ public class UsuarioService {
       .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
   }
 
-
+  public Usuario actualizarTipoUsuario(Long id, String tipo) {
+    return usuarioRepository.findById(id)
+      .map(usuario -> {
+        // Validar que el tipo sea A o U
+        if (tipo != null && (tipo.equalsIgnoreCase("A") || tipo.equalsIgnoreCase("U"))) {
+          usuario.setTipo(tipo.toUpperCase());
+        } else {
+          throw new RuntimeException("Tipo de usuario no válido. Debe ser 'A' o 'U'");
+        }
+        return usuarioRepository.save(usuario);
+      })
+      .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+  }
 
 
 }

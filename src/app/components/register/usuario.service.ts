@@ -26,4 +26,12 @@ export class UsuarioService {
         throw error;
       });
   }
+  actualizarTipoUsuario(id: number, tipo: string) {
+    return axios.patch(`${this.apiUrl}/${id}`, { tipo })
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error al actualizar tipo de usuario:', error);
+        throw error;
+      });
+  }
 }

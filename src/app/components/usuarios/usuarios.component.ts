@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import axios from 'axios';
 
 @Component({
@@ -8,16 +11,15 @@ import axios from 'axios';
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.scss'],
-  imports: [CommonModule, MatCardModule]
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatMenuModule, MatIconModule]
 })
 export class UsuariosComponent implements OnInit {
-  // Modelo simplificado sin campo 'activo'
   usuarios: Array<{
     id?: number;
     nombre: string;
     apellido?: string;
     correo: string;
-    tipo?: string;  // Este es el campo que usaremos
+    tipo?: string;
   }> = [];
 
   isLoading: boolean = true;
@@ -32,7 +34,6 @@ export class UsuariosComponent implements OnInit {
     try {
       this.isLoading = true;
       this.error = null;
-      
       const response = await axios.get(this.apiUrl);
       this.usuarios = response.data;
     } catch (error) {
@@ -47,16 +48,27 @@ export class UsuariosComponent implements OnInit {
     return `${usuario.nombre} ${usuario.apellido || ''}`.trim();
   }
 
-  // Función mejorada para mostrar el tipo
   getTipoUsuario(tipo: string | undefined): string {
     if (!tipo) return 'Sin tipo definido';
-    
-    // Para manejar tanto 'ADMIN' como 'A' si es necesario
     const tipoUpper = tipo.toUpperCase();
-    
     if (tipoUpper === 'ADMIN' || tipoUpper === 'A') return 'Administrador';
-    if (tipoUpper === 'USER' || tipoUpper === 'U') return 'Usuario normal';
-    
-    return tipo; // Mostrar el valor original si no coincide
+    if (tipoUpper === 'USER' || tipoUpper === 'U') return 'Usuario';
+    return tipo;
+  }
+
+  async cambiarTipoUsuario(usuario: any, nuevoTipo: string): Promise<void> {
+    try {
+      const tipoParaBackend = nuevoTipo === 'Administrador' ? 'A' : 'U';
+      
+      await axios.patch(`${this.apiUrl}/${usuario.id}`, { 
+        tipo: tipoParaBackend 
+      });
+      
+      // Actualizar localmente sin recargar
+      usuario.tipo = tipoParaBackend;
+    } catch (error) {
+      console.error('Error al actualizar usuario:', error);
+      this.error = 'Error al actualizar el usuario. Por favor intenta nuevamente.';
+    }
   }
 }

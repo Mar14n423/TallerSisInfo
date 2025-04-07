@@ -1,4 +1,4 @@
-import { Component, OnInit, effect,signal } from '@angular/core';
+import { Component, OnInit, effect, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NEventos } from '../eventos/eventos.model';
@@ -27,11 +27,8 @@ import { formatDate, getSelectedDate, templateEventosData } from '../../helper/e
   styleUrl: './eventos.component.scss'
 })
 export class EventosComponent implements OnInit {
-  
-  private totalItems = 42;
-  private date = new Date();
+  private readonly totalItems = 42; // 6 semanas
   currentMonth = signal(new Date());
-
   
   headers: NEventos.Header = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   eventosData: NEventos.Body[] = [];
@@ -51,7 +48,8 @@ export class EventosComponent implements OnInit {
     this.createEventosData();
     await this.loadEventsForMonth();
   }
-  // Métodos para cambiar de mes
+
+  // Métodos de navegación
   previousMonth(): void {
     this.currentMonth.set(new Date(
       this.currentMonth().getFullYear(),
@@ -70,17 +68,24 @@ export class EventosComponent implements OnInit {
     this.updateCalendar();
   }
 
+  goToCurrentMonth(): void {
+    this.currentMonth.set(new Date());
+    this.updateCalendar();
+  }
+
   private updateCalendar(): void {
-    this.eventosData = []; // Limpiamos los datos
+    this.eventosData = [];
     this.createEventosData();
     this.loadEventsForMonth();
   }
+
+  // Carga de eventos
   private async loadEventsForMonth(): Promise<void> {
     const year = this.currentMonth().getFullYear();
-    const month = this.currentMonth().getMonth();
+    const month = this.currentMonth().getMonth() + 1; // +1 porque el backend espera 1-12
     
     try {
-      const events = await this.eventosService.getEventosPorMes(year, month +1);
+      const events = await this.eventosService.getEventosPorMes(year, month);
       this.assignEventsToCalendar(events);
     } catch (error) {
       console.error('Error cargando eventos:', error);
@@ -88,10 +93,8 @@ export class EventosComponent implements OnInit {
   }
 
   private assignEventsToCalendar(events: NEventos.IEvent[]): void {
-    // Primero limpia todos los eventos existentes
-    this.eventosData.forEach(day => day.events = []);
+    this.eventosData.forEach(day => day.events = []); // Limpiar eventos existentes
     
-    // Asigna los nuevos eventos
     events.forEach(event => {
       const eventDate = new Date(event.date);
       const dayIndex = this.eventosData.findIndex(
@@ -106,6 +109,47 @@ export class EventosComponent implements OnInit {
     });
   }
 
+  // Generación de la estructura del calendario
+  private createEventosData(): void {
+    const currentMonth = this.currentMonth();
+    const firstDayOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
+    
+    // 1. Días del mes anterior
+    const lastDayOfPrevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 0).getDate();
+    for (let i = firstDayOfMonth - 1; i >= 0; i--) {
+      const day = lastDayOfPrevMonth - i;
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, day);
+      this.eventosData.push({
+        ...templateEventosData(day, date),
+        isCurrentMonth: false
+      });
+    }
+
+    // 2. Días del mes actual
+    const daysInMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate();
+    const today = new Date();
+    
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      this.eventosData.push({
+        ...templateEventosData(day, date),
+        isCurrentDay: this.isSameDay(date, today),
+        isCurrentMonth: true
+      });
+    }
+
+    // 3. Días del próximo mes para completar la cuadrícula
+    const remainingDays = this.totalItems - this.eventosData.length;
+    for (let day = 1; day <= remainingDays; day++) {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, day);
+      this.eventosData.push({
+        ...templateEventosData(day, date),
+        isCurrentMonth: false
+      });
+    }
+  }
+
+  // Manejo de eventos
   private async handleEvent(item: NEventos.IEvent): Promise<void> {
     if (!item.id) return;
 
@@ -122,17 +166,11 @@ export class EventosComponent implements OnInit {
     }
   }
 
-  private eventExists(id: string): boolean {
-    return this.eventosData.some(day => 
-      day.events.some(event => event.id === id)
-    );
-  }
-
   private updateEventInCalendar(updatedEvent: NEventos.IEvent): void {
     for (const day of this.eventosData) {
       const eventIndex = day.events.findIndex(e => e.id === updatedEvent.id);
       if (eventIndex !== -1) {
-        if (formatDate(day.date) !== formatDate(new Date(updatedEvent.date))) {
+        if (!this.isSameDay(day.date, new Date(updatedEvent.date))) {
           day.events.splice(eventIndex, 1);
           this.addEventToCalendar(updatedEvent);
         } else {
@@ -146,8 +184,7 @@ export class EventosComponent implements OnInit {
   private addEventToCalendar(event: NEventos.IEvent): void {
     const eventDate = new Date(event.date);
     const dayIndex = this.eventosData.findIndex(
-      day => day.day === eventDate.getDate() && 
-            day.date.getMonth() === eventDate.getMonth()
+      day => this.isSameDay(day.date, eventDate)
     );
     
     if (dayIndex !== -1) {
@@ -155,33 +192,20 @@ export class EventosComponent implements OnInit {
     }
   }
 
-  private createEventosData(): void {    
-    const firstDayInMonth = getSelectedDate(this.currentMonth(), 1).getDay();
-    const previousMonth = getSelectedDate(this.currentMonth()).getDate();
-    
-    for (let index = firstDayInMonth; index > 0; index--) {      
-      this.eventosData.push(templateEventosData(previousMonth - (index - 1), getSelectedDate(this.date, previousMonth - (index - 1), -1)));
-    }
-
-    const daysInMonth = getSelectedDate(this.date, 0, 1).getDate();
-    
-    for (let index = 1; index <= daysInMonth; index++) {
-      const newDate = getSelectedDate(this.date, index);            
-
-      this.eventosData.push({
-        ...templateEventosData(index, newDate),
-        isCurrentDay: formatDate(this.date) === formatDate(newDate),
-        isCurrentMonth: true,
-      });
-    }
-
-    const eventosLength = this.eventosData.length;
-
-    for (let index = 1; index <= (this.totalItems - eventosLength); index++) {
-      this.eventosData.push(templateEventosData(index, getSelectedDate(this.date, index, 1)));
-    }
+  // Helpers
+  private isSameDay(date1: Date, date2: Date): boolean {
+    return date1.getDate() === date2.getDate() && 
+           date1.getMonth() === date2.getMonth() && 
+           date1.getFullYear() === date2.getFullYear();
   }
 
+  private eventExists(id: string): boolean {
+    return this.eventosData.some(day => 
+      day.events.some(event => event.id === id)
+    );
+  }
+
+  // Métodos públicos
   async removeEvent(eventosIndex: number, eventIndex: number): Promise<void> {
     const event = this.eventosData[eventosIndex].events[eventIndex];
     if (event.id) {
@@ -201,6 +225,4 @@ export class EventosComponent implements OnInit {
   openModalEdit(event: NEventos.IEvent): void {
     this.dialogService.openDialog(event);
   }
-
-  
 }

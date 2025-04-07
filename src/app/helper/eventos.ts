@@ -7,9 +7,10 @@ export function findEvent(newEventosData: NEventos.Body[], item: NEventos.IEvent
     }).find(item => item);
 }
 
-export function formatDate(date: Date) {
-    return `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
-}
+export function formatDate(date: Date | string): string {
+    const d = date instanceof Date ? date : new Date(date);
+    return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+  }
 
 export function createEvent(newEventosData: NEventos.Body[], item: NEventos.IEvent) {
     const selectedIndex = newEventosData.findIndex(evento => formatDate(evento.date) === formatDate(item.date));
@@ -28,9 +29,10 @@ export function updateEvent(newEventosData: NEventos.Body[], item: NEventos.IEve
     }
 }
 
-export function getSelectedDate(date: Date, day = 0, month = 0) {
+export function getSelectedDate(date: Date, day = 0, month = 0): Date {
     return new Date(date.getFullYear(), date.getMonth() + month, day);
-}
+  }
+  
 
 export function templateEventosData(day: number, date: Date) {
     return {

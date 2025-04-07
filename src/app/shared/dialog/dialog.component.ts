@@ -62,9 +62,8 @@ export class DialogComponent {
 
   private date = new Date();
 
-  minDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
-
-  maxDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
+  minDate = new Date(2000, 0, 1); // Fecha mínima muy atrás
+  maxDate = new Date(2100, 11, 31); // Fecha máxima muy adelante
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,

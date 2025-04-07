@@ -15,9 +15,26 @@
         <mat-card-title>{{ getNombreCompleto(usuario) }}</mat-card-title>
         <mat-card-subtitle>{{ usuario.correo }}</mat-card-subtitle>
       </mat-card-header>
+      
       <mat-card-content>
-        <p><strong>Tipo:</strong> {{ getTipoUsuario(usuario.tipo) }}</p>
-        <!-- Eliminada la línea del estado -->
+        <div class="d-flex align-items-center">
+          <p class="mb-0"><strong>Tipo:</strong> {{ getTipoUsuario(usuario.tipo) }}</p>
+          
+          <button mat-icon-button [matMenuTriggerFor]="menuTipo" class="ms-2">
+            <mat-icon>edit</mat-icon>
+          </button>
+          
+          <mat-menu #menuTipo="matMenu">
+            <button mat-menu-item (click)="cambiarTipoUsuario(usuario, 'Usuario')">
+              <mat-icon>person</mat-icon>
+              <span>Usuario</span>
+            </button>
+            <button mat-menu-item (click)="cambiarTipoUsuario(usuario, 'Administrador')">
+              <mat-icon>admin_panel_settings</mat-icon>
+              <span>Administrador</span>
+            </button>
+          </mat-menu>
+        </div>
       </mat-card-content>
     </mat-card>
 
