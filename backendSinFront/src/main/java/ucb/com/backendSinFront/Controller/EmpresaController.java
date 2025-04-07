@@ -22,7 +22,7 @@ public class EmpresaController {
   @PostMapping("/registro")
   public ResponseEntity<String> registrarEmpresa(@RequestBody Empresa empresa) {
     if (empresaService.obtenerPorCorreo(empresa.getCorreo()).isPresent()) {
-      return ResponseEntity.badRequest().body("Ya existe una empresa con este correo.");
+      return ResponseEntity.badRequest().body("Ya existe una empresa con este correo, ingrese otro correo.");
     }
 
     empresaService.guardar(empresa);
