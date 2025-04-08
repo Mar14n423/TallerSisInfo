@@ -73,6 +73,6 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancelar</button>
   <button mat-raised-button color="primary" (click)="save()" [disabled]="formEvent.invalid">
-    {{formEvent.value.id ? 'Actualizar' : 'Guardar'}}
+    {{formEvent.value.id ? 'Agregar' : 'Guardar'}}
   </button>
 </mat-dialog-actions>

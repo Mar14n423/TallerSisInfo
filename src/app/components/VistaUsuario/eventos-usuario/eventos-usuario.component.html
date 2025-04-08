@@ -1,0 +1,74 @@
+<!-- eventos-usuario.component.html -->
+<app-navbar></app-navbar>
+
+<section class="eventos-container">
+  <div class="calendar-header">
+    <button mat-icon-button (click)="previousMonth()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    
+    <h2>{{ currentMonth() | date:'MMMM yyyy' | titlecase }}</h2>
+    
+    <button mat-icon-button (click)="nextMonth()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <article class="eventos-content">
+    <span class="eventos-header" *ngFor="let header of headers">
+      {{ header }}
+    </span>
+
+    <div 
+      class="eventos-body" 
+      *ngFor="let item of eventosData" 
+      [ngClass]="{
+        'current-month': item.isCurrentMonth, 
+        'current-day': item.isCurrentDay,
+        'other-month': !item.isCurrentMonth
+      }">
+      
+      <span class="day-number">{{ item.day }}</span>
+
+      <section class="events-container">
+        <ng-container *ngFor="let event of item.events">
+          <button
+            class="event"
+            [matTooltip]="event.name" 
+            [matMenuTriggerFor]="menu"
+            [ngStyle]="{
+              'background-color': event.background, 
+              'color': event.color
+            }">
+            <mat-icon>{{ event.icon }}</mat-icon>
+            <p class="truncate-text">{{ event.name }}</p>
+          </button>
+
+          <mat-menu #menu="matMenu" class="event-menu">
+            <section class="menu-container">
+              <div class="event-preview">
+                <button 
+                  class="event" 
+                  [ngStyle]="{
+                    'background-color': event.background, 
+                    'color': event.color
+                  }">
+                  <mat-icon>{{ event.icon }}</mat-icon>
+                  <p>{{ event.name }}</p>
+                </button>
+              </div>
+
+              <div class="event-details">
+                <p><mat-icon>event</mat-icon> {{ event.date | date:'mediumDate' }}</p>
+                <p><mat-icon>schedule</mat-icon> {{ event.date | date:'shortTime' }}</p>
+              </div>
+            </section>
+          </mat-menu>
+        </ng-container>
+      </section>
+    </div>
+  </article>
+</section>
+
+<app-footer></app-footer>
+

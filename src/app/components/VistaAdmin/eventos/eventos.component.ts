@@ -3,13 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NEventos } from '../eventos/eventos.model';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../shared/footer/footer.component';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/footer/footer.component';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
-import { DialogService } from '../../services/dialog.service';
-import { EventosService } from '../../services/eventos.service';
-import { formatDate, getSelectedDate, templateEventosData } from '../../helper/eventos';
+import { DialogService } from '../../../services/dialog.service';
+import { EventosService } from '../../../services/eventos.service';
+import { formatDate, getSelectedDate, templateEventosData } from '../../../helper/eventos';
 
 @Component({
   selector: 'app-eventos',

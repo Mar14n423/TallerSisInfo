@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { NEventos } from '../components/eventos/eventos.model';
+import { NEventos } from '../components/VistaAdmin/eventos/eventos.model';
 
 @Injectable({
   providedIn: 'root'

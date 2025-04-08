@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { UsuarioService } from '../register/usuario.service'; // Asegúrate de que la ruta sea correcta
 import { FormsModule } from '@angular/forms'; // Importa FormsModule aquí
 import { CommonModule } from '@angular/common'; // Importa CommonModule aquí
-import { NavbarComponent } from '../../shared/navbar/navbar.component'; // Importa NavbarComponent
-import { FooterComponent } from '../../shared/footer/footer.component'; // Importa FooterComponent
+import { NavbarComponent } from '../../../shared/navbar/navbar.component'; // Importa NavbarComponent
+import { FooterComponent } from '../../../shared/footer/footer.component'; // Importa FooterComponent
 
 @Component({
   selector: 'app-login',

@@ -1,4 +1,4 @@
-import { NEventos } from '../components/eventos/eventos.model';
+import { NEventos } from '../components/VistaAdmin/eventos/eventos.model';
 
 export function findEvent(newEventosData: NEventos.Body[], item: NEventos.IEvent): NEventos.FindEvent {
     return newEventosData.map((evento, eventosIndex) => {
