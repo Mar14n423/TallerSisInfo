@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../shared/dialog/dialog.component';
-import { NEventos } from '../components/eventos/eventos.model';
+import { NEventos } from '../components/VistaAdmin/eventos/eventos.model';
 
 @Injectable({
   providedIn: 'root'

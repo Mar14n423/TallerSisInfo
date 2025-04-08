@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Usuarios registrados</h2>
+
+  <div *ngIf="isLoading" class="text-center">
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger text-center">
+    {{ error }}
+  </div>
+
+  <div class="row justify-content-center g-4">
+    <mat-card class="col-md-4 m-2" *ngFor="let usuario of usuarios">
+      <mat-card-header>
+        <mat-card-title>{{ getNombreCompleto(usuario) }}</mat-card-title>
+        <mat-card-subtitle>{{ usuario.correo }}</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="d-flex align-items-center">
+          <p class="mb-0"><strong>Tipo:</strong> {{ getTipoUsuario(usuario.tipo) }}</p>
+          
+          <button mat-icon-button [matMenuTriggerFor]="menuTipo" class="ms-2">
+            <mat-icon>edit</mat-icon>
+          </button>
+          
+          <mat-menu #menuTipo="matMenu">
+            <button mat-menu-item (click)="cambiarTipoUsuario(usuario, 'Usuario')">
+              <mat-icon>person</mat-icon>
+              <span>Usuario</span>
+            </button>
+            <button mat-menu-item (click)="cambiarTipoUsuario(usuario, 'Administrador')">
+              <mat-icon>admin_panel_settings</mat-icon>
+              <span>Administrador</span>
+            </button>
+          </mat-menu>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div *ngIf="!isLoading && usuarios.length === 0" class="col-12 text-center">
+      <p>No se encontraron usuarios registrados.</p>
+    </div>
+  </div>
+</div>
+

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import { NEventos } from '../components/eventos/eventos.model';
+import { NEventos } from '../components/VistaAdmin/eventos/eventos.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class EventosService {
   // Obtener eventos por rango de fechas (para el calendario)
   getEventosPorMes(year: number, month: number) {
     // Asegúrate que el mes es correcto (1-12)
-    const startDate = new Date(year, month - 1, 1); // month -1 porque el backend espera 1-12
-    const endDate = new Date(year, month, 0); // día 0 del mes siguiente = último día del mes actual
+    const startDate = new Date(Date.UTC(year, month - 1, 1)); // month -1 porque el backend espera 1-12
+    const endDate = new Date(Date.UTC(year, month, 0)); // día 0 del mes siguiente = último día del mes actual
     
     return axios.get<NEventos.IEvent[]>(`${this.apiUrl}/rango`, {
       params: {

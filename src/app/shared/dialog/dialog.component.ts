@@ -17,7 +17,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogService } from '../../services/dialog.service';
-import { NEventos } from '../../components/eventos/eventos.model';
+import { NEventos } from '../../components/VistaAdmin/eventos/eventos.model';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -49,22 +49,46 @@ export class DialogComponent {
 
   eventType = [
     {
-      id: 'schedule',
-      value: 'Reunión',
-      icon: 'event' 
+      id: 'sport',
+      value: 'Deporte',
+      icon: 'sports_soccer'
     },
     {
-      id: 'task',
-      value: 'Tarea',
-      icon: 'task' 
-    }
+      id: 'support',
+      value: 'Reunión de apoyo',
+      icon: 'group'
+    },
+    {
+      id: 'art',
+      value: 'Taller de arte',
+      icon: 'palette'
+    },
+    {
+      id: 'therapy',
+      value: 'Sesión de terapia',
+      icon: 'psychology'
+    },
+    {
+      id: 'music',
+      value: 'Música y canto',
+      icon: 'music_note'
+    },
+    {
+      id: 'education',
+      value: 'Capacitación / Taller',
+      icon: 'school'
+    },
+    {
+      id: 'social',
+      value: 'Evento social',
+      icon: 'emoji_people'
+    },
   ];
 
   private date = new Date();
 
-  minDate = new Date(this.date.getFullYear(), this.date.getMonth(), 1);
-
-  maxDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, 0);
+  minDate = new Date(2000, 0, 1); // Fecha mínima muy atrás
+  maxDate = new Date(2100, 11, 31); // Fecha máxima muy adelante
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
