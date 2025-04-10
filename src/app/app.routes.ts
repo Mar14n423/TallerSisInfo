@@ -13,6 +13,7 @@ import { HomeadminComponent } from './components/VistaAdmin/homeadmin/homeadmin.
 import { UsuariosComponent } from './components/VistaAdmin/usuarios/usuarios.component';
 import { LoginAdminComponent } from './components/VistaAdmin/login-admin/login-admin.component';
 import { EventosUsuarioComponent } from './components/VistaUsuario/eventos-usuario/eventos-usuario.component';
+import {ProfileComponent} from './components/VistaUsuario/profile/profile.component'
 
 
 
@@ -31,5 +32,6 @@ export const routes: Routes = [
   { path: 'usuarios', component: UsuariosComponent },
   { path: 'login-admin', component: LoginAdminComponent },
   { path: 'eventos-usuario', component: EventosUsuarioComponent},
+  {path: 'profile', component: ProfileComponent}
 ];
 
