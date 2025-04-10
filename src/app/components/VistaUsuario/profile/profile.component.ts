@@ -3,15 +3,23 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+
 @Component({
   standalone: true,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  imports: [CommonModule, RouterModule, FooterComponent, NavbarComponent,MatCardModule, MatInputModule, MatButtonModule] 
+  imports: [CommonModule, RouterModule, FooterComponent, NavbarComponent, MatCardModule, MatInputModule,MatButtonModule,MatToolbarModule,
+    MatIconModule,MatMenuModule,MatTooltipModule,MatDividerModule, MatListModule ]
 })
 export class ProfileComponent {
   user = {
@@ -36,15 +44,13 @@ export class ProfileComponent {
       reader.readAsDataURL(file);
     }
   }
+
   editarPerfil(): void {
-    
     console.log('Editar perfil clickeado');
-  }
-  
-  eliminarCuenta(): void {
     
+  }
+
+  eliminarCuenta(): void {
     console.log('Eliminar cuenta clickeado');
   }
-  
 }
-

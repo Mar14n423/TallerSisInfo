@@ -1,5 +1,6 @@
 body {
   background-color: #f8f9fa;
+  font-family: 'Roboto', sans-serif;
 }
 
 .profile-container {
@@ -8,15 +9,15 @@ body {
   background-color: #fff;
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .profile-header {
   display: flex;
   align-items: center;
   gap: 2rem;
-  border-bottom: 1px solid #dee2e6;
-  padding-bottom: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f1f3f5;
+  border-radius: 16px;
 }
 
 .profile-picture {
@@ -42,6 +43,9 @@ body {
   border-radius: 50%;
   padding: 6px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-basic-info h2 {
@@ -56,12 +60,14 @@ body {
 
 .profile-section {
   margin-top: 2rem;
+  padding: 1rem 1.5rem;
 }
 
 .profile-section h3 {
+  color: #6c63ff;
+  margin-bottom: 1rem;
   border-bottom: 2px solid #6c63ff;
   padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .profile-section ul {
@@ -75,19 +81,12 @@ body {
   margin-top: 2rem;
 }
 
-.btn-delete {
-  background-color: #dc3545;
-  border-color: #dc3545;
-  color: white;
-}
-
-.btn-delete:hover {
-  background-color: #bb2d3b;
-}
-
 .back-to-top {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 10;
+  background-color: #6c63ff;
+  border-radius: 50%;
+  color: white;
 }
