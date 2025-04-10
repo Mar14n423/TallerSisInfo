@@ -1,35 +1,56 @@
-<div class="container mt-5" style="max-width: 400px;">
-  <h2 class="text-center mb-4">Login Admin</h2>
+<mat-card style="max-width: 400px; margin: 2rem auto; padding: 2rem;">
+  <mat-card-title class="text-center">Login Admin</mat-card-title>
 
   <form (ngSubmit)="login()" #loginForm="ngForm">
-    <div class="mb-3">
-      <label for="username" class="form-label">Usuario</label>
+    <mat-form-field appearance="outline" class="w-100" style="margin-bottom: 1rem;">
+      <mat-label>Usuario</mat-label>
       <input
+        matInput
         type="text"
-        id="username"
-        class="form-control"
         [(ngModel)]="username"
         name="username"
         required
+        #usernameModel="ngModel"
       />
-    </div>
+      <mat-error *ngIf="usernameModel.invalid && loginForm.submitted">
+        El usuario es obligatorio
+      </mat-error>
 
-    <div class="mb-3">
-      <label for="password" class="form-label">Contraseña</label>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100" style="margin-bottom: 1rem;">
+      <mat-label>Contraseña</mat-label>
       <input
-        type="password"
-        id="password"
-        class="form-control"
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
         [(ngModel)]="password"
         name="password"
         required
+        #passwordModel="ngModel"
       />
-    </div>
+      <mat-error *ngIf="passwordModel.invalid && loginForm.submitted">
+        La contraseña es obligatoria
+      </mat-error>
 
-    <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
 
-    <div *ngIf="loginError" class="alert alert-danger mt-3">
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="w-100"
+      type="submit"
+      [disabled]="!loginForm.valid"
+    >
+      Ingresar
+    </button>
+
+
+    <mat-error *ngIf="loginError" style="display: block; margin-top: 1rem;">
       Usuario o contraseña incorrectos
-    </div>
+    </mat-error>
   </form>
-</div>
+</mat-card>
