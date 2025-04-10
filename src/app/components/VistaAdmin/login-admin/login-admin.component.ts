@@ -3,17 +3,36 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 
+//  Angular Material
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatError } from '@angular/material/form-field';
+
 @Component({
   selector: 'app-login-admin',
   standalone: true,
   templateUrl: './login-admin.component.html',
   styleUrls: ['./login-admin.component.scss'],
-  imports: [CommonModule, FormsModule, RouterModule]
+  imports: [
+      CommonModule,
+      FormsModule,
+      RouterModule,
+      MatCardModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatButtonModule,
+      MatIconModule,
+    ]
 })
 export class LoginAdminComponent {
   username: string = '';
   password: string = '';
   loginError: boolean = false;
+  hidePassword = true;
+
 
   constructor(private router: Router) {}
 
