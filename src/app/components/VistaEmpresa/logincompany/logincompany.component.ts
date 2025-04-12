@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { EmpresaService } from '../create-company-account/empresa.service';
+import { EmpresaService } from '../create-company-account/empresa.service'; // Ajusta si tu ruta es diferente
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
@@ -33,17 +33,14 @@ export class LoginCompanyComponent {
 
     this.empresaService
       .loginEmpresa(empresa)
-      .then((response: any) => {
-        console.log('Empresa logueada exitosamente', response);
+      .then((response) => {
+        console.log('Inicio de sesión exitoso como empresa', response);
         localStorage.setItem('empresa', JSON.stringify(response));
-        this.router.navigate(['/dashboard-empresa']);
+        this.router.navigate(['/']); // Ruta de redirección tras login exitoso
       })
-      .catch((error: any) => {
-        if (error.response?.status === 401) {
-          this.errorMessage = 'Correo o contraseña incorrectos.';
-        } else {
-          this.errorMessage = 'Error al iniciar sesión. Intente más tarde.';
-        }
+      .catch((error) => {
+        console.error('Error al iniciar sesión de empresa', error);
+        this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
       });
   }
 }

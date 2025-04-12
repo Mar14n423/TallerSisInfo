@@ -21,9 +21,9 @@ export class EmpresaService {
 
   // ✅ Login de empresa
   loginEmpresa(empresa: any) {
-    return axios.post(`${this.apiUrl}/login`, empresa)
-      .then(response => response.data)
-      .catch(error => {
+    return axios.post('http://localhost:8080/api/empresas/login', empresa)
+      .then((response: any) => response.data)
+      .catch((error: any) => {
         console.error('Error al iniciar sesión como empresa:', error);
         throw error;
       });
