@@ -45,4 +45,16 @@ public class EmpresaController {
     public Empresa actualizarEmpresa(@PathVariable Long id, @RequestBody Empresa empresaActualizada) {
         return empresaService.actualizarEmpresa(id, empresaActualizada);
     }
+
+  /@PostMapping("/login")
+  public ResponseEntity<?> loginEmpresa(@RequestBody Empresa empresaLogin) {
+    Optional<Empresa> empresa = empresaService.obtenerPorCorreo(empresaLogin.getCorreo());
+
+    if (empresa.isPresent() && empresa.get().getPasswordHash().equals(empresaLogin.getPasswordHash())) {
+      return ResponseEntity.ok(empresa.get());
+    } else {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+    }
+  }
+
 }
