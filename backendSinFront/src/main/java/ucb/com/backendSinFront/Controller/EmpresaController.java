@@ -2,11 +2,15 @@ package ucb.com.backendSinFront.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import ucb.com.backendSinFront.entity.Empresa;
 import ucb.com.backendSinFront.service.EmpresaService;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/empresas")
@@ -46,7 +50,7 @@ public class EmpresaController {
         return empresaService.actualizarEmpresa(id, empresaActualizada);
     }
 
-  /@PostMapping("/login")
+  @PostMapping("/login")
   public ResponseEntity<?> loginEmpresa(@RequestBody Empresa empresaLogin) {
     Optional<Empresa> empresa = empresaService.obtenerPorCorreo(empresaLogin.getCorreo());
 

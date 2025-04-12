@@ -5,12 +5,13 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class EmpresaService {
-  private apiUrl = 'http://localhost:8080/api/empresas/create';
+  private apiUrl = 'http://localhost:8080/api/empresas';
 
-  constructor() { }
+  constructor() {}
 
+  // ✅ Registro de empresa
   registrarEmpresa(empresa: any) {
-    return axios.post(this.apiUrl, empresa)
+    return axios.post(`${this.apiUrl}/create`, empresa)
       .then(response => response.data)
       .catch(error => {
         console.error('Error al registrar empresa', error);
@@ -18,4 +19,13 @@ export class EmpresaService {
       });
   }
 
+  // ✅ Login de empresa
+  loginEmpresa(empresa: any) {
+    return axios.post(`${this.apiUrl}/login`, empresa)
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error al iniciar sesión como empresa:', error);
+        throw error;
+      });
+  }
 }
