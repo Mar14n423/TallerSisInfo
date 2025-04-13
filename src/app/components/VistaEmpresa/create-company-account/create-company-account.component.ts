@@ -1,51 +1,72 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { FooterComponent } from '../../../shared/footer/footer.component';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
-import { EmpresaService } from './empresa.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import axios from 'axios';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button'; // Si vas a usar botones Material
-import { MatIconModule } from '@angular/material/icon';     // Opcional si usas íconos
-import { RouterModule } from '@angular/router';
-
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { FooterComponent } from '../../../shared/footer/footer.component';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
 @Component({
-  selector: 'app-register-company',
+  selector: 'app-create-company-account',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent, MatFormFieldModule,MatInputModule,MatButtonModule,MatIconModule ,RouterModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    NavbarComponent,
+    FooterComponent
+  ],
   templateUrl: './create-company-account.component.html',
   styleUrls: ['./create-company-account.component.scss']
 })
-export class CreateCompanyAccountComponent {
-  registerCompanyForm = new FormGroup({
-    nombre: new FormControl('', [Validators.required]),
-    correo: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    confirmarPassword: new FormControl('', [Validators.required]),
-    telefono: new FormControl('', [Validators.required]),
-    descripcion: new FormControl('', [Validators.required])
-  });
+export class CreateCompanyAccountComponent implements OnInit {
 
-  constructor(private empresaService: EmpresaService) {}
+  registerCompanyForm!: FormGroup;
+  mensaje: string = '';
 
-  onSubmit() {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.registerCompanyForm = this.fb.group({
+      nombre: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmarPassword: ['', Validators.required],
+      telefono: ['', Validators.required],
+      descripcion: ['', Validators.required]
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(group: FormGroup): { [key: string]: boolean } | null {
+    return group.get('password')?.value === group.get('confirmarPassword')?.value
+      ? null : { 'passwordMismatch': true };
+  }
+
+  onSubmit(): void {
     if (this.registerCompanyForm.valid) {
       const empresa = {
         nombre: this.registerCompanyForm.value.nombre,
         correo: this.registerCompanyForm.value.correo,
         passwordHash: this.registerCompanyForm.value.password,
-        confirmarContraseña: this.registerCompanyForm.value.confirmarPassword,
         telefono: this.registerCompanyForm.value.telefono,
         descripcion: this.registerCompanyForm.value.descripcion
       };
 
-      this.empresaService.registrarEmpresa(empresa)
+      axios.post('http://localhost:8080/api/empresas/create', empresa)
         .then(response => {
-          console.log('Empresa registrada con éxito:', response);
+          console.log('Empresa registrada con éxito:', response.data);
           alert('Empresa registrada con éxito');
+          this.router.navigate(['/login-empresa']);
         })
         .catch(error => {
           console.error('Error al registrar empresa:', error);

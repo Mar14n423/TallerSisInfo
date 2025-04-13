@@ -55,19 +55,21 @@ public class EmpresaController {
   public ResponseEntity<?> autenticarEmpresa(@RequestBody Empresa empresa) {
     Optional<Empresa> empresaExistente = empresaService.obtenerPorCorreo(empresa.getCorreo());
 
-    if (empresaExistente.isEmpty()) {
+    if (empresaExistente.isPresent()) {
+      LogHelper.info(EmpresaController.class, "Empresa encontrada: " + empresaExistente.get().getCorreo());
+      LogHelper.debug(EmpresaController.class, "Contraseña recibida: " + empresa.getPasswordHash());
+      LogHelper.debug(EmpresaController.class, "Contraseña almacenada: " + empresaExistente.get().getPasswordHash());
+
+      if (empresaExistente.get().getPasswordHash().equals(empresa.getPasswordHash())) {
+        return ResponseEntity.ok().body(empresaExistente.get());
+      } else {
+        LogHelper.error(EmpresaController.class, "Contraseña incorrecta para la empresa: " + empresa.getCorreo());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+      }
+    } else {
       LogHelper.error(EmpresaController.class, "Empresa no encontrada: " + empresa.getCorreo());
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correo incorrecto");
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
     }
-
-    Empresa empresaGuardada = empresaExistente.get();
-    if (!empresaGuardada.getPasswordHash().equals(empresa.getPasswordHash())) {
-      LogHelper.error(EmpresaController.class, "Contraseña incorrecta para: " + empresa.getCorreo());
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Contraseña incorrecta");
-    }
-
-    LogHelper.info(EmpresaController.class, "Empresa autenticada: " + empresaGuardada.getCorreo());
-    return ResponseEntity.ok().body(empresaGuardada);
   }
 
 }
