@@ -17,8 +17,15 @@
   <main class="foro-main">
     <header class="foro-header">
       <input type="text" placeholder="Buscar">
-      <button class="crear-btn">+ Crear</button>
+      <button class="crear-btn" (click)="mostrarFormularioNuevoPost()">+ Crear</button>
     </header>
+
+    <!-- Formulario de nuevo post -->
+    <div class="nuevo-post-formulario" *ngIf="nuevoPostVisible">
+      <input [(ngModel)]="nuevoTitulo" placeholder="Título de la publicación">
+      <textarea [(ngModel)]="nuevoMensaje" placeholder="Contenido del mensaje..."></textarea>
+      <button (click)="crearNuevoPost()">Publicar</button>
+    </div>
 
     <!-- 🔁 Publicaciones dinámicas -->
     <section class="post" *ngFor="let post of posts; let i = index">
@@ -45,6 +52,7 @@
       </div>
     </section>
   </main>
+
 
 
   <!-- Sidebar derecha -->

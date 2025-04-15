@@ -223,3 +223,38 @@
   background-color: #0056b3;
 }
 
+.nuevo-post-formulario {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.nuevo-post-formulario input,
+.nuevo-post-formulario textarea {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.nuevo-post-formulario button {
+  align-self: flex-end;
+  padding: 0.4rem 1rem;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.nuevo-post-formulario button:hover {
+  background-color: #0056b3;
+}
+

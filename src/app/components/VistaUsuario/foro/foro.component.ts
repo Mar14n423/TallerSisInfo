@@ -45,6 +45,10 @@ export class ForoComponent {
   mostrarFormulario: boolean[] = [];
   nuevaRespuesta: string[] = [];
 
+  nuevoPostVisible: boolean = false;
+  nuevoTitulo: string = '';
+  nuevoMensaje: string = '';
+
   toggleFormulario(index: number) {
     this.mostrarFormulario[index] = !this.mostrarFormulario[index];
   }
@@ -55,6 +59,25 @@ export class ForoComponent {
       this.posts[index].respuestas.push({ usuario: 'Tú', mensaje: texto });
       this.nuevaRespuesta[index] = '';
       this.mostrarFormulario[index] = false;
+    }
+  }
+
+  mostrarFormularioNuevoPost() {
+    this.nuevoPostVisible = !this.nuevoPostVisible;
+  }
+
+  crearNuevoPost() {
+    if (this.nuevoTitulo.trim() && this.nuevoMensaje.trim()) {
+      this.posts.unshift({
+        usuario: 'Tú',
+        fecha: new Date().toLocaleDateString(),
+        titulo: this.nuevoTitulo,
+        mensaje: this.nuevoMensaje,
+        respuestas: []
+      });
+      this.nuevoTitulo = '';
+      this.nuevoMensaje = '';
+      this.nuevoPostVisible = false;
     }
   }
 }
