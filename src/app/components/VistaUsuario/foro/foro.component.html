@@ -1,12 +1,79 @@
 <app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
 
-<div class="container mt-5">
-  <h2>En proceso</h2>
-  <p>Contenido de la página <strong>foro...</strong> </p>
-</div>
+<body>
+<div class="foro-container">
 
-<div class="d-flex justify-content-center mt-4">
-  <mat-progress-bar mode="indeterminate" color="accent" style="width: 50%;"></mat-progress-bar>
+  <!-- Sidebar izquierda -->
+  <aside class="sidebar">
+    <img src="imagenes/avatar.PNG" class="avatar" alt="Avatar">
+    <h3>Nombre</h3>
+    <p><strong>Usuario:</strong> user1234pkmksf</p>
+    <p><strong>Password:</strong> ********</p>
+    <p><strong>Correo:</strong> user123&#64;gmail.com</p>
+    <button class="editar-btn">Editar perfil</button>
+  </aside>
+
+  <!-- Contenido central -->
+  <main class="foro-main">
+    <header class="foro-header">
+      <input type="text" placeholder="Buscar">
+      <button class="crear-btn">+ Crear</button>
+    </header>
+
+    <section class="post">
+      <div class="post-header">
+        <img src="imagenes/usuario.PNG" alt="Usuario" class="mini-avatar">
+        <div>
+          <strong>Juan2343</strong> <span class="fecha">02/05/2024</span>
+          <p class="titulo">Cocina</p>
+        </div>
+      </div>
+      <p class="mensaje">Necesito ayuda para cocinar carne con arroz...</p>
+
+      <div class="respuesta">
+        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
+        <p><strong>Pepe34:</strong> No sé :v</p>
+      </div>
+      <div class="respuesta">
+        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
+        <p><strong>Joselito666:</strong> Creo que son 30 min a fuego lento</p>
+      </div>
+      <p class="comentar">Comentar</p>
+    </section>
+
+    <!-- Otra publicación -->
+    <section class="post">
+      <div class="post-header">
+        <img src="imagenes/usuario.PNG" alt="Usuario" class="mini-avatar">
+        <div>
+          <strong>Mariano4543</strong> <span class="fecha">02/05/2024</span>
+          <p class="titulo">Ayuda</p>
+        </div>
+      </div>
+      <p class="mensaje">Hola, estoy aprendiendo a hacer mole...</p>
+
+      <div class="respuesta">
+        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
+        <p><strong>Pepe34:</strong> Te recomiendo usar libros de cocina mexicana</p>
+      </div>
+      <div class="respuesta">
+        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
+        <p><strong>Joselito666:</strong> Hay tutoriales en YouTube buenísimos</p>
+      </div>
+      <p class="comentar">Comentar</p>
+    </section>
+  </main>
+
+  <!-- Sidebar derecha -->
+  <aside class="filtros">
+    <p><strong>Filtrar por:</strong></p>
+    <button class="filtro-btn">Recientes</button>
+    <button class="filtro-btn">Mis Publicaciones</button>
+    <button class="rojo-btn">Acerca de</button>
+    <button class="rojo-btn">Reglas</button>
+  </aside>
+
 </div>
+</body>
 
 <app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
