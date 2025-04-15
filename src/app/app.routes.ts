@@ -13,13 +13,16 @@ import { HomeadminComponent } from './components/VistaAdmin/homeadmin/homeadmin.
 import { UsuariosComponent } from './components/VistaAdmin/usuarios/usuarios.component';
 import { LoginAdminComponent } from './components/VistaAdmin/login-admin/login-admin.component';
 import { EventosUsuarioComponent } from './components/VistaUsuario/eventos-usuario/eventos-usuario.component';
+import { LoginCompanyComponent } from './components/VistaEmpresa/logincompany/logincompany.component';
 
 
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent }, 
+  { path: '', component: HomeComponent },
   { path: 'registrate', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'logincompany', component: LoginCompanyComponent },
+
   { path: 'registercompany', component: RegisterCompanyComponent },
   { path: 'create-company-account', component: CreateCompanyAccountComponent },
   { path: 'empleo', component: EmpleoComponent },

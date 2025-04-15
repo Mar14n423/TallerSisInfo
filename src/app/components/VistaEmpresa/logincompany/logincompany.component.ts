@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { EmpresaService } from '../create-company-account/empresa.service';
-import { FormsModule } from '@angular/forms'; // Importa FormsModule aquí
-import { CommonModule } from '@angular/common'; // Importa CommonModule aquí
-import { NavbarComponent } from '../../../shared/navbar/navbar.component'; // Importa NavbarComponent
+
+import { EmpresaService } from '../create-company-account/empresa.service'; // Ajusta si tu ruta es diferente
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 
 @Component({
@@ -11,37 +12,36 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule, // Agrega CommonModule aquí
+    CommonModule,
     NavbarComponent,
     FooterComponent,
   ],
   templateUrl: './logincompany.component.html',
   styleUrls: ['./logincompany.component.scss'],
-})
-export class LogincompanyComponent {
-  emailE: string = '';
-  passwordE: string = '';
-  errorMessageE: string = ''; // Propiedad para almacenar mensajes de error
+
+export class LoginCompanyComponent {
+  email: string = '';
+  password: string = '';
+  errorMessage: string = '';
 
   constructor(private empresaService: EmpresaService, private router: Router) {}
 
   onSubmit() {
     const empresa = {
-      correo: this.emailE,
-      passwordHash: this.passwordE,
+      correo: this.email,
+      passwordHash: this.password,
     };
 
-    this.empresaService.loginEmpresa(empresa)
+    this.empresaService
+      .loginEmpresa(empresa)
       .then((response) => {
-        // Solo redirige si hay respuesta (éxito)
-        if (response) {
-          this.router.navigate(['/']);
-        }
+        console.log('Inicio de sesión exitoso como empresa', response);
+        localStorage.setItem('empresa', JSON.stringify(response));
+        this.router.navigate(['/']); // Ruta de redirección tras login exitoso
       })
       .catch((error) => {
-        console.error('Error:', error);
-        this.errorMessageE = error.message; // Muestra el mensaje del backend
+        console.error('Error al iniciar sesión de empresa', error);
+        this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
       });
   }
-
 }
