@@ -20,49 +20,32 @@
       <button class="crear-btn">+ Crear</button>
     </header>
 
-    <section class="post">
+    <!-- 🔁 Publicaciones dinámicas -->
+    <section class="post" *ngFor="let post of posts; let i = index">
       <div class="post-header">
         <img src="imagenes/usuario.PNG" alt="Usuario" class="mini-avatar">
         <div>
-          <strong>Juan2343</strong> <span class="fecha">02/05/2024</span>
-          <p class="titulo">Cocina</p>
+          <strong>{{ post.usuario }}</strong> <span class="fecha">{{ post.fecha }}</span>
+          <p class="titulo">{{ post.titulo }}</p>
         </div>
       </div>
-      <p class="mensaje">Necesito ayuda para cocinar carne con arroz...</p>
+      <p class="mensaje">{{ post.mensaje }}</p>
 
-      <div class="respuesta">
+      <!-- 🔁 Respuestas dinámicas -->
+      <div class="respuesta" *ngFor="let r of post.respuestas">
         <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
-        <p><strong>Pepe34:</strong> No sé :v</p>
+        <p><strong>{{ r.usuario }}:</strong> {{ r.mensaje }}</p>
       </div>
-      <div class="respuesta">
-        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
-        <p><strong>Joselito666:</strong> Creo que son 30 min a fuego lento</p>
-      </div>
-      <p class="comentar">Comentar</p>
-    </section>
 
-    <!-- Otra publicación -->
-    <section class="post">
-      <div class="post-header">
-        <img src="imagenes/usuario.PNG" alt="Usuario" class="mini-avatar">
-        <div>
-          <strong>Mariano4543</strong> <span class="fecha">02/05/2024</span>
-          <p class="titulo">Ayuda</p>
-        </div>
+      <!-- 📥 Comentar -->
+      <p class="comentar" (click)="toggleFormulario(i)">Comentar</p>
+      <div class="formulario-respuesta" *ngIf="mostrarFormulario[i]">
+        <textarea [(ngModel)]="nuevaRespuesta[i]" placeholder="Escribe tu respuesta..."></textarea>
+        <button (click)="publicarRespuesta(i)">Publicar</button>
       </div>
-      <p class="mensaje">Hola, estoy aprendiendo a hacer mole...</p>
-
-      <div class="respuesta">
-        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
-        <p><strong>Pepe34:</strong> Te recomiendo usar libros de cocina mexicana</p>
-      </div>
-      <div class="respuesta">
-        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
-        <p><strong>Joselito666:</strong> Hay tutoriales en YouTube buenísimos</p>
-      </div>
-      <p class="comentar">Comentar</p>
     </section>
   </main>
+
 
   <!-- Sidebar derecha -->
   <aside class="filtros">
