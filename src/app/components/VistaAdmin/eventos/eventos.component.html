@@ -1,0 +1,88 @@
+<app-navbar></app-navbar>
+
+<section class="eventos-container">
+    <div class="calendar-header">
+        <button mat-icon-button (click)="previousMonth()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        
+        <h2>{{ currentMonth() | date:'MMMM yyyy' | titlecase }}</h2>
+        
+        <button mat-icon-button (click)="nextMonth()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+  <div class="eventos-actions">
+    <button mat-raised-button color="primary" (click)="openModal()">
+      <mat-icon>add</mat-icon> Agregar evento
+    </button>
+  </div>
+
+  <article class="eventos-content">
+    <!-- Encabezados del calendario -->
+    <span class="eventos-header" *ngFor="let header of headers">
+      {{ header }}
+    </span>
+
+    <!-- Días del calendario -->
+    <div 
+      class="eventos-body" 
+      *ngFor="let item of eventosData; let eventosIndex = index" 
+      [ngClass]="{
+        'current-month': item.isCurrentMonth, 
+        'current-day': item.isCurrentDay,
+        'other-month': !item.isCurrentMonth
+      }">
+      <span class="day-number">{{ item.day }}</span>
+
+      <section class="events-container">
+        <!-- Eventos del día -->
+        <ng-container *ngFor="let event of item.events; let eventIndex = index">
+          <button
+            class="event"
+            [matTooltip]="event.name" 
+            [matMenuTriggerFor]="menu"
+            [ngStyle]="{
+              'background-color': event.background, 
+              'color': event.color
+            }">
+            <mat-icon>{{ event.icon }}</mat-icon>
+            <p class="truncate-text">{{ event.name }}</p>
+          </button>
+
+          <mat-menu #menu="matMenu" class="event-menu">
+            <section class="menu-container">
+              <div class="event-preview">
+                <button 
+                  class="event" 
+                  [ngStyle]="{
+                    'background-color': event.background, 
+                    'color': event.color
+                  }">
+                  <mat-icon>{{ event.icon }}</mat-icon>
+                  <p>{{ event.name }}</p>
+                </button>
+              </div>
+
+              <div class="event-details">
+                <p><mat-icon>event</mat-icon> {{ event.date | date:'mediumDate' }}</p>
+                <p><mat-icon>schedule</mat-icon> {{ event.date | date:'shortTime' }}</p>
+              </div>
+
+              <div class="menu-actions">
+                <button mat-button color="primary" (click)="openModalEdit(event)">
+                  <mat-icon>edit</mat-icon> Editar
+                </button>
+                <button mat-button color="warn" (click)="removeEvent(eventosIndex, eventIndex)">
+                  <mat-icon>delete</mat-icon> Eliminar
+                </button>
+              </div>
+            </section>
+          </mat-menu>
+        </ng-container>
+      </section>
+    </div>
+  </article>
+</section>
+
+<app-footer></app-footer>

@@ -1,0 +1,78 @@
+<h2 mat-dialog-title>{{formEvent.value.id ? 'Editar' : 'Crear'}} evento</h2>
+<mat-dialog-content>
+  <form [formGroup]="formEvent">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="formEvent.get('name')?.hasError('required')">
+        El nombre es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo de evento</mat-label>
+      <mat-select formControlName="icon" required [compareWith]="compareEventTypes">
+        @for (event of eventType; track event) {
+          <mat-option [value]="event.icon">
+            <mat-icon>{{event.icon}}</mat-icon> {{event.value}}
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error *ngIf="formEvent.get('icon')?.hasError('required')">
+        El tipo de evento es requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" [min]="minDate" [max]="maxDate" required>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="formEvent.get('date')?.hasError('required')">
+        La fecha es requerida
+      </mat-error>
+    </mat-form-field>
+
+    <div class="color-pickers">
+      <section>
+        <mat-label>Color de fondo</mat-label>
+        <ngx-colors 
+          ngx-colors-trigger 
+          formControlName="background"
+          [format]="'hex'"
+        ></ngx-colors>
+      </section>
+
+      <section>
+        <mat-label>Color de texto</mat-label>
+        <ngx-colors 
+          ngx-colors-trigger 
+          formControlName="color"
+          [format]="'hex'"
+        ></ngx-colors>
+      </section>
+    </div>
+  </form>
+
+  <section class="preview">
+    <h3>Vista previa:</h3>
+    <button
+      class="event"
+      [matTooltip]="formEvent.value.name || 'Nombre del evento'"
+      [ngStyle]="{
+        'background-color': formEvent.value.background || '#3f51b5', 
+        'color': formEvent.value.color || '#ffffff'
+      }">
+      <mat-icon>{{formEvent.value.icon || 'event'}}</mat-icon>
+      <p>{{formEvent.value.name || 'Evento de ejemplo'}}</p>
+    </button>
+  </section>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="formEvent.invalid">
+    {{formEvent.value.id ? 'Agregar' : 'Guardar'}}
+  </button>
+</mat-dialog-actions>

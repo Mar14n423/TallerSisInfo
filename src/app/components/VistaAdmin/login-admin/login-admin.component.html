@@ -1,0 +1,56 @@
+<mat-card style="max-width: 400px; margin: 2rem auto; padding: 2rem;">
+  <mat-card-title class="text-center">Login Admin</mat-card-title>
+
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <mat-form-field appearance="outline" class="w-100" style="margin-bottom: 1rem;">
+      <mat-label>Usuario</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="username"
+        name="username"
+        required
+        #usernameModel="ngModel"
+      />
+      <mat-error *ngIf="usernameModel.invalid && loginForm.submitted">
+        El usuario es obligatorio
+      </mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100" style="margin-bottom: 1rem;">
+      <mat-label>Contraseña</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        [(ngModel)]="password"
+        name="password"
+        required
+        #passwordModel="ngModel"
+      />
+      <mat-error *ngIf="passwordModel.invalid && loginForm.submitted">
+        La contraseña es obligatoria
+      </mat-error>
+
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="w-100"
+      type="submit"
+      [disabled]="!loginForm.valid"
+    >
+      Ingresar
+    </button>
+
+
+    <mat-error *ngIf="loginError" style="display: block; margin-top: 1rem;">
+      Usuario o contraseña incorrectos
+    </mat-error>
+  </form>
+</mat-card>

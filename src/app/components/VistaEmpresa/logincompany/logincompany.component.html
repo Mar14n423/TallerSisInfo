@@ -1,0 +1,37 @@
+<app-navbar></app-navbar>
+<header>
+  <div class="logo">
+    <img src="assets/imagenes/logo.PNG" alt="Logo Sin Fronteras" width="150">
+  </div>
+</header>
+
+<main>
+  <section class="login-container">
+    <div class="imagen">
+      <img src="assets/imagenes/FondoIniciarSesionEmpresa.PNG" alt="Empresas colaborando">
+    </div>
+
+    <div class="formulario">
+      <form (ngSubmit)="onSubmit()">
+        <div class="campo">
+          <label for="email">Email de la Empresa</label>
+          <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Ingrese su email empresarial" required>
+        </div>
+
+        <div class="campo">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Ingrese su contraseña" required>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn-iniciar">Iniciar Sesión</button>
+        <button type="button" class="btn-home" routerLink="/">Volver al Inicio</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
