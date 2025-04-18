@@ -1,0 +1,51 @@
+
+<div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <a routerLink="/admin/dashboard">
+          <h2>SIN FRONTERAS</h2>
+        </a>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a routerLink="/admin/dashboard" routerLinkActive="active">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/admin/usuarios" routerLinkActive="active">
+              <i class="fas fa-users"></i>
+              <span>Usuarios</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/admin/eventos" routerLinkActive="active">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Eventos</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/admin/reportes" routerLinkActive="active">
+              <i class="fas fa-file-alt"></i>
+              <span>Reportes</span>
+            </a>
+          </li>
+          <li class="divider"></li>
+          <li class="logout-item">
+            <a class="logout-link" routerLink="/login-admin">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Cerrar Sesión</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+  
+    <!-- Contenido dinámico -->
+    <main class="admin-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
