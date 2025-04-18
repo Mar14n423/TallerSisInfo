@@ -7,14 +7,14 @@ export const adminRoutes: Routes = [
       import('../components/VistaAdmin/layout/layout.component').then(m => m.LayoutComponent),
     children: [
       {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full'
+        path: '', 
+        loadComponent: () =>
+          import('../components/VistaAdmin/homeadmin/homeadmin.component').then(m => m.HomeadminComponent)
       },
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('../components/VistaAdmin/homeadmin/homeadmin.component').then(m => m.HomeadminComponent)
+        redirectTo: '', 
+        pathMatch: 'full'
       },
       {
         path: 'usuarios',
