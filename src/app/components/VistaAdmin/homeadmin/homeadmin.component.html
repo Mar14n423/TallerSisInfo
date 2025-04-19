@@ -1,41 +1,54 @@
-<div class="container py-4">
-  <h1 class="display-6 mb-4">Bienvenido Administrador</h1>
+<div class="dashboard-container">
+  <h1 class="welcome-title">Bienvenido Administrador</h1>
 
-  <div class="row g-4">
-    <div class="col-md-6 col-lg-4">
-      <mat-card class="admin-card">
-        <mat-card-header>
-          <mat-card-title>Usuarios Registrados</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Consulta y gestiona los usuarios activos en la plataforma.</p>
-          <button mat-button color="primary" routerLink="/admin/usuarios">Ver usuarios</button>
-        </mat-card-content>
-      </mat-card>
-    </div>
+  <div class="summary-cards">
+    <mat-card class="summary-card user-card">
+      <div class="card-header">
+        <mat-icon class="card-icon">people</mat-icon>
+        <h2>Usuarios</h2>
+      </div>
+      <div class="card-content">
+        <p>Gestiona los usuarios registrados en la plataforma</p>
+        <button mat-raised-button color="primary" routerLink="/admin/usuarios" class="action-button">
+          <mat-icon>group</mat-icon>
+          Administrar Usuarios
+        </button>
+      </div>
+    </mat-card>
 
-    <div class="col-md-6 col-lg-4">
-      <mat-card class="admin-card">
-        <mat-card-header>
-          <mat-card-title>Eventos</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Administra los eventos y actividades programadas.</p>
-          <button mat-button color="primary" routerLink="/admin/eventos">Gestionar eventos</button>
-        </mat-card-content>
-      </mat-card>
-    </div>
+    <!-- Tarjeta de Eventos -->
+    <mat-card class="summary-card event-card">
+      <div class="card-header">
+        <mat-icon class="card-icon">event</mat-icon>
+        <h2>Eventos</h2>
+      </div>
+      <div class="card-content">
+        <p>Crea y administra los eventos programados</p>
+        <button mat-raised-button class="action-button event-btn"  routerLink="/admin/eventos" class="action-button">
+          <mat-icon>calendar_today</mat-icon>
+          Gestionar Eventos
+        </button>
+      </div>
+    </mat-card>
 
-    <div class="col-md-6 col-lg-4">
-      <mat-card class="admin-card">
-        <mat-card-header>
-          <mat-card-title>Reportes</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Accede a reportes de participación, registros y más.</p>
-          <button mat-button color="primary" routerLink="/admin/reportes">Ver reportes</button>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
+    <!-- Tarjeta de Reportes -->
+    <mat-card class="summary-card report-card">
+      <div class="card-header">
+        <mat-icon class="card-icon">map</mat-icon>
+        <h2>Reportes de Accesibilidad</h2>
+      </div>
+      <div class="card-content">
+        <p>Gestiona los reportes ciudadanos sobre lugares con problemas de accesibilidad</p>
+        <div class="action-buttons">
+          <button mat-raised-button color="admin-card accent-reportes" routerLink="/admin/reportes" class="action-button">
+            <mat-icon>list_alt</mat-icon>
+            Ver Reportes
+          </button>
+          <button mat-flat-button color="admin-card accent-reportes" (click)="generateAccessibilityReport()" [disabled]="generatingReport" class="action-button">
+            <mat-icon>picture_as_pdf</mat-icon>
+            {{ generatingReport ? 'Generando...' : 'Exportar Reporte' }}
+          </button>
+        </div>
+      </div>
+    </mat-card>
 </div>
