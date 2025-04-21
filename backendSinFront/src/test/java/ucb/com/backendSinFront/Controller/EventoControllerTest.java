@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import ucb.com.backendSinFront.entity.Evento;
 import ucb.com.backendSinFront.service.EventoService;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,7 +34,7 @@ class EventoControllerTest {
     evento.setId("test-id");
     evento.setName("Reunión");
     evento.setIcon("📅");
-    evento.setDate(new Date());
+    evento.setDate(LocalDateTime.now());
     evento.setBackground("azul");
     evento.setColor("blanco");
   }
@@ -50,8 +52,8 @@ class EventoControllerTest {
 
   @Test
   void obtenerEventosPorRango() {
-    Date inicio = new Date();
-    Date fin = new Date();
+    LocalDateTime inicio = LocalDateTime.now().minusDays(1);
+    LocalDateTime fin = LocalDateTime.now().plusDays(1);
     when(eventoService.obtenerPorRangoDeFecha(inicio, fin)).thenReturn(List.of(evento));
 
     List<Evento> resultado = eventoController.obtenerEventosPorRango(inicio, fin);
@@ -100,7 +102,7 @@ class EventoControllerTest {
 
   @Test
   void actualizarEvento() {
-    Evento actualizado = new Evento("Actualizado", "📌", new Date(), "verde", "negro");
+    Evento actualizado = new Evento("Actualizado", "📌", LocalDateTime.now(), "verde", "negro");
     actualizado.setId("test-id");
 
     when(eventoService.actualizarEvento(eq("test-id"), any(Evento.class))).thenReturn(actualizado);
