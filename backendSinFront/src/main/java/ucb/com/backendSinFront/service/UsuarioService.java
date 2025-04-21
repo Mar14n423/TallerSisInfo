@@ -11,57 +11,66 @@ import java.util.Optional;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+  @Autowired
+  private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> obtenerTodos() {
-        return usuarioRepository.findAll();
-    }
+  public List<Usuario> obtenerTodos() {
+    return usuarioRepository.findAll();
+  }
 
-    public Optional<Usuario> obtenerPorId(Long id) {
-        return usuarioRepository.findById(id);
-    }
+  public Optional<Usuario> obtenerPorId(Long id) {
+    return usuarioRepository.findById(id);
+  }
 
-    public Optional<Usuario> obtenerPorCorreo(String correo) {
-        return usuarioRepository.findByCorreo(correo);
-    }
+  public Optional<Usuario> obtenerPorCorreo(String correo) {
+    return usuarioRepository.findByCorreo(correo);
+  }
 
+  // Fragmento relevante del método guardar
   public Usuario guardar(Usuario usuario) {
     if (usuario.getTipo() == null) {
-      usuario.setTipo(null); // O puedes asignar un valor por defecto, por ejemplo: usuario.setTipo("U");
+      usuario.setTipo(null);
     }
     return usuarioRepository.save(usuario);
   }
 
-
-
-
-
-  public void eliminar(Long id) {
-        usuarioRepository.deleteById(id);
-    }
+  // Fragmento del método actualizarUsuario
   public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
     return usuarioRepository.findById(id)
       .map(usuario -> {
         usuario.setNombre(usuarioActualizado.getNombre());
         usuario.setCorreo(usuarioActualizado.getCorreo());
         usuario.setDiscapacidad(usuarioActualizado.getDiscapacidad());
-        usuario.setPasswordHash(usuarioActualizado.getPasswordHash());
-
-        // Solo actualiza 'tipo' si se proporciona en la petición
+        if (usuarioActualizado.getPasswordHash() != null) {
+          usuario.setPasswordHash(usuarioActualizado.getPasswordHash());
+        }
+        if (usuarioActualizado.getProfileImage() != null) {
+          usuario.setProfileImage(usuarioActualizado.getProfileImage());
+        }
         if (usuarioActualizado.getTipo() != null) {
           usuario.setTipo(usuarioActualizado.getTipo());
         }
-
+        if (usuarioActualizado.getTelefono() != null) {
+          usuario.setTelefono(usuarioActualizado.getTelefono());
+        }
+        if (usuarioActualizado.getDireccion() != null) {
+          usuario.setDireccion(usuarioActualizado.getDireccion());
+        }
         return usuarioRepository.save(usuario);
       })
       .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
   }
 
+
+  public void eliminar(Long id) {
+    usuarioRepository.deleteById(id);
+  }
+
+
+
   public Usuario actualizarTipoUsuario(Long id, String tipo) {
     return usuarioRepository.findById(id)
       .map(usuario -> {
-        // Validar que el tipo sea A o U
         if (tipo != null && (tipo.equalsIgnoreCase("A") || tipo.equalsIgnoreCase("U"))) {
           usuario.setTipo(tipo.toUpperCase());
         } else {
@@ -71,6 +80,4 @@ public class UsuarioService {
       })
       .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
   }
-
-
 }
