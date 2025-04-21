@@ -1,0 +1,21 @@
+<div class="detalle-card" *ngIf="trabajo">
+  <img [src]="trabajo.imagen" alt="Imagen del trabajo">
+
+  <div class="detalle-info">
+    <h3>{{ trabajo.titulo }}</h3>
+    <h4>{{ trabajo.empresa }}</h4>
+    <p><strong>{{ trabajo.ubicacion }}</strong></p>
+
+    <ul>
+      <li *ngFor="let punto of trabajo.descripcion">
+        {{ punto }}
+      </li>
+    </ul>
+
+    <button class="aplicar-btn">Aplicar</button>
+  </div>
+</div>
+
+<div *ngIf="!trabajo" class="no-encontrado">
+  <p>No se encontró información para el trabajo <strong>{{ trabajoId }}</strong>.</p>
+</div>
