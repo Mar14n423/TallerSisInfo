@@ -22,13 +22,20 @@ public class Usuario {
   @Column(nullable = true)
   private String passwordHash;
 
-  @Column(nullable = true, length = 1) // Permite valores nulos y almacena un solo carácter
+  @Column(nullable = true, length = 1)
   private String tipo;
 
-  // Constructor vacío requerido por JPA
+  @Column(columnDefinition = "TEXT")
+  private String profileImage;
+
+  @Column(nullable = true, length = 20)
+  private String telefono;
+
+  @Column(nullable = true, length = 200)
+  private String direccion;
+
   public Usuario() {}
 
-  // Constructor con parámetros
   public Usuario(String nombre, String correo, String discapacidad, String passwordHash, String tipo) {
     this.nombre = nombre;
     this.correo = correo;
@@ -56,15 +63,12 @@ public class Usuario {
   public String getTipo() { return tipo; }
   public void setTipo(String tipo) { this.tipo = tipo; }
 
-  @Column(columnDefinition = "TEXT") // para que soporte imágenes grandes
-  private String profileImage;
+  public String getProfileImage() { return profileImage; }
+  public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
-  public String getProfileImage() {
-    return profileImage;
-  }
+  public String getTelefono() { return telefono; }
+  public void setTelefono(String telefono) { this.telefono = telefono; }
 
-  public void setProfileImage(String profileImage) {
-    this.profileImage = profileImage;
-  }
+  public String getDireccion() { return direccion; }
+  public void setDireccion(String direccion) { this.direccion = direccion; }
 }
-
