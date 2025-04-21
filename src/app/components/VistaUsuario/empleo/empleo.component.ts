@@ -17,4 +17,6 @@ export class EmpleoComponent {
   filtroCategoria: string = '';
   filtroUbicacion: string = '';
   filtroEmpresa: string = '';
+  filtroContrato: string = '';   // 🆕 Tipo de contrato (ej: Tiempo completo, Freelance)
+  filtroEstado: string = '';
 }
