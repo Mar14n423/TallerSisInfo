@@ -55,5 +55,16 @@ public class Usuario {
 
   public String getTipo() { return tipo; }
   public void setTipo(String tipo) { this.tipo = tipo; }
+
+  @Column(columnDefinition = "TEXT") // para que soporte imágenes grandes
+  private String profileImage;
+
+  public String getProfileImage() {
+    return profileImage;
+  }
+
+  public void setProfileImage(String profileImage) {
+    this.profileImage = profileImage;
+  }
 }
 

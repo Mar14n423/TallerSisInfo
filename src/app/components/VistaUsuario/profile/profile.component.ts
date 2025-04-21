@@ -16,6 +16,7 @@ import { MatListModule } from '@angular/material/list';
 import { UsuarioService } from '../register/usuario.service';
 
 @Component({
+
   standalone: true,
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -79,11 +80,33 @@ export class ProfileComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.user.profileImage = e.target.result;
+        const base64Image = e.target.result;
+        this.user.profileImage = base64Image;
+
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          // Armar el objeto a actualizar con los datos actuales + la imagen
+          const usuarioActualizado = {
+            nombre: this.user.name,
+            correo: this.user.email,
+            discapacidad: this.user.disabilityInfo,
+            tipo: this.user.role === 'Administrador' ? 'A' : 'U',
+            profileImage: base64Image
+          };
+
+          this.usuarioService.actualizarUsuario(+userId, usuarioActualizado)
+            .then(() => {
+              console.log('Imagen actualizada correctamente');
+            })
+            .catch((error) => {
+              console.error('Error al actualizar la imagen:', error);
+            });
+        }
       };
       reader.readAsDataURL(file);
     }
   }
+
 
   editarPerfil(): void {
     console.log('Editar perfil clickeado');

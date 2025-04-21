@@ -71,6 +71,31 @@ public class UsuarioService {
       })
       .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
   }
+  public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
+    return usuarioRepository.findById(id)
+      .map(usuario -> {
+        usuario.setNombre(usuarioActualizado.getNombre());
+        usuario.setCorreo(usuarioActualizado.getCorreo());
+        usuario.setDiscapacidad(usuarioActualizado.getDiscapacidad());
+
+        if (usuarioActualizado.getPasswordHash() != null) {
+          usuario.setPasswordHash(usuarioActualizado.getPasswordHash());
+        }
+
+        // ✅ Guardar imagen de perfil si viene en la petición
+        if (usuarioActualizado.getProfileImage() != null) {
+          usuario.setProfileImage(usuarioActualizado.getProfileImage());
+        }
+
+        // Solo actualiza 'tipo' si se proporciona en la petición
+        if (usuarioActualizado.getTipo() != null) {
+          usuario.setTipo(usuarioActualizado.getTipo());
+        }
+
+        return usuarioRepository.save(usuario);
+      })
+      .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+  }
 
 
 }

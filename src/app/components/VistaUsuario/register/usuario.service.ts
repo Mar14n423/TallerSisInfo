@@ -43,5 +43,14 @@ export class UsuarioService {
         throw error;
       });
   }
+actualizarUsuario(id: number, usuarioActualizado: any) {
+  return axios.put(`${this.apiUrl}/${id}`, usuarioActualizado)
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error al actualizar usuario:', error);
+      throw error;
+    });
+}
+
 
 }

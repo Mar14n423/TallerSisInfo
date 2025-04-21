@@ -27,7 +27,7 @@
             <input type="file" id="profileInput" (change)="onImageSelected($event)" hidden />
           </div>
         </div>
-  
+
         <div class="flex-grow-1">
           <div class="d-flex justify-content-between align-items-start">
             <div>
@@ -35,12 +35,13 @@
               <p class="text-muted mb-0">{{ user.role }}</p>
               <p class="mb-3">{{ user.specialization }}</p>
             </div>
-  
+
             <!-- Botón de menú con opciones -->
             <button mat-icon-button [matMenuTriggerFor]="profileMenu">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #profileMenu="matMenu">
+
               <button mat-menu-item (click)="editarPerfil()">
                 <mat-icon>edit</mat-icon>
                 <span>Editar perfil</span>
@@ -53,25 +54,25 @@
           </div>
         </div>
       </div>
-  
+
       <mat-divider class="my-4"></mat-divider>
-  
+
       <section>
         <h4>Información personal y contacto</h4>
         <p><strong>Correo:</strong> {{ user.email }}</p>
         <p><strong>Teléfono:</strong> {{ user.phone }}</p>
         <p><strong>Dirección:</strong> {{ user.address }}</p>
       </section>
-  
+
       <mat-divider class="my-4"></mat-divider>
-  
+
       <section>
         <h4>Información sobre la discapacidad</h4>
         <p>{{ user.disabilityInfo }}</p>
       </section>
-  
+
       <mat-divider class="my-4"></mat-divider>
-  
+
       <section>
         <h4>Experiencia laboral</h4>
         <mat-list>
@@ -83,8 +84,8 @@
       </section>
     </mat-card>
   </div>
-  
-  
+
+
   <app-footer></app-footer>
 
   <!-- Back to Top -->
