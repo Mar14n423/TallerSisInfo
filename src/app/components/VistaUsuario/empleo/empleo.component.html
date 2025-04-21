@@ -1,5 +1,40 @@
 <app-navbar> </app-navbar> <!-- 🔹 Navbar reutilizable -->
 
+<div class="filtros-container">
+  <label>
+    Categoría:
+    <select [(ngModel)]="filtroCategoria">
+      <option value="">Todas</option>
+      <option value="cocina">Cocina</option>
+      <option value="garzon">Garzón</option>
+      <option value="cuidador-ninos">Cuidador de Niños</option>
+      <option value="traductor">Traductor</option>
+    </select>
+  </label>
+
+  <label>
+    Ubicación:
+    <select [(ngModel)]="filtroUbicacion">
+      <option value="">Todas</option>
+      <option value="Las Palmas provincia">Cochabamba</option>
+      <option value="Illes Balears provincia">Santa Cruz</option>
+      <option value="Madrid">La Paz</option>
+      <option value="Trabajo remoto">Sucre</option>
+    </select>
+  </label>
+
+  <label>
+    Empresa:
+    <select [(ngModel)]="filtroEmpresa">
+      <option value="">Todas</option>
+      <option value="Aramark">Aramark</option>
+      <option value="Melia Hotels">Melia Hotels</option>
+      <option value="Fundación Niñez Segura">Fundación Niñez Segura</option>
+      <option value="LinguaPro">LinguaPro</option>
+    </select>
+  </label>
+</div>
+
 <main class="job-board">
   <section class="job-card">
     <img src="imagenes/cosina.PNG" alt="Cocina">
