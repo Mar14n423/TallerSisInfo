@@ -1,4 +1,4 @@
-package ucb.com.backendSinFront.controller;
+package ucb.com.backendSinFront.Controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

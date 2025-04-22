@@ -20,7 +20,7 @@ class EventoControllerTest {
   private EventoService eventoService;
 
   @InjectMocks
-  private ucb.com.backendSinFront.controller.EventoController eventoController;
+  private ucb.com.backendSinFront.Controller.EventoController eventoController;
 
   private Evento evento;
 
