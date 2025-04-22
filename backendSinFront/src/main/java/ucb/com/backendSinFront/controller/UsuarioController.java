@@ -1,4 +1,4 @@
-package ucb.com.backendSinFront.Controller;
+package ucb.com.backendSinFront.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,6 @@ import ucb.com.backendSinFront.LogHelper;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
-import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/usuarios")

@@ -1,4 +1,4 @@
-package ucb.com.backendSinFront.Controller;
+package ucb.com.backendSinFront.controller;
 
 import org.springframework.web.bind.annotation.*;
 

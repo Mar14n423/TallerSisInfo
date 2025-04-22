@@ -4,6 +4,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {ForoService} from '../../../services/foro.service';
 
 @Component({
   selector: 'app-foro',
@@ -13,41 +14,38 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     FooterComponent,
     NavbarComponent,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   templateUrl: './foro.component.html',
   styleUrl: './foro.component.scss'
 })
 export class ForoComponent {
-  posts = [
-    {
-      usuario: 'Juan2343',
-      fecha: '02/05/2024',
-      titulo: 'Cocina',
-      mensaje: 'Necesito ayuda para cocinar carne con arroz...',
-      respuestas: [
-        { usuario: 'Pepe34', mensaje: 'No sé :v' },
-        { usuario: 'Joselito666', mensaje: 'Creo que son 30 min a fuego lento' }
-      ]
-    },
-    {
-      usuario: 'Mariano4543',
-      fecha: '02/05/2024',
-      titulo: 'Ayuda',
-      mensaje: 'Hola, estoy aprendiendo a hacer mole...',
-      respuestas: [
-        { usuario: 'Pepe34', mensaje: 'Te recomiendo usar libros de cocina mexicana' },
-        { usuario: 'Joselito666', mensaje: 'Hay tutoriales en YouTube buenísimos' }
-      ]
-    }
-  ];
 
+  posts: any[] = [];
   mostrarFormulario: boolean[] = [];
   nuevaRespuesta: string[] = [];
 
   nuevoPostVisible: boolean = false;
   nuevoTitulo: string = '';
   nuevoMensaje: string = '';
+  usuarioActual: string = 'UsuarioDemo';
+
+  constructor(private foroService: ForoService) {
+    this.cargarPublicaciones();
+  }
+
+  cargarPublicaciones(): void {
+    this.foroService.obtenerPublicaciones().subscribe({
+      next: (data: any[]) => {
+        this.posts = data;
+        this.mostrarFormulario = new Array(data.length).fill(false);
+        this.nuevaRespuesta = new Array(data.length).fill('');
+      },
+      error: (err) => {
+        console.error('Error al cargar publicaciones:', err);
+      }
+    });
+  }
 
   toggleFormulario(index: number) {
     this.mostrarFormulario[index] = !this.mostrarFormulario[index];
@@ -55,10 +53,24 @@ export class ForoComponent {
 
   publicarRespuesta(index: number) {
     const texto = this.nuevaRespuesta[index];
+    const publicacionId = this.posts[index].id;
+
     if (texto && texto.trim() !== '') {
-      this.posts[index].respuestas.push({ usuario: 'Tú', mensaje: texto });
-      this.nuevaRespuesta[index] = '';
-      this.mostrarFormulario[index] = false;
+      const nuevaRespuesta = {
+        usuario: this.usuarioActual,
+        mensaje: texto
+      };
+
+      this.foroService.agregarRespuesta(publicacionId, nuevaRespuesta).subscribe({
+        next: (respuesta) => {
+          this.posts[index].respuestas.push(respuesta);
+          this.nuevaRespuesta[index] = '';
+          this.mostrarFormulario[index] = false;
+        },
+        error: (err) => {
+          console.error('Error al agregar respuesta:', err);
+        }
+      });
     }
   }
 
@@ -67,17 +79,24 @@ export class ForoComponent {
   }
 
   crearNuevoPost() {
-    if (this.nuevoTitulo.trim() && this.nuevoMensaje.trim()) {
-      this.posts.unshift({
-        usuario: 'Tú',
-        fecha: new Date().toLocaleDateString(),
+    if (this.nuevoTitulo.trim() !== '' && this.nuevoMensaje.trim() !== '') {
+      const nuevaPublicacion = {
+        usuario: this.usuarioActual,
         titulo: this.nuevoTitulo,
-        mensaje: this.nuevoMensaje,
-        respuestas: []
+        mensaje: this.nuevoMensaje
+      };
+
+      this.foroService.crearPublicacion(nuevaPublicacion).subscribe({
+        next: (nuevaPost) => {
+          this.posts.push({ ...nuevaPost, respuestas: [] });
+          this.nuevoTitulo = '';
+          this.nuevoMensaje = '';
+          this.nuevoPostVisible = false;
+        },
+        error: (err) => {
+          console.error('Error al crear publicación:', err);
+        }
       });
-      this.nuevoTitulo = '';
-      this.nuevoMensaje = '';
-      this.nuevoPostVisible = false;
     }
   }
 }
