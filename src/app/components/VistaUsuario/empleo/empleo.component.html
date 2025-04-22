@@ -1,5 +1,34 @@
 <app-navbar> </app-navbar> <!-- 🔹 Navbar reutilizable -->
+<div class="filtros-container">
+  <label>
+    Tipo de contrato:
+    <select [(ngModel)]="filtroContrato">
+      <option value="">Todos</option>
+      <option value="Tiempo completo">Tiempo completo</option>
+      <option value="Medio tiempo">Medio tiempo</option>
+    </select>
+  </label>
 
+  <label>
+    Ubicación:
+    <select [(ngModel)]="filtroUbicacion">
+      <option value="">Todas</option>
+      <option value="Santa Cruz">Santa Cruz</option>
+      <option value="La Paz">La Paz</option>
+      <option value="Cochabamba">Cochabamba</option>
+      <option value="Trabajo remoto">Trabajo remoto</option>
+    </select>
+  </label>
+
+  <label>
+    Estado:
+    <select [(ngModel)]="filtroEstado">
+      <option value="">Todos</option>
+      <option value="Activo">Activo</option>
+      <option value="Cerrado">Cerrado</option>
+    </select>
+  </label>
+</div>
 <main class="job-board">
   <section class="job-card">
     <img src="imagenes/cosina.PNG" alt="Cocina">
