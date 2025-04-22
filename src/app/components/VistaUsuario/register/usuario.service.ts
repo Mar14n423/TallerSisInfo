@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,4 +35,22 @@ export class UsuarioService {
         throw error;
       });
   }
+  obtenerUsuarioPorId(id: number) {
+    return axios.get(`${this.apiUrl}/${id}`)
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error al obtener usuario por ID:', error);
+        throw error;
+      });
+  }
+actualizarUsuario(id: number, usuarioActualizado: any) {
+  return axios.put(`${this.apiUrl}/${id}`, usuarioActualizado)
+    .then(response => response.data)
+    .catch(error => {
+      console.error('Error al actualizar usuario:', error);
+      throw error;
+    });
+}
+
+
 }

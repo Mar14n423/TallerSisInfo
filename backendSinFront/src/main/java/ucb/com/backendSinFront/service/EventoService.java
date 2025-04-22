@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ucb.com.backendSinFront.entity.Evento;
 import ucb.com.backendSinFront.repository.EventoRepository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ public class EventoService {
     return eventoRepository.findAll();
   }
 
-  public List<Evento> obtenerPorRangoDeFecha(Date inicio, Date fin) {
+  public List<Evento> obtenerPorRangoDeFecha(LocalDateTime inicio, LocalDateTime fin) {
     return eventoRepository.findByDateBetween(inicio, fin);
   }
 

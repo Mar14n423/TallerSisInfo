@@ -1,7 +1,7 @@
 package ucb.com.backendSinFront.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +18,7 @@ public class Evento {
   private String icon;
 
   @Column(nullable = false)
-  private Date date;
+  private LocalDateTime date;
 
   @Column(length = 20)
   private String background;
@@ -26,67 +26,37 @@ public class Evento {
   @Column(length = 20)
   private String color;
 
-  // Constructor vacío requerido por JPA
   public Evento() {
     this.id = UUID.randomUUID().toString();
+    this.date = LocalDateTime.now(); // valor por defecto para evitar error
   }
 
-  // Constructor con parámetros
-  public Evento(String name, String icon, Date date, String background, String color) {
+  public Evento(String name, String icon, LocalDateTime date, String background, String color) {
     this();
     this.name = name;
     this.icon = icon;
-    this.date = date;
+    this.date = date != null ? date : LocalDateTime.now();
     this.background = background;
     this.color = color;
   }
 
-  // Getters y Setters
-  public String getId() {
-    return id;
-  }
+  // Getters y setters
 
-  public void setId(String id) {
-    this.id = id;
-  }
+  public String getId() { return id; }
+  public void setId(String id) { this.id = id; }
 
-  public String getName() {
-    return name;
-  }
+  public String getName() { return name; }
+  public void setName(String name) { this.name = name; }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+  public String getIcon() { return icon; }
+  public void setIcon(String icon) { this.icon = icon; }
 
-  public String getIcon() {
-    return icon;
-  }
+  public LocalDateTime getDate() { return date; }
+  public void setDate(LocalDateTime date) { this.date = date; }
 
-  public void setIcon(String icon) {
-    this.icon = icon;
-  }
+  public String getBackground() { return background; }
+  public void setBackground(String background) { this.background = background; }
 
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
-
-  public String getBackground() {
-    return background;
-  }
-
-  public void setBackground(String background) {
-    this.background = background;
-  }
-
-  public String getColor() {
-    return color;
-  }
-
-  public void setColor(String color) {
-    this.color = color;
-  }
+  public String getColor() { return color; }
+  public void setColor(String color) { this.color = color; }
 }

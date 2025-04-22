@@ -3,8 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NEventos } from '../eventos/eventos.model';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../../shared/footer/footer.component';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { DialogService } from '../../../services/dialog.service';
@@ -18,8 +16,6 @@ import { formatDate, getSelectedDate, templateEventosData } from '../../../helpe
     MatButtonModule,
     CommonModule,
     MatIconModule,
-    FooterComponent, 
-    NavbarComponent,
     MatTooltipModule,
     MatMenuModule
   ],
@@ -82,7 +78,7 @@ export class EventosComponent implements OnInit {
   // Carga de eventos
   private async loadEventsForMonth(): Promise<void> {
     const year = this.currentMonth().getFullYear();
-    const month = this.currentMonth().getMonth() + 1; // +1 porque el backend espera 1-12
+    const month = this.currentMonth().getMonth() + 1; 
     
     try {
       const events = await this.eventosService.getEventosPorMes(year, month);
@@ -93,7 +89,7 @@ export class EventosComponent implements OnInit {
   }
 
   private assignEventsToCalendar(events: NEventos.IEvent[]): void {
-    this.eventosData.forEach(day => day.events = []); // Limpiar eventos existentes
+    this.eventosData.forEach(day => day.events = []); 
     
     events.forEach(event => {
       const eventDate = new Date(event.date);
