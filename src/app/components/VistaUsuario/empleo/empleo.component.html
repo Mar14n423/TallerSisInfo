@@ -1,13 +1,58 @@
-<app-navbar> </app-navbar> <!-- 🔹 Navbar reutilizable -->
+<app-navbar></app-navbar>
 
-<div class="container mt-5">
-  <h2>En proceso</h2>
-  <p>Contenido de la página <strong>empleo...</strong> </p>
+<div class="filtros-container">
+
+  <label>
+    Ubicación:
+    <select [(ngModel)]="filtroUbicacion" (change)="aplicarFiltros()">
+      <option value="">Todas</option>
+      <option value="Santa Cruz">Santa Cruz</option>
+      <option value="La Paz">La Paz</option>
+      <option value="Cochabamba">Cochabamba</option>
+      <option value="Sucre">Sucre</option>
+      <option value="Trabajo remoto">Trabajo remoto</option>
+    </select>
+  </label>
+
+  <label>
+    Tipo de contrato:
+    <select [(ngModel)]="filtroContrato" (change)="aplicarFiltros()">
+      <option value="">Todos</option>
+      <option value="Tiempo completo">Tiempo completo</option>
+      <option value="Medio tiempo">Medio tiempo</option>
+    </select>
+  </label>
+
+  <label>
+    Estado:
+    <select [(ngModel)]="filtroEstado" (change)="aplicarFiltros()">
+      <option value="">Todos</option>
+      <option value="Activo">Activo</option>
+      <option value="Cerrado">Cerrado</option>
+    </select>
+  </label>
+
+  <button (click)="limpiarFiltros()">Limpiar filtros</button>
 </div>
 
-<div class="d-flex justify-content-center mt-4">
-  <mat-progress-bar mode="indeterminate" color="accent" style="width: 50%;"></mat-progress-bar>
-</div>
+<main class="job-board">
+  <mat-progress-bar *ngIf="cargando" mode="indeterminate"></mat-progress-bar>
 
+  <!-- Mostrar mensaje si no hay ofertas -->
+  <div *ngIf="!cargando && ofertasFiltradas.length === 0" class="sin-ofertas">
+    No se encontraron ofertas de empleo con los filtros seleccionados.
+  </div>
 
-<app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
+  <section *ngFor="let oferta of ofertasFiltradas" class="job-card">
+      <img src="imagenes/cosina.PNG" alt="Cocina">    <div class="job-info">
+      <h1>{{ oferta.tituloTrabajo }}</h1>
+      <p><strong>Ubicación:</strong> {{ oferta.ubicacion }}</p>
+      <p><strong>Tipo de contrato:</strong> {{ oferta.tipoContrato }}</p>
+      <a [routerLink]="['/trabajo', oferta.id]">
+        <button>Ver Información</button>
+      </a>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
