@@ -1,4 +1,4 @@
-package ucb.com.backendSinFront.controller;
+package ucb.com.backendSinFront.Controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ucb.com.backendSinFront.entity.Usuario;
 import ucb.com.backendSinFront.service.UsuarioService;
-import ucb.com.backendSinFront.Controller.UsuarioController;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

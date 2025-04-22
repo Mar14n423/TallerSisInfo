@@ -1,4 +1,4 @@
-package ucb.com.backendSinFront.controller;
+package ucb.com.backendSinFront.Controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
