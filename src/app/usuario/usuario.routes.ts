@@ -42,6 +42,12 @@ export const usuarioRoutes: Routes = [
       import('../components/VistaUsuario/profile/profile.component').then(m => m.ProfileComponent)
   },
   {
+       path: 'trabajo/:id',
+       loadComponent: () =>
+         import('../components/VistaUsuario/detalle-trabajo/detalle-trabajo.component')
+           .then(m => m.DetalleTrabajoComponent)
+  },
+  {
     path: '',
     loadComponent: () =>
       import('../components/VistaUsuario/home/home.component').then(m => m.HomeComponent)
