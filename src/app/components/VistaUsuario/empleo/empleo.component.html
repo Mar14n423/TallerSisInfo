@@ -1,8 +1,22 @@
-<app-navbar> </app-navbar> <!-- 🔹 Navbar reutilizable -->
+<app-navbar></app-navbar>
+
 <div class="filtros-container">
+
+  <label>
+    Ubicación:
+    <select [(ngModel)]="filtroUbicacion" (change)="aplicarFiltros()">
+      <option value="">Todas</option>
+      <option value="Santa Cruz">Santa Cruz</option>
+      <option value="La Paz">La Paz</option>
+      <option value="Cochabamba">Cochabamba</option>
+      <option value="Sucre">Sucre</option>
+      <option value="Trabajo remoto">Trabajo remoto</option>
+    </select>
+  </label>
+
   <label>
     Tipo de contrato:
-    <select [(ngModel)]="filtroContrato">
+    <select [(ngModel)]="filtroContrato" (change)="aplicarFiltros()">
       <option value="">Todos</option>
       <option value="Tiempo completo">Tiempo completo</option>
       <option value="Medio tiempo">Medio tiempo</option>
@@ -10,83 +24,37 @@
   </label>
 
   <label>
-    Ubicación:
-    <select [(ngModel)]="filtroUbicacion">
-      <option value="">Todas</option>
-      <option value="Santa Cruz">Santa Cruz</option>
-      <option value="La Paz">La Paz</option>
-      <option value="Cochabamba">Cochabamba</option>
-      <option value="Trabajo remoto">Trabajo remoto</option>
-    </select>
-  </label>
-
-  <label>
     Estado:
-    <select [(ngModel)]="filtroEstado">
+    <select [(ngModel)]="filtroEstado" (change)="aplicarFiltros()">
       <option value="">Todos</option>
       <option value="Activo">Activo</option>
       <option value="Cerrado">Cerrado</option>
     </select>
   </label>
+
+  <button (click)="limpiarFiltros()">Limpiar filtros</button>
 </div>
+
 <main class="job-board">
-  <section class="job-card">
-    <img src="imagenes/cosina.PNG" alt="Cocina">
+  <mat-progress-bar *ngIf="cargando" mode="indeterminate"></mat-progress-bar>
+
+  <!-- Mostrar mensaje si no hay ofertas -->
+  <div *ngIf="!cargando && ofertasFiltradas.length === 0" class="sin-ofertas">
+    No se encontraron ofertas de empleo con los filtros seleccionados.
+  </div>
+
+  <section *ngFor="let oferta of ofertasFiltradas" class="job-card">
+    <img [src]="'/imagen/' + oferta.imagenNombre || 'assets/imagenes/empleo-default.png'" [alt]="oferta.tituloTrabajo">
+
     <div class="job-info">
-      <h2>Cocina</h2>
-      <p>Requerimos persona que cuente experiencia en cocina.</p>
-      <a [routerLink]="['/trabajo', 'cocina']">
-        <button>Ver Información</button>
-      </a>
-
-
-    </div>
-  </section>
-
-  <section class="job-card">
-    <img src="imagenes/garzon.PNG" alt="Garzon">
-    <div class="job-info">
-      <h2>Garzon</h2>
-      <p>A subheading for this section, as long or as short as you like.</p>
-      <a [routerLink]="['/trabajo', 'garzon']">
-        <button>Ver Información</button>
-      </a>
-    </div>
-  </section>
-
-  <section class="job-card">
-    <img src="imagenes/cuidador de niños.PNG" alt="Cuidador de Niños">
-    <div class="job-info">
-      <h2>Cuidador de Niños</h2>
-      <p>Requerimos persona que cuente experiencia en cuidado.</p>
-      <a [routerLink]="['/trabajo', 'cuidador-ninos']">
-        <button>Ver Información</button>
-      </a>
-    </div>
-  </section>
-
-  <section class="job-card">
-    <img src="imagenes/cuidador de perros.PNG" alt="Cuidador de perros">
-    <div class="job-info">
-      <h2>Cuidador de perros</h2>
-      <p>A subheading for this section, as long or as short as you like.</p>
-      <a [routerLink]="['/trabajo', 'cuidador-perros']">
-        <button>Ver Información</button>
-      </a>
-    </div>
-  </section>
-
-  <section class="job-card">
-    <img src="imagenes/traductor.PNG" alt="Traductor">
-    <div class="job-info">
-      <h2>Traductor</h2>
-      <p>Requerimos persona que cuente experiencia en idiomas.</p>
-      <a [routerLink]="['/trabajo', 'traductor']">
+      <h1>{{ oferta.tituloTrabajo }}</h1>
+      <p><strong>Ubicación:</strong> {{ oferta.ubicacion }}</p>
+      <p><strong>Tipo de contrato:</strong> {{ oferta.tipoContrato }}</p>
+      <a [routerLink]="['/trabajo', oferta.id]">
         <button>Ver Información</button>
       </a>
     </div>
   </section>
 </main>
 
-
-<app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
+<app-footer></app-footer>
