@@ -44,8 +44,9 @@
   </div>
 
   <section *ngFor="let oferta of ofertasFiltradas" class="job-card">
-      <img src="imagenes/cosina.PNG" alt="Cocina">    <div class="job-info">
-      <h1>{{ oferta.tituloTrabajo }}</h1>
+    <img [src]="oferta.imagenNombre" alt="Cocina">
+    <div class="job-info">
+    <h1>{{ oferta.tituloTrabajo }}</h1>
       <p><strong>Ubicación:</strong> {{ oferta.ubicacion }}</p>
       <p><strong>Tipo de contrato:</strong> {{ oferta.tipoContrato }}</p>
       <a [routerLink]="['/trabajo', oferta.id]">

@@ -28,8 +28,8 @@ export class EmpleoComponent implements OnInit {
   filtroEstado: string = '';
 
   // Datos
-  todasLasOfertas: any[] = []; // Almacena TODAS las ofertas sin filtrar
-  ofertasFiltradas: any[] = []; // Muestra las ofertas con filtros aplicados
+  todasLasOfertas: any[] = [];
+  ofertasFiltradas: any[] = [];
   cargando: boolean = true;
 
   constructor(private empleoService: EmpleoService) {}
@@ -43,7 +43,7 @@ export class EmpleoComponent implements OnInit {
     this.empleoService.obtenerOfertas()
       .then(data => {
         this.todasLasOfertas = data;
-        this.ofertasFiltradas = [...data]; // Copia inicial
+        this.ofertasFiltradas = [...data];
         this.cargando = false;
       })
       .catch(error => {
@@ -55,10 +55,8 @@ export class EmpleoComponent implements OnInit {
   aplicarFiltros(): void {
     this.cargando = true;
 
-    // Comenzamos con todas las ofertas
     let resultados = [...this.todasLasOfertas];
 
-    // Aplicamos cada filtro solo si tiene valor
     if (this.filtroUbicacion) {
       resultados = resultados.filter(oferta =>
         oferta.ubicacion === this.filtroUbicacion
@@ -85,6 +83,6 @@ export class EmpleoComponent implements OnInit {
     this.filtroUbicacion = '';
     this.filtroContrato = '';
     this.filtroEstado = '';
-    this.ofertasFiltradas = [...this.todasLasOfertas]; // Restablece a todas las ofertas
+    this.ofertasFiltradas = [...this.todasLasOfertas];
   }
 }
