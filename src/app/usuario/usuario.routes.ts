@@ -17,6 +17,11 @@ export const usuarioRoutes: Routes = [
       import('../components/VistaUsuario/empleo/empleo.component').then(m => m.EmpleoComponent)
   },
   {
+    path: 'empleos/:id',
+    loadComponent: () =>
+      import('../components/VistaUsuario/detalle-trabajo/detalle-trabajo.component').then(m => m.DetalleTrabajoComponent)
+  },
+  {
     path: 'transporte',
     loadComponent: () =>
       import('../components/VistaUsuario/transporte/transporte.component').then(m => m.TransporteComponent)
