@@ -5,11 +5,10 @@ import axios from 'axios';
   providedIn: 'root',
 })
 export class EmpleoService {
-  private apiUrl = 'http://localhost:8080/api/ofertas'; // Usa el mismo endpoint que en tu backend
+  private apiUrl = 'http://localhost:8080/api/ofertas';
 
   constructor() {}
 
-  // Obtener todas las ofertas de empleo
   obtenerOfertas() {
     return axios.get(`${this.apiUrl}`)
       .then(response => response.data)
@@ -49,7 +48,6 @@ export class EmpleoService {
       });
   }
 
-  // Obtener oferta por ID
   obtenerOfertaPorId(id: number): Promise<any> {
     return axios.get(`${this.apiUrl}/${id}`)
       .then(response => response.data)
@@ -59,7 +57,6 @@ export class EmpleoService {
       });
   }
 
-  // Crear nueva oferta
   crearOferta(oferta: any) {
     return axios.post(`${this.apiUrl}/crear`, oferta)
       .then(response => response.data)
@@ -69,7 +66,6 @@ export class EmpleoService {
       });
   }
 
-  // Eliminar oferta
   eliminarOferta(id: number) {
     return axios.delete(`${this.apiUrl}/${id}`)
       .then(response => response.data)

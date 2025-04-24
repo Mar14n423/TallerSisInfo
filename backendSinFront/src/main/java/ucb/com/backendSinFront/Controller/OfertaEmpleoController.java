@@ -62,22 +62,19 @@ public class OfertaEmpleoController {
   @PostMapping("/subir-imagen/{id}")
   public String subirImagen(@PathVariable Long id, @RequestParam("imagen") MultipartFile imagen) {
     try {
-      // Verificamos si existe la oferta
       Optional<OfertaEmpleo> optionalOferta = service.obtenerPorId(id);
       if (!optionalOferta.isPresent()) {
         return "Oferta no encontrada";
       }
 
-      // Ruta de guardado (puedes cambiarla a una ruta externa)
       String folder = "uploads/";
       byte[] bytes = imagen.getBytes();
       Path path = Paths.get(folder + imagen.getOriginalFilename());
       Files.write(path, bytes);
 
-      // Guardamos el nombre en la BD
       OfertaEmpleo oferta = optionalOferta.get();
       oferta.setImagenNombre(imagen.getOriginalFilename());
-      service.crearOferta(oferta); // lo guarda de nuevo
+      service.crearOferta(oferta);
 
       return "Imagen subida correctamente";
     } catch (Exception e) {
