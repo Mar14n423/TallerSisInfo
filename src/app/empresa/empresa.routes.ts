@@ -7,6 +7,11 @@ export const empresaRoutes: Routes = [
       import('../components/VistaEmpresa/logincompany/logincompany.component').then(m => m.LoginCompanyComponent)
   },
   {
+    path: 'profilecompany',
+    loadComponent: () =>
+      import('../components/VistaEmpresa/profilecompany/profilecompany.component').then(m => m.ProfilecompanyComponent)
+  },
+  {
     path: 'create-company-account',
     loadComponent: () =>
       import('../components/VistaEmpresa/create-company-account/create-company-account.component').then(m => m.CreateCompanyAccountComponent)

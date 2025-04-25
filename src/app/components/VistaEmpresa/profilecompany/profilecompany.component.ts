@@ -13,9 +13,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { EmpresaService } from '../create-company-account/empresa.service';
+
 @Component({
-  selector: 'app-profile',
-  imports: [    CommonModule,
+  selector: 'app-profilecompany',
+  imports: [CommonModule,
     RouterModule,
     FooterComponent,
     NavbarComponent,
@@ -28,9 +29,9 @@ import { EmpresaService } from '../create-company-account/empresa.service';
     MatTooltipModule,
     MatDividerModule,
     MatListModule,],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss'
+  templateUrl: './profilecompany.component.html',
+  styleUrl: './profilecompany.component.scss'
 })
-export class ProfileComponent {
+export class ProfilecompanyComponent {
 
 }
