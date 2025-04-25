@@ -1,2 +1,97 @@
 <app-navbar></app-navbar>
+
+<div class="container py-5">
+  <mat-card class="mat-elevation-z4 p-4">
+    <div class="d-flex flex-column flex-md-row align-items-start">
+      <div class="me-md-4 mb-4 mb-md-0 text-center">
+        <div class="position-relative">
+          <img
+            [src]="user.profileImage || 'assets/default-profile.png'"
+            alt="Foto de perfil"
+            class="rounded-circle border"
+            style="width: 160px; height: 160px; object-fit: cover;"
+          />
+          <label for="profileInput" class="position-absolute bottom-0 end-0 bg-white rounded-circle p-2 border shadow" style="cursor: pointer;">
+            <mat-icon color="primary">photo_camera</mat-icon>
+          </label>
+          <input type="file" id="profileInput" (change)="onImageSelected($event)" hidden />
+        </div>
+      </div>
+
+      <div class="flex-grow-1">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <h2 *ngIf="!modoEdicion">{{ user.name }}</h2>
+            <p class="text-muted mb-0">{{ user.role }}</p>
+            <p class="mb-3">{{ user.specialization }}</p>
+          </div>
+
+          <button *ngIf="!modoEdicion" mat-icon-button [matMenuTriggerFor]="profileMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #profileMenu="matMenu">
+            <button mat-menu-item (click)="editarPerfil()">
+              <mat-icon>edit</mat-icon>
+              <span>Editar perfil</span>
+            </button>
+            <button mat-menu-item (click)="eliminarCuenta()">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Eliminar cuenta</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+
+    <mat-divider class="my-4"></mat-divider>
+
+    <!-- Vista normal -->
+    <section *ngIf="!modoEdicion">
+      <h4>Información personal y contacto</h4>
+      <p><strong>Correo:</strong> {{ user.email }}</p>
+      <p><strong>Teléfono:</strong> {{ user.phone }}</p>
+      <p><strong>Dirección:</strong> {{ user.address }}</p>
+    </section>
+
+    <section *ngIf="!modoEdicion">
+      <mat-divider class="my-4"></mat-divider>
+      <h4>Información sobre la discapacidad</h4>
+      <p>{{ user.disabilityInfo }}</p>
+    </section>
+
+    <!-- Vista edición -->
+    <section *ngIf="modoEdicion">
+      <h4>Editar información personal</h4>
+      <p><strong>Nombre:</strong>
+        <input matInput type="text" #nameInput [value]="userCompany.name" class="form-control" />
+      </p>
+      <p><strong>Correo:</strong>
+        <input matInput type="email" #emailInput [value]="userCompany.email" class="form-control" />
+      </p>
+      <p><strong>Teléfono:</strong>
+        <input matInput type="tel" #phoneInput [value]="userCompany.phone" class="form-control" />
+      </p>
+      <p><strong>Dirección:</strong>
+        <input matInput type="text" #addressInput [value]="userCompany.address" class="form-control" />
+      </p>
+      <p><strong>Discapacidad:</strong>
+        <input matInput type="text" #discapacidadInput [value]="userCompany.disability" class="form-control" />
+      </p>
+    </section>
+
+    <mat-divider class="my-4"></mat-divider>
+
+    <section>
+      <h4>Experiencia laboral</h4>
+      <mat-list>
+        <mat-list-item *ngFor="let job of user.workExperience">
+          <mat-icon matListIcon>work</mat-icon>
+          <p matLine>{{ job }}</p>
+        </mat-list-item>
+      </mat-list>
+    </section>
+  </mat-card>
+</div>
+
 <app-footer></app-footer>
