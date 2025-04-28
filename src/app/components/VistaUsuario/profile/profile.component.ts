@@ -57,8 +57,10 @@ export class ProfileComponent implements OnInit {
     if (userId) {
       this.usuarioService.obtenerUsuarioPorId(+userId)
         .then((usuario) => {
+          console.log('Usuario cargado:', usuario); // <--- AGREGA ESTO
           this.user = {
             profileImage: usuario.profileImage || 'assets/default-profile.png',
+            id: usuario.id, // <-- este debe estar definido
             name: usuario.nombre,
             role: usuario.tipo === 'A' ? 'Administrador' : 'Usuario',
             specialization: 'No especificada',
@@ -69,6 +71,7 @@ export class ProfileComponent implements OnInit {
             workExperience: [],
           };
         })
+
         .catch((error) => console.error('Error al cargar perfil:', error));
     }
   }
@@ -149,9 +152,33 @@ export class ProfileComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+  eliminarCuenta() {
+    // Confirmación antes de proceder con la eliminación
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');
 
-  eliminarCuenta(): void {
-    console.log('Eliminar cuenta clickeado');
-    // Aquí podrías llamar a un método DELETE en tu servicio si lo implementas
+    if (confirmacion) {
+      // Validación del ID del usuario
+      if (!this.user?.id) {
+        alert('El ID del usuario no es válido. No se puede eliminar la cuenta.');
+        return;  // Sale de la función si el ID es inválido
+      }
+
+      // Llamada al servicio de eliminación de usuario
+      this.usuarioService.eliminarUsuario(this.user.id).then(
+        () => {
+          alert('Tu cuenta ha sido eliminada exitosamente.');
+          // Redirige a la página de registro después de eliminar la cuenta
+          window.location.href = '/';  // Redirección manual a la vista de registro
+        },
+        (error) => {
+          // Muestra los detalles del error
+          console.error('Error al eliminar la cuenta:', error);
+          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.response?.data || 'Error desconocido'));
+        }
+      );
+    }
   }
+
+
+
 }

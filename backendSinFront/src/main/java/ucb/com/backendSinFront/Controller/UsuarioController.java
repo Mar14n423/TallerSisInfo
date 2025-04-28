@@ -52,7 +52,7 @@ public class UsuarioController {
   //Eliminar
   @DeleteMapping("/{id}")
   public void eliminarUsuario(@PathVariable Long id) {
-    usuarioService.eliminar(id);
+    usuarioService.eliminar(id);  // Llamada al servicio para eliminar el usuario
   }
 
   //Editar
