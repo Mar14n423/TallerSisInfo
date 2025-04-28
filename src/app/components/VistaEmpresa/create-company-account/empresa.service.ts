@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { AuthService } from '../../../services/auth.service'; // <-- asegurarte que esté importado
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +9,7 @@ import axios from 'axios';
 export class EmpresaService {
   private apiUrl = 'http://localhost:8080/api/empresas';
 
-  constructor() {}
+constructor(private http: HttpClient, private authService: AuthService) { }
 
   // ✅ Registro de empresa
   registrarEmpresa(empresa: any) {
@@ -20,12 +22,13 @@ export class EmpresaService {
   }
 
   // ✅ Login de empresa
-  loginEmpresa(empresa: any) {
-    return axios.post('http://localhost:8080/api/empresas/login', empresa)
-      .then((response: any) => response.data)
-      .catch((error: any) => {
-        console.error('Error al iniciar sesión como empresa:', error);
-        throw error;
-      });
+  loginEmpresa(empresa: any): Promise<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, empresa).toPromise().then(response => {
+      if (response) {
+        // Guardamos el token simulado, tipo y nombre
+        this.authService.login('abc123', response.tipo, response.nombre);
+      }
+      return response;
+    });
   }
 }
