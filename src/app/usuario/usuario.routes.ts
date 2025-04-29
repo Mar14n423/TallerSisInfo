@@ -51,5 +51,11 @@ export const usuarioRoutes: Routes = [
     path: '',
     loadComponent: () =>
       import('../components/VistaUsuario/home/home.component').then(m => m.HomeComponent)
+  },
+  {
+    path: 'delete-account',
+    loadComponent: () =>
+      import('../components/VistaUsuario/delete-account/delete-account.component')
+        .then(m => m.DeleteAccountComponent)
   }
 ];

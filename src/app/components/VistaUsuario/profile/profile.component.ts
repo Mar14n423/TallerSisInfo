@@ -6,13 +6,27 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
+import { UsuarioService } from '../register/usuario.service';
+import { DeleteAccountComponent } from '../delete-account/delete-account.component';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
-import { UsuarioService } from '../register/usuario.service';
+
+interface User {
+  id: number;
+  profileImage: string;
+  name: string;
+  role: string;
+  specialization: string;
+  email: string;
+  phone: string;
+  address: string;
+  disabilityInfo: string;
+  workExperience: any[];
+}
 
 @Component({
   standalone: true,
@@ -27,16 +41,16 @@ import { UsuarioService } from '../register/usuario.service';
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatTooltipModule,
-    MatDividerModule,
-    MatListModule,
+    ReactiveFormsModule,
+    MatDividerModule, 
+    MatListModule 
   ],
 })
 export class ProfileComponent implements OnInit {
-  user: any = {
+  user: User = {
+    id: 0,
     profileImage: '',
     name: '',
     role: '',
@@ -48,19 +62,32 @@ export class ProfileComponent implements OnInit {
     workExperience: [],
   };
 
+  profileForm: FormGroup;
   modoEdicion: boolean = false;
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(
+    private usuarioService: UsuarioService,
+    private dialog: MatDialog,
+    private fb: FormBuilder
+  ) {
+    this.profileForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      address: [''],
+      disabilityInfo: ['']
+    });
+  }
 
   ngOnInit(): void {
-    const userId = localStorage.getItem('userId');
+    const userId = this.getUserId();
     if (userId) {
-      this.usuarioService.obtenerUsuarioPorId(+userId)
+      this.usuarioService.obtenerUsuarioPorId(userId)
         .then((usuario) => {
-          console.log('Usuario cargado:', usuario); 
+          console.log('Usuario cargado:', usuario);
           this.user = {
+            id: usuario.id,
             profileImage: usuario.profileImage || 'assets/default-profile.png',
-            id: usuario.id, 
             name: usuario.nombre,
             role: usuario.tipo === 'A' ? 'Administrador' : 'Usuario',
             specialization: 'No especificada',
@@ -70,8 +97,14 @@ export class ProfileComponent implements OnInit {
             disabilityInfo: usuario.discapacidad || 'No especificada',
             workExperience: [],
           };
+          this.profileForm.patchValue({
+            name: this.user.name,
+            email: this.user.email,
+            phone: this.user.phone,
+            address: this.user.address,
+            disabilityInfo: this.user.disabilityInfo
+          });
         })
-
         .catch((error) => console.error('Error al cargar perfil:', error));
     }
   }
@@ -80,34 +113,19 @@ export class ProfileComponent implements OnInit {
     this.modoEdicion = true;
   }
 
-  guardarCambios(
-    nameInput: HTMLInputElement,
-    emailInput: HTMLInputElement,
-    phoneInput: HTMLInputElement,
-    addressInput: HTMLInputElement,
-    discapacidadInput: HTMLInputElement
-  ): void {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      const usuarioActualizado = {
-        nombre: nameInput.value,
-        correo: emailInput.value,
-        discapacidad: discapacidadInput.value,
-        tipo: this.user.role === 'Administrador' ? 'A' : 'U',
-        profileImage: this.user.profileImage,
-        telefono: phoneInput.value,
-        direccion: addressInput.value,
-        passwordHash: null,
-      };
+  guardarCambios(): void {
+    const userId = this.getUserId();
+    if (userId && this.profileForm.valid) {
+      const formValues = this.profileForm.value;
+      this.user.name = formValues.name;
+      this.user.email = formValues.email;
+      this.user.phone = formValues.phone;
+      this.user.address = formValues.address;
+      this.user.disabilityInfo = formValues.disabilityInfo;
 
       this.usuarioService
-        .actualizarUsuario(+userId, usuarioActualizado)
+        .actualizarUsuario(userId, this.construirUsuarioActualizado())
         .then(() => {
-          this.user.name = nameInput.value;
-          this.user.email = emailInput.value;
-          this.user.phone = phoneInput.value;
-          this.user.address = addressInput.value;
-          this.user.disabilityInfo = discapacidadInput.value;
           this.modoEdicion = false;
         })
         .catch((error) =>
@@ -126,24 +144,11 @@ export class ProfileComponent implements OnInit {
         const base64Image = e.target.result;
         this.user.profileImage = base64Image;
 
-        const userId = localStorage.getItem('userId');
+        const userId = this.getUserId();
         if (userId) {
-          const usuarioActualizado = {
-            nombre: this.user.name,
-            correo: this.user.email,
-            discapacidad: this.user.disabilityInfo,
-            tipo: this.user.role === 'Administrador' ? 'A' : 'U',
-            profileImage: base64Image,
-            telefono: this.user.phone,
-            direccion: this.user.address,
-            passwordHash: null,
-          };
-
           this.usuarioService
-            .actualizarUsuario(+userId, usuarioActualizado)
-            .then(() =>
-              console.log('Imagen actualizada correctamente')
-            )
+            .actualizarUsuario(userId, this.construirUsuarioActualizado())
+            .then(() => console.log('Imagen actualizada correctamente'))
             .catch((error) =>
               console.error('Error al actualizar la imagen:', error)
             );
@@ -152,32 +157,35 @@ export class ProfileComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-  eliminarCuenta() {
 
-    const confirmacion = confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');
+  EliminarCuenta(): void {
+    const dialogRef = this.dialog.open(DeleteAccountComponent, {
+      width: '400px'
+    });
 
-    if (confirmacion) {
-    
-      if (!this.user?.id) {
-        alert('El ID del usuario no es válido. No se puede eliminar la cuenta.');
-        return;  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'deleted') {
+        localStorage.removeItem('userId');
+        window.location.href = '/';
       }
-
-      this.usuarioService.eliminarUsuario(this.user.id).then(
-        () => {
-          alert('Tu cuenta ha sido eliminada exitosamente.');
-          
-          window.location.href = '/'; 
-        },
-        (error) => {
-    
-          console.error('Error al eliminar la cuenta:', error);
-          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.response?.data || 'Error desconocido'));
-        }
-      );
-    }
+    });
   }
 
+  private construirUsuarioActualizado(): any {
+    return {
+      nombre: this.user.name,
+      correo: this.user.email,
+      discapacidad: this.user.disabilityInfo,
+      tipo: this.user.role === 'Administrador' ? 'A' : 'U',
+      profileImage: this.user.profileImage,
+      telefono: this.user.phone,
+      direccion: this.user.address,
+      passwordHash: null
+    };
+  }
 
-
+  private getUserId(): number | null {
+    const id = localStorage.getItem('userId');
+    return id ? +id : null;
+  }
 }
