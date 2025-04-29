@@ -4,16 +4,14 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UsuarioService } from '../register/usuario.service';
 import { DeleteAccountComponent } from '../delete-account/delete-account.component';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { EditProfileComponent } from '../editProfile/editProfile.component';
 
 interface User {
   id: number;
@@ -39,13 +37,11 @@ interface User {
     FooterComponent,
     NavbarComponent,
     MatCardModule,
-    MatInputModule,
-    MatButtonModule,
     MatIconModule,
     MatMenuModule,
-    ReactiveFormsModule,
     MatDividerModule, 
-    MatListModule 
+    MatListModule,
+    MatDialogModule
   ],
 })
 export class ProfileComponent implements OnInit {
@@ -62,29 +58,20 @@ export class ProfileComponent implements OnInit {
     workExperience: [],
   };
 
-  profileForm: FormGroup;
-  modoEdicion: boolean = false;
-
   constructor(
     private usuarioService: UsuarioService,
-    private dialog: MatDialog,
-    private fb: FormBuilder
-  ) {
-    this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: [''],
-      address: [''],
-      disabilityInfo: ['']
-    });
-  }
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
+    this.cargarPerfil();
+  }
+
+  cargarPerfil(): void {
     const userId = this.getUserId();
     if (userId) {
       this.usuarioService.obtenerUsuarioPorId(userId)
         .then((usuario) => {
-          console.log('Usuario cargado:', usuario);
           this.user = {
             id: usuario.id,
             profileImage: usuario.profileImage || 'assets/default-profile.png',
@@ -97,41 +84,25 @@ export class ProfileComponent implements OnInit {
             disabilityInfo: usuario.discapacidad || 'No especificada',
             workExperience: [],
           };
-          this.profileForm.patchValue({
-            name: this.user.name,
-            email: this.user.email,
-            phone: this.user.phone,
-            address: this.user.address,
-            disabilityInfo: this.user.disabilityInfo
-          });
         })
         .catch((error) => console.error('Error al cargar perfil:', error));
     }
   }
 
   editarPerfil(): void {
-    this.modoEdicion = true;
-  }
+    const dialogRef = this.dialog.open(EditProfileComponent, {
+      width: '800px',
+      panelClass: 'edit-profile-dialog', // Clase CSS personalizada para el diálogo
+      backdropClass: 'custom-backdrop', // Clase CSS para el fondo oscuro
+      autoFocus: false, // Evita el auto-focus que puede causar estilos no deseados
+      data: { user: { ...this.user } }
+    });
 
-  guardarCambios(): void {
-    const userId = this.getUserId();
-    if (userId && this.profileForm.valid) {
-      const formValues = this.profileForm.value;
-      this.user.name = formValues.name;
-      this.user.email = formValues.email;
-      this.user.phone = formValues.phone;
-      this.user.address = formValues.address;
-      this.user.disabilityInfo = formValues.disabilityInfo;
-
-      this.usuarioService
-        .actualizarUsuario(userId, this.construirUsuarioActualizado())
-        .then(() => {
-          this.modoEdicion = false;
-        })
-        .catch((error) =>
-          console.error('Error al actualizar perfil:', error)
-        );
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'updated') {
+        this.cargarPerfil(); // Recargar los datos después de editar
+      }
+    });
   }
 
   onImageSelected(event: Event): void {
@@ -160,7 +131,9 @@ export class ProfileComponent implements OnInit {
 
   EliminarCuenta(): void {
     const dialogRef = this.dialog.open(DeleteAccountComponent, {
-      width: '400px'
+      width: '400px',
+      panelClass: 'delete-account-dialog',
+      backdropClass: 'custom-backdrop'
     });
 
     dialogRef.afterClosed().subscribe(result => {
