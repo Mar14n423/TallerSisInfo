@@ -36,7 +36,7 @@ export class LoginCompanyComponent {
       .then((response) => {
         console.log('Inicio de sesión exitoso como empresa', response);
         localStorage.setItem('empresa', JSON.stringify(response));
-        this.router.navigate(['/profilecompany']); // Ruta de redirección tras login exitoso
+        this.router.navigate(['/homecompany']); // Ruta de redirección tras login exitoso
       })
       .catch((error) => {
         console.error('Error al iniciar sesión de empresa', error);
