@@ -70,5 +70,40 @@ import { DialogComponent } from './dialog.component';
       expect(component.formEvent.get('date')?.hasError('required')).toBeTrue();
     });
   });
+  describe('Comportamiento del formulario', () => {
+    it('debería deshabilitar el botón Guardar cuando el formulario es inválido', async () => {
+      component.formEvent.get('name')?.setValue('');
+      fixture.detectChanges();
+      
+      const saveButton = await loader.getHarness(MatButtonHarness.with({ text: /Guardar|Agregar/ }));
+      expect(await saveButton.isDisabled()).toBeTrue();
+    });
 
+    it('debería habilitar el botón Guardar cuando el formulario es válido', async () => {
+      component.formEvent.patchValue({
+        name: 'Evento de prueba',
+        icon: 'sports_soccer',
+        date: new Date()
+      });
+      fixture.detectChanges();
+      
+      const saveButton = await loader.getHarness(MatButtonHarness.with({ text: /Guardar|Agregar/ }));
+      expect(await saveButton.isDisabled()).toBeFalse();
+    });
+
+    it('debería actualizar la vista previa cuando cambian los valores', async () => {
+      component.formEvent.patchValue({
+        name: 'Nuevo evento',
+        icon: 'music_note',
+        background: '#ff0000',
+        color: '#ffffff'
+      });
+      fixture.detectChanges();
+      
+      const previewButton = fixture.nativeElement.querySelector('.event');
+      expect(previewButton.textContent).toContain('Nuevo evento');
+      expect(previewButton.style.backgroundColor).toBe('rgb(255, 0, 0)');
+      expect(previewButton.style.color).toBe('rgb(255, 255, 255)');
+    });
+  });
 });
