@@ -87,8 +87,8 @@ export class DialogComponent {
 
   private date = new Date();
 
-  minDate = new Date(2000, 0, 1); // Fecha mínima muy atrás
-  maxDate = new Date(2100, 11, 31); // Fecha máxima muy adelante
+  minDate = new Date(2000, 0, 1); 
+  maxDate = new Date(2100, 11, 31); 
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
@@ -96,26 +96,39 @@ export class DialogComponent {
     private dialogService: DialogService,
     @Inject(MAT_DIALOG_DATA) data?: NEventos.IEvent
   ) {
-    // Parsear la fecha si viene del backend
-    const eventDate = data?.date ? new Date(data.date) : new Date();
+    const selectedType = this.eventType.find(e => e.icon === data?.icon) ?? null;
 
     this.formEvent = this.fb.group({
-      name: [data?.name, [Validators.required]],
+      name: [data?.name ?? '', [Validators.required]],
       id: [data?.id ?? crypto.randomUUID(), [Validators.required]],
-      icon: [data?.icon, [Validators.required]],
-      date: [data?.date ?? new Date(), [Validators.required]],
-      background: [data?.background],
-      color: [data?.color],
+      icon: [selectedType, [Validators.required]],
+      date: [data?.date ? new Date(data.date) : new Date(), [Validators.required]],
+      background: [data?.background ?? '#3f51b5'],
+      color: [data?.color ?? '#ffffff'],
+      time: [data?.time ?? '', [Validators.required]],
+      location: [data?.location ?? '', [Validators.required]]
     });
-    // Actualizar icono cuando cambia el tipo de evento
-    this.formEvent.get('icon')?.valueChanges.subscribe(value => {
-      const selectedType = this.eventType.find(type => type.icon === value);
-      if (selectedType) {
-        this.formEvent.patchValue({
-          icon: selectedType.icon
-        }, { emitEvent: false });
-      }
-    });
+  }
+  getEventStyles(): any {
+    return {
+      'background-color': this.formEvent.value.background || '#3f51b5',
+      'color': this.formEvent.value.color || '#ffffff'
+    };
+  }
+
+  getEventTooltip(): string {
+    const event = this.formEvent.value;
+    let tooltip = event.name || 'Nombre del evento';
+    
+    if (event.location) {
+      tooltip += `\nLugar: ${event.location}`;
+    }
+    
+    if (event.time) {
+      tooltip += `\nHora: ${event.time}`;
+    }
+    
+    return tooltip;
   }
 
 
@@ -124,7 +137,10 @@ export class DialogComponent {
       const formValue = this.formEvent.value;
       const eventData: NEventos.IEvent = {
         ...formValue,
-        date: formValue.date.toISOString() // Convertir a formato ISO para el backend
+        icon: formValue.icon.icon,
+        date: formValue.date.toISOString(),
+        time: formValue.time,
+        location: formValue.location
       };
       this.dialogRef.close();
       this.dialogService.setEvent(eventData);

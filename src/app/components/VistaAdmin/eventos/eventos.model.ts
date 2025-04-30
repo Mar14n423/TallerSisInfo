@@ -16,6 +16,8 @@ export namespace NEventos {
         date: Date;
         background: string;
         color: string;
+        time: string;  
+        location: string;
     }
 
     export interface FoundEvent {

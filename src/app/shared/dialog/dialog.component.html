@@ -12,7 +12,7 @@
     <mat-form-field appearance="outline">
       <mat-label>Tipo de evento</mat-label>
       <mat-select formControlName="icon" required [compareWith]="compareEventTypes">
-        <mat-option *ngFor="let event of eventType" [value]="event.icon">
+        <mat-option *ngFor="let event of eventType" [value]="event">
           <mat-icon>{{event.icon}}</mat-icon> {{event.value}}
         </mat-option>
       </mat-select>
@@ -29,6 +29,21 @@
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="formEvent.get('date')?.hasError('required')">
         La fecha es requerida
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Hora</mat-label>
+      <input matInput type="time" formControlName="time" required>
+      <mat-error *ngIf="formEvent.get('time')?.hasError('required')">
+        La hora es requerida
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Lugar</mat-label>
+      <input matInput formControlName="location" required>
+      <mat-error *ngIf="formEvent.get('location')?.hasError('required')">
+        El lugar es requerido
       </mat-error>
     </mat-form-field>
 
@@ -57,13 +72,10 @@
     <h3>Vista previa:</h3>
     <button
       class="event"
-      [matTooltip]="formEvent.value.name || 'Nombre del evento'"
-      [ngStyle]="{
-        'background-color': formEvent.value.background || '#3f51b5', 
-        'color': formEvent.value.color || '#ffffff'
-      }">
-      <mat-icon>{{formEvent.value.icon || 'event'}}</mat-icon>
-      <p>{{formEvent.value.name || 'Evento de ejemplo'}}</p>
+      [matTooltip]="getEventTooltip()"
+       [ngStyle]="getEventStyles()">
+       <mat-icon>{{ formEvent.value.icon?.icon || 'event' }}</mat-icon>
+       <p>{{ formEvent.value.name || 'Evento de ejemplo' }}</p>
     </button>
   </section>
 </mat-dialog-content>
