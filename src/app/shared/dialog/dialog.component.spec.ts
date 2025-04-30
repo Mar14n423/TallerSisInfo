@@ -106,4 +106,30 @@ import { DialogComponent } from './dialog.component';
       expect(previewButton.style.color).toBe('rgb(255, 255, 255)');
     });
   });
+  describe('Interacción con los controles', () => {
+    it('debería actualizar el valor del nombre al escribir en el input', async () => {
+      const nameInput = await loader.getHarness(MatInputHarness.with({ selector: '[formControlName="name"]' }));
+      await nameInput.setValue('Mi evento');
+      
+      expect(component.formEvent.value.name).toBe('Mi evento');
+    });
+
+    it('debería mostrar opciones de tipos de evento', async () => {
+      const select = await loader.getHarness(MatSelectHarness.with({ selector: '[formControlName="icon"]' }));
+      await select.open();
+      const options = await select.getOptions();
+      
+      expect(options.length).toBe(component.eventType.length);
+      expect(await options[0].getText()).toContain('Deporte');
+    });
+
+    it('debería actualizar el icono al seleccionar un tipo de evento', async () => {
+      const select = await loader.getHarness(MatSelectHarness.with({ selector: '[formControlName="icon"]' }));
+      await select.open();
+      const options = await select.getOptions();
+      await options[2].click(); 
+      
+      expect(component.formEvent.value.icon).toBe('palette');
+    });
+  }); 
 });
