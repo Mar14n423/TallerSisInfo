@@ -105,9 +105,18 @@ export class DialogComponent {
       date: [data?.date ? new Date(data.date) : new Date(), [Validators.required]],
       background: [data?.background ?? '#3f51b5'],
       color: [data?.color ?? '#ffffff'],
-      time: [data?.time ?? '', [Validators.required]],
-      location: [data?.location ?? '', [Validators.required]]
+      time: [data?.time ?? '10:00 AM', [Validators.required]],
+      location: [data?.location ?? 'Sala Principal', [Validators.required]]
     });
+    this.formEvent.get('icon')?.valueChanges.subscribe(value => {
+      if (value && typeof value === 'object') {
+          this.formEvent.patchValue({
+              icon: value.icon,
+              background: this.formEvent.value.background || '#3f51b5',
+              color: this.formEvent.value.color || '#ffffff'
+          }, { emitEvent: false });
+      }
+  });
   }
   getEventStyles(): any {
     return {
@@ -134,18 +143,16 @@ export class DialogComponent {
 
   save(): void {
     if (this.formEvent.valid) {
-      const formValue = this.formEvent.value;
-      const eventData: NEventos.IEvent = {
-        ...formValue,
-        icon: formValue.icon.icon,
-        date: formValue.date.toISOString(),
-        time: formValue.time,
-        location: formValue.location
-      };
-      this.dialogRef.close();
-      this.dialogService.setEvent(eventData);
+        const formValue = this.formEvent.value;
+        const eventData: NEventos.IEvent = {
+            ...formValue,
+            icon: typeof formValue.icon === 'object' ? formValue.icon.icon : formValue.icon, // Asegura string
+            date: formValue.date.toISOString()
+        };
+        this.dialogRef.close();
+        this.dialogService.setEvent(eventData);
     }
-  }
+}
   compareEventTypes(type1: any, type2: any): boolean {
     return type1 && type2 ? type1.id === type2.id : type1 === type2;
   }  

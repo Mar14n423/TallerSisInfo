@@ -43,6 +43,8 @@ public class EventoService {
         evento.setDate(eventoActualizado.getDate());
         evento.setBackground(eventoActualizado.getBackground());
         evento.setColor(eventoActualizado.getColor());
+        evento.setTime(eventoActualizado.getTime());
+        evento.setLocation(eventoActualizado.getLocation());
         return eventoRepository.save(evento);
       })
       .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + id));

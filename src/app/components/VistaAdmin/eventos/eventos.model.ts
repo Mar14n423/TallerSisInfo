@@ -13,7 +13,7 @@ export namespace NEventos {
         name: string;
         id: string;
         icon: string;
-        date: Date;
+        date: Date | string;
         background: string;
         color: string;
         time: string;  

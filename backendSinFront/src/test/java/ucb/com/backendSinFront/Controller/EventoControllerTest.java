@@ -37,6 +37,8 @@ class EventoControllerTest {
     evento.setDate(LocalDateTime.now());
     evento.setBackground("azul");
     evento.setColor("blanco");
+    evento.setTime("10:30");
+    evento.setLocation("Cbba");
   }
 
   @Test
@@ -48,6 +50,8 @@ class EventoControllerTest {
     assertNotNull(resultado);
     assertEquals(1, resultado.size());
     assertEquals("Reunión", resultado.get(0).getName());
+    assertEquals("10:30", resultado.get(0).getTime());
+    assertEquals("Cbba", resultado.get(0).getLocation());
   }
 
   @Test
@@ -60,6 +64,7 @@ class EventoControllerTest {
 
     assertNotNull(resultado);
     assertEquals(1, resultado.size());
+    assertEquals("10:30", resultado.get(0).getTime());
   }
 
   @Test
@@ -70,6 +75,7 @@ class EventoControllerTest {
 
     assertEquals(200, response.getStatusCodeValue());
     assertEquals("Reunión", response.getBody().getName());
+    assertEquals("Cbba", response.getBody().getLocation());
   }
 
   @Test
@@ -89,6 +95,7 @@ class EventoControllerTest {
 
     assertNotNull(nuevoEvento);
     assertEquals("Reunión", nuevoEvento.getName());
+    assertEquals("10:30", nuevoEvento.getTime());
   }
 
   @Test
@@ -102,8 +109,15 @@ class EventoControllerTest {
 
   @Test
   void actualizarEvento() {
-    Evento actualizado = new Evento("Actualizado", "📌", LocalDateTime.now(), "verde", "negro");
+    Evento actualizado = new Evento();
     actualizado.setId("test-id");
+    actualizado.setName("Actualizado");
+    actualizado.setIcon("📌");
+    actualizado.setDate(LocalDateTime.now());
+    actualizado.setBackground("verde");
+    actualizado.setColor("negro");
+    actualizado.setTime("11:00");
+    actualizado.setLocation("La Paz");
 
     when(eventoService.actualizarEvento(eq("test-id"), any(Evento.class))).thenReturn(actualizado);
 
@@ -111,5 +125,7 @@ class EventoControllerTest {
 
     assertEquals(200, response.getStatusCodeValue());
     assertEquals("Actualizado", response.getBody().getName());
+    assertEquals("11:00", response.getBody().getTime());
+    assertEquals("La Paz", response.getBody().getLocation());
   }
 }
