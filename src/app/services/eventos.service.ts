@@ -26,13 +26,23 @@ export class EventosService {
     const startDate = new Date(Date.UTC(year, month - 1, 1)); // month -1 porque el backend espera 1-12
     const endDate = new Date(Date.UTC(year, month, 0)); // día 0 del mes siguiente = último día del mes actual
     
+       // Convertir a ISO string completo (con hora)
+    const startISO = startDate.toISOString();
+    const endISO = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), 23, 59, 59).toISOString();
+
     return axios.get<NEventos.IEvent[]>(`${this.apiUrl}/rango`, {
       params: {
-        inicio: startDate.toISOString().split('T')[0], // Formato YYYY-MM-DD
-        fin: endDate.toISOString().split('T')[0]
+        inicio: startISO, // Formato YYYY-MM-DD
+        fin: endISO
       }
     })
-    .then(response => response.data)
+    .then(response =>{
+      // Convertir las fechas de string a Date
+      return response.data.map(event => ({
+          ...event,
+          date: new Date(event.date)
+      }));
+    })
     .catch(error => {
       console.error('Error al obtener eventos por mes:', error);
       throw error;
@@ -41,23 +51,29 @@ export class EventosService {
 
   // Crear un nuevo evento
   crearEvento(evento: NEventos.IEvent) {
-    return axios.post<NEventos.IEvent>(this.apiUrl, evento)
-      .then(response => response.data)
-      .catch(error => {
-        console.error('Error al crear evento', error);
-        throw error;
-      });
+    const eventToSend = {
+      ...evento,
+      date: new Date(evento.date).toISOString()
+  };
+  return axios.post<NEventos.IEvent>(this.apiUrl, eventToSend)
+  .then(response => ({
+      ...response.data,
+      date: new Date(response.data.date) // Convertir a Date
+  }));
   }
 
   // Actualizar evento
   actualizarEvento(id: string, evento: NEventos.IEvent) {
-    return axios.put<NEventos.IEvent>(`${this.apiUrl}/${id}`, evento)
-      .then(response => response.data)
-      .catch(error => {
-        console.error('Error al actualizar evento', error);
-        throw error;
-      });
-  }
+    const eventToSend = {
+        ...evento,
+        date: new Date(evento.date).toISOString()
+    };
+    return axios.put<NEventos.IEvent>(`${this.apiUrl}/${id}`, eventToSend)
+        .then(response => ({
+            ...response.data,
+            date: new Date(response.data.date) // Convertir a Date
+        }));
+}
 
   // Eliminar evento
   eliminarEvento(id: string) {
