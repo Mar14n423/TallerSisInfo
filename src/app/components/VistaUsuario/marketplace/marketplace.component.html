@@ -1,10 +1,79 @@
 <app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
 
-<div class="container mt-5">
-  <h2>En proceso</h2>
-  <p>Contenido de la página <strong>marketplace...</strong></p>
-</div>
-<div class="d-flex justify-content-center mt-4">
-  <mat-progress-bar mode="indeterminate" color="accent" style="width: 50%;"></mat-progress-bar>
-</div>
+<main class="marketplace-container">
+
+  <!-- 🔹 Sección Título -->
+  <section class="marketplace-header">
+    <h1>MarketPlace</h1>
+    <button class="cart-button">🛒</button>
+  </section>
+
+  <!-- 🔹 Producto Principal -->
+  <section class="producto-principal">
+    <img src="imagenes/Silla-Ruedas.PNG" alt="Silla de Ruedas" class="producto-img">
+
+    <div class="producto-info">
+      <h2>Silla de Ruedas</h2>
+      <p class="precio">$10.99</p>
+      <p class="descripcion">
+        La silla de ruedas de tipo estándar es un dispositivo de desplazamiento,
+        que permite que las personas con discapacidad o movilidad reducida se trasladen
+        de manera independiente o con ayuda.
+      </p>
+      <button class="btn-info">Más información</button>
+      <p class="aviso">* Este producto está disponible en Sin Fronteras</p>
+    </div>
+  </section>
+
+  <!-- 🔹 Productos Relacionados -->
+  <section class="relacionados">
+    <h3>Related products</h3>
+    <div class="productos-grid">
+
+      <div class="producto-card">
+        <img src="imagenes/Conjunto.PNG" alt="Conjunto">
+        <h4>Conjunto</h4>
+        <p>Conjunto de muletas, incluye un bastón, una muleta y andador para múltiples usos.</p>
+        <span class="precio">$10</span>
+      </div>
+
+      <div class="producto-card">
+        <img src="imagenes/Burrito.PNG" alt="Burrito">
+        <h4>Burrito</h4>
+        <p>Andador ortopédico de muy buena calidad que ayuda a que camines mejor.</p>
+        <span class="precio">$20</span>
+      </div>
+
+      <div class="producto-card">
+        <img src="imagenes/Muleta.PNG" alt="Muleta">
+        <h4>Muleta</h4>
+        <p>Muletas con materiales de buena calidad y con puntas resistentes.</p>
+        <span class="precio">$15</span>
+      </div>
+
+      <div class="producto-card">
+        <img src="imagenes/Silla de ruedas eléctrica.PNG" alt="Silla de ruedas eléctrica">
+        <h4>Silla de ruedas eléctrica</h4>
+        <p>Silla con funciones eléctricas y diferentes niveles de control.</p>
+        <span class="precio">$500</span>
+      </div>
+
+      <div class="producto-card">
+        <img src="imagenes/Palo de madera.PNG" alt="Palo de madera">
+        <h4>Palo de madera</h4>
+        <p>Bastón hecho de madera pura con punta antideslizante.</p>
+        <span class="precio">$2</span>
+      </div>
+
+      <div class="producto-card">
+        <img src="imagenes/Libros en braille.PNG" alt="Libros en braille">
+        <h4>Libros en braille</h4>
+        <p>Textos impresos con sistema braille en diferentes tomos temáticos.</p>
+        <span class="precio">$25</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
 <app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
