@@ -7,13 +7,13 @@ export const adminRoutes: Routes = [
       import('../components/VistaAdmin/layout/layout.component').then(m => m.LayoutComponent),
     children: [
       {
-        path: '', 
+        path: '',
         loadComponent: () =>
           import('../components/VistaAdmin/homeadmin/homeadmin.component').then(m => m.HomeadminComponent)
       },
       {
         path: 'dashboard',
-        redirectTo: '', 
+        redirectTo: '',
         pathMatch: 'full'
       },
       {
@@ -25,6 +25,11 @@ export const adminRoutes: Routes = [
         path: 'eventos',
         loadComponent: () =>
           import('../components/VistaAdmin/eventos/eventos.component').then(m => m.EventosComponent)
+      },
+      {
+              path: 'marketplace',
+              loadComponent: () =>
+                import('../components/VistaAdmin/marketplace-admin/marketplace-admin.component').then(m => m.MarketplaceAdminComponent)
       }
     ]
   },
