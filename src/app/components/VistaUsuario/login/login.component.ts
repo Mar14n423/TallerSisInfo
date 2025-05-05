@@ -30,18 +30,22 @@ export class LoginComponent {
       correo: this.email, // Asegúrate de que el campo se llame "correo"
       passwordHash: this.password, // Asegúrate de que el campo se llame "passwordHash"
     };
-  
+
     this.usuarioService
       .loginUsuario(usuario)
       .then((response) => {
         console.log('Inicio de sesión exitoso', response);
-        // Redirigir al usuario a la página de inicio o dashboard
-        this.router.navigate(['/']); // Cambia '/' por la ruta que desees
+
+        // ✅ GUARDAR EL ID DEL USUARIO EN LOCALSTORAGE
+        localStorage.setItem('userId', response.id);
+
+        // ✅ REDIRIGIR AL PERFIL (o donde quieras)
+        this.router.navigate(['/profile']); // Puedes cambiar la ruta si es necesario
       })
       .catch((error) => {
         console.error('Error al iniciar sesión', error);
-        // Mostrar mensaje de error al usuario
         this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
       });
   }
+
   }

@@ -1,7 +1,7 @@
 package ucb.com.backendSinFront.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,7 +18,7 @@ public class Evento {
   private String icon;
 
   @Column(nullable = false)
-  private Date date;
+  private LocalDateTime date;
 
   @Column(length = 20)
   private String background;
@@ -26,67 +26,51 @@ public class Evento {
   @Column(length = 20)
   private String color;
 
-  // Constructor vacío requerido por JPA
+  @Column(nullable = false, length = 50)
+  private String time;
+
+  @Column(nullable = false, length = 100)
+  private String location;
+
   public Evento() {
     this.id = UUID.randomUUID().toString();
+    this.date = LocalDateTime.now();
   }
 
-  // Constructor con parámetros
-  public Evento(String name, String icon, Date date, String background, String color) {
+  public Evento(String name, String icon, LocalDateTime date,
+                String background, String color, String time, String location) {
     this();
     this.name = name;
     this.icon = icon;
-    this.date = date;
+    this.date = date != null ? date : LocalDateTime.now();
     this.background = background;
     this.color = color;
+    this.time = time;
+    this.location = location;
   }
 
-  // Getters y Setters
-  public String getId() {
-    return id;
-  }
+  // Getters y setters
+  public String getId() { return id; }
+  public void setId(String id) { this.id = id; }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+  public String getName() { return name; }
+  public void setName(String name) { this.name = name; }
 
-  public String getName() {
-    return name;
-  }
+  public String getIcon() { return icon; }
+  public void setIcon(String icon) { this.icon = icon; }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+  public LocalDateTime getDate() { return date; }
+  public void setDate(LocalDateTime date) { this.date = date; }
 
-  public String getIcon() {
-    return icon;
-  }
+  public String getBackground() { return background; }
+  public void setBackground(String background) { this.background = background; }
 
-  public void setIcon(String icon) {
-    this.icon = icon;
-  }
+  public String getColor() { return color; }
+  public void setColor(String color) { this.color = color; }
 
-  public Date getDate() {
-    return date;
-  }
+  public String getTime() { return time; }
+  public void setTime(String time) { this.time = time; }
 
-  public void setDate(Date date) {
-    this.date = date;
-  }
-
-  public String getBackground() {
-    return background;
-  }
-
-  public void setBackground(String background) {
-    this.background = background;
-  }
-
-  public String getColor() {
-    return color;
-  }
-
-  public void setColor(String color) {
-    this.color = color;
-  }
+  public String getLocation() { return location; }
+  public void setLocation(String location) { this.location = location; }
 }

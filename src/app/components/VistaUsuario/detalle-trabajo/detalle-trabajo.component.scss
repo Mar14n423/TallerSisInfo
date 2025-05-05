@@ -1,0 +1,128 @@
+.detalle-container {
+    padding: 3rem 1rem;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .detalle-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 2.5rem;
+    background: #ffffff;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    align-items: flex-start;
+    justify-content: center;
+    max-width: 1000px;
+    margin: auto;
+    border-left: 6px solid #0078d4;
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .detalle-info {
+    flex: 1;
+    min-width: 320px;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .detalle-info h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+  }
+
+  .detalle-info p {
+    margin: 0.4rem 0;
+    color: #4a4a4a;
+    line-height: 1.6;
+  }
+
+  .seccion-descripcion,
+  .seccion-requisitos {
+    margin-top: 1.8rem;
+  }
+
+  .seccion-descripcion h3,
+  .seccion-requisitos h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+    padding-left: 1rem;
+    border-left: 4px solid #0078d4;
+  }
+
+  .acciones {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .acciones button,
+  .acciones .btn-volver button {
+    padding: 0.8rem 1.8rem;
+    font-size: 1rem;
+    border-radius: 0.6rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .btn-aplicar {
+    background-color: #0078d4;
+    color: white;
+  }
+
+  .btn-aplicar:hover {
+    background-color: #005a9e;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 120, 212, 0.2);
+  }
+
+  .btn-volver button {
+    background-color: #e0e0e0;
+    color: #333;
+  }
+
+  .btn-volver button:hover {
+    background-color: #ccc;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .error-message {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    margin: 1rem 0;
+  }
+
+  .no-encontrado {
+    background: #ffffff;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 4rem auto;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
+  }
+

@@ -3,8 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NEventos } from '../eventos/eventos.model';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../../shared/footer/footer.component';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { DialogService } from '../../../services/dialog.service';
@@ -18,8 +16,6 @@ import { formatDate, getSelectedDate, templateEventosData } from '../../../helpe
     MatButtonModule,
     CommonModule,
     MatIconModule,
-    FooterComponent, 
-    NavbarComponent,
     MatTooltipModule,
     MatMenuModule
   ],
@@ -47,6 +43,13 @@ export class EventosComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.createEventosData();
     await this.loadEventsForMonth();
+
+    try{
+      const allEvents= await this.eventosService.getEventos();
+      this.assignEventsToCalendar(allEvents);
+    } catch(error){
+      console.error('Error cargando todos los eventos', error);
+    }
   }
 
   // Métodos de navegación
@@ -82,7 +85,7 @@ export class EventosComponent implements OnInit {
   // Carga de eventos
   private async loadEventsForMonth(): Promise<void> {
     const year = this.currentMonth().getFullYear();
-    const month = this.currentMonth().getMonth() + 1; // +1 porque el backend espera 1-12
+    const month = this.currentMonth().getMonth() + 1; 
     
     try {
       const events = await this.eventosService.getEventosPorMes(year, month);
@@ -93,7 +96,7 @@ export class EventosComponent implements OnInit {
   }
 
   private assignEventsToCalendar(events: NEventos.IEvent[]): void {
-    this.eventosData.forEach(day => day.events = []); // Limpiar eventos existentes
+    this.eventosData.forEach(day => day.events = []); 
     
     events.forEach(event => {
       const eventDate = new Date(event.date);
@@ -154,18 +157,23 @@ export class EventosComponent implements OnInit {
     if (!item.id) return;
 
     try {
-      if (this.eventExists(item.id)) {
-        const updatedEvent = await this.eventosService.actualizarEvento(item.id, item);
-        this.updateEventInCalendar(updatedEvent);
-      } else {
-        const newEvent = await this.eventosService.crearEvento(item);
-        this.addEventToCalendar(newEvent);
-      }
-    } catch (error) {
-      console.error('Error al manejar evento:', error);
-    }
-  }
+        // Asegurar que la fecha es un objeto Date válido
+        const eventToProcess = {
+            ...item,
+            date: item.date instanceof Date ? item.date : new Date(item.date)
+        };
 
+        if (this.eventExists(item.id)) {
+            const updatedEvent = await this.eventosService.actualizarEvento(item.id, eventToProcess);
+            this.updateEventInCalendar(updatedEvent);
+        } else {
+            const newEvent = await this.eventosService.crearEvento(eventToProcess);
+            this.addEventToCalendar(newEvent);
+        }
+    } catch (error) {
+        console.error('Error al manejar evento:', error);
+    }
+}
   private updateEventInCalendar(updatedEvent: NEventos.IEvent): void {
     for (const day of this.eventosData) {
       const eventIndex = day.events.findIndex(e => e.id === updatedEvent.id);

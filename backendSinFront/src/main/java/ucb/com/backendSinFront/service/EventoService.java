@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ucb.com.backendSinFront.entity.Evento;
 import ucb.com.backendSinFront.repository.EventoRepository;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +19,7 @@ public class EventoService {
     return eventoRepository.findAll();
   }
 
-  public List<Evento> obtenerPorRangoDeFecha(Date inicio, Date fin) {
+  public List<Evento> obtenerPorRangoDeFecha(LocalDateTime inicio, LocalDateTime fin) {
     return eventoRepository.findByDateBetween(inicio, fin);
   }
 
@@ -43,6 +43,8 @@ public class EventoService {
         evento.setDate(eventoActualizado.getDate());
         evento.setBackground(eventoActualizado.getBackground());
         evento.setColor(eventoActualizado.getColor());
+        evento.setTime(eventoActualizado.getTime());
+        evento.setLocation(eventoActualizado.getLocation());
         return eventoRepository.save(evento);
       })
       .orElseThrow(() -> new RuntimeException("Evento no encontrado con id: " + id));

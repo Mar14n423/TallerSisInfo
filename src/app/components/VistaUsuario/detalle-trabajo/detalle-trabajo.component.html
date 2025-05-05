@@ -1,0 +1,43 @@
+<app-navbar></app-navbar>
+
+<main class="detalle-container">
+  <mat-progress-bar *ngIf="cargando" mode="indeterminate"></mat-progress-bar>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!cargando && trabajo" class="detalle-card">
+
+    <div class="detalle-info">
+      <h1>{{ trabajo.tituloTrabajo }}</h1>
+      <p><strong>Ubicación:</strong> {{ trabajo.ubicacion }}</p>
+      <p><strong>Tipo de contrato:</strong> {{ trabajo.tipoContrato }}</p>
+      <p><strong>Estado:</strong> {{ trabajo.estado }}</p>
+      <p><strong>Publicado:</strong> {{ trabajo.fechaPublicacion | date:'dd/MM/yyyy' }}</p>
+
+      <div class="seccion-descripcion">
+        <h3><strong>Descripción del puesto:</strong></h3>
+        <p>{{ trabajo.descripcion }}</p>
+      </div>
+
+      <div class="seccion-requisitos" *ngIf="trabajo.requisitos">
+        <h3><strong>Requisitos:</strong></h3>
+        <p>{{ trabajo.requisitos }}</p>
+      </div>
+    </div>
+
+    <div class="acciones">
+      <a routerLink="/empleos" class="btn-volver">
+        <button>Volver a ofertas</button>
+      </a>
+      <button class="btn-aplicar">Aplicar</button>
+    </div>
+  </div>
+
+  <div *ngIf="!trabajo && !cargando && !error" class="no-encontrado">
+    <p>No se encontró información para este empleo.</p>
+  </div>
+</main>
+
+<app-footer></app-footer>

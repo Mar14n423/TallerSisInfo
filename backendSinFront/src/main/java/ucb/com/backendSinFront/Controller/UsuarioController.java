@@ -12,45 +12,54 @@ import ucb.com.backendSinFront.LogHelper;
 import java.util.List;
 import java.util.Optional;
 import java.util.Map;
-import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+  @Autowired
+  private UsuarioService usuarioService;
 
-    //Get general
-    @GetMapping
-    public List<Usuario> obtenerUsuarios() {
-        return usuarioService.obtenerTodos();
+  //Get general
+  @GetMapping
+  public List<Usuario> obtenerUsuarios() {
+    return usuarioService.obtenerTodos();
+  }
+
+  //Get por id
+  @GetMapping("/{id}")
+  public Optional<Usuario> obtenerUsuario(@PathVariable Long id) {
+    return usuarioService.obtenerPorId(id);
+  }
+
+  //Crear
+  @PostMapping("/create")
+  public ResponseEntity<?> crearUsuario(@RequestBody Usuario usuario) {
+
+    if (usuario.getCorreo() == null || usuario.getCorreo().trim().isEmpty()) {
+      return ResponseEntity.badRequest().body("El correo no puede estar vacio");
     }
 
-    //Get por id
-    @GetMapping("/{id}")
-    public Optional<Usuario> obtenerUsuario(@PathVariable Long id) {
-        return usuarioService.obtenerPorId(id);
+    if (!usuario.getCorreo().contains("@") || !usuario.getCorreo().contains(".")) {
+      return ResponseEntity.badRequest().body("El correo debe tener un formato valido");
     }
 
-    //Crear
-    @PostMapping("/create")
-    public Usuario crearUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.guardar(usuario);
-    }
+    Usuario usuarioGuardado = usuarioService.guardar(usuario);
+    return ResponseEntity.ok(usuarioGuardado);
+  }
 
-    //Eliminar
-    @DeleteMapping("/{id}")
-    public void eliminarUsuario(@PathVariable Long id) {
-        usuarioService.eliminar(id);
-    }
+  //Eliminar
+  @DeleteMapping("/{id}")
+  public void eliminarUsuario(@PathVariable Long id) {
+    usuarioService.eliminar(id);
+  }
 
-    //Editar
-    @PutMapping("/{id}")
-    public Usuario actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
-        return usuarioService.actualizarUsuario(id, usuarioActualizado);
-    }
+  //Editar
+  @PutMapping("/{id}")
+  public Usuario actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuarioActualizado) {
+    return usuarioService.actualizarUsuario(id, usuarioActualizado);
+  }
   @PatchMapping("/{id}")
   public ResponseEntity<Usuario> actualizarTipoUsuario(
     @PathVariable Long id,
@@ -88,4 +97,3 @@ public class UsuarioController {
     }
   }
 }
-

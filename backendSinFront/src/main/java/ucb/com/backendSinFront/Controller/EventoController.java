@@ -1,4 +1,4 @@
-package ucb.com.backendSinFront.controller;
+package ucb.com.backendSinFront.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ucb.com.backendSinFront.entity.Evento;
 import ucb.com.backendSinFront.service.EventoService;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -18,21 +18,18 @@ public class EventoController {
   @Autowired
   private EventoService eventoService;
 
-  // Obtener todos los eventos
   @GetMapping
   public List<Evento> obtenerEventos() {
     return eventoService.obtenerTodos();
   }
 
-  // Obtener eventos por rango de fechas (para el calendario)
   @GetMapping("/rango")
   public List<Evento> obtenerEventosPorRango(
-    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date inicio,
-    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fin) {
+    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicio,
+    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fin) {
     return eventoService.obtenerPorRangoDeFecha(inicio, fin);
   }
 
-  // Obtener evento por ID
   @GetMapping("/{id}")
   public ResponseEntity<Evento> obtenerEvento(@PathVariable String id) {
     return eventoService.obtenerPorId(id)
@@ -40,20 +37,17 @@ public class EventoController {
       .orElse(ResponseEntity.notFound().build());
   }
 
-  // Crear un nuevo evento
   @PostMapping
   public Evento crearEvento(@RequestBody Evento evento) {
     return eventoService.guardar(evento);
   }
 
-  // Eliminar evento por ID
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> eliminarEvento(@PathVariable String id) {
     eventoService.eliminar(id);
     return ResponseEntity.noContent().build();
   }
 
-  // Actualizar evento por ID
   @PutMapping("/{id}")
   public ResponseEntity<Evento> actualizarEvento(@PathVariable String id, @RequestBody Evento eventoActualizado) {
     return ResponseEntity.ok(eventoService.actualizarEvento(id, eventoActualizado));

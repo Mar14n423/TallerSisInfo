@@ -5,7 +5,7 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import axios from 'axios';
 import { RouterModule } from '@angular/router';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -26,7 +26,6 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      // Crear el objeto JSON con la estructura requerida por el backend
       const usuario = {
         nombre: this.registerForm.value.name,
         correo: this.registerForm.value.email,
@@ -34,11 +33,15 @@ export class RegisterComponent {
         passwordHash: this.registerForm.value.password
       };
 
-      // Enviar la solicitud POST al backend usando Axios
       axios.post('http://localhost:8080/api/usuarios/create', usuario)
         .then(response => {
           console.log('Usuario registrado con éxito:', response.data);
-          alert('Usuario registrado con éxito');
+
+          // ✅ Guardar el ID del usuario
+          localStorage.setItem('userId', response.data.id);
+
+          // ✅ Redirigir manualmente a la página de perfil
+          window.location.href = '/profile';
         })
         .catch(error => {
           console.error('Error al registrar usuario:', error);
