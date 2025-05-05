@@ -26,22 +26,30 @@ public class Evento {
   @Column(length = 20)
   private String color;
 
+  @Column(nullable = false, length = 50)
+  private String time;
+
+  @Column(nullable = false, length = 100)
+  private String location;
+
   public Evento() {
     this.id = UUID.randomUUID().toString();
-    this.date = LocalDateTime.now(); // valor por defecto para evitar error
+    this.date = LocalDateTime.now();
   }
 
-  public Evento(String name, String icon, LocalDateTime date, String background, String color) {
+  public Evento(String name, String icon, LocalDateTime date,
+                String background, String color, String time, String location) {
     this();
     this.name = name;
     this.icon = icon;
     this.date = date != null ? date : LocalDateTime.now();
     this.background = background;
     this.color = color;
+    this.time = time;
+    this.location = location;
   }
 
   // Getters y setters
-
   public String getId() { return id; }
   public void setId(String id) { this.id = id; }
 
@@ -59,4 +67,10 @@ public class Evento {
 
   public String getColor() { return color; }
   public void setColor(String color) { this.color = color; }
+
+  public String getTime() { return time; }
+  public void setTime(String time) { this.time = time; }
+
+  public String getLocation() { return location; }
+  public void setLocation(String location) { this.location = location; }
 }

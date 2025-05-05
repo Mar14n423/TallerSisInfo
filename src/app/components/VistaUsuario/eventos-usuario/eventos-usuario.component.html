@@ -60,7 +60,8 @@
 
               <div class="event-details">
                 <p><mat-icon>event</mat-icon> {{ event.date | date:'mediumDate' }}</p>
-                <p><mat-icon>schedule</mat-icon> {{ event.date | date:'shortTime' }}</p>
+                <p><mat-icon>schedule</mat-icon> {{ event.time }}</p>
+                <p><mat-icon>location_on</mat-icon> {{ event.location }}</p>
               </div>
             </section>
           </mat-menu>
