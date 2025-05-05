@@ -25,7 +25,7 @@
     <div class="productos-grid">
 
       <!-- Producto 1 -->
-      <div class="producto-card">
+      <div class="producto-card" [routerLink]="['/admin/detalle-marketplace']" style="cursor: pointer;">
         <img src="imagenes/logo.PNG" alt="conjunto">
         <h4>Conjunto</h4>
         <p>Muletas, bastón, andador para uso adulto</p>
@@ -33,7 +33,7 @@
       </div>
 
       <!-- Producto 2 -->
-      <div class="producto-card">
+      <div class="producto-card" [routerLink]="['/admin/detalle-marketplace']" style="cursor: pointer;">
         <img src="imagenes/logo.PNG" alt="Burrito">
         <h4>Burrito</h4>
         <p>Andador ortopédico con soporte firme</p>
@@ -41,14 +41,14 @@
       </div>
 
       <!-- Producto 3 -->
-      <div class="producto-card">
+      <div class="producto-card" [routerLink]="['/admin/detalle-marketplace']" style="cursor: pointer;">
         <img src="imagenes/logo.PNG" alt="Muleta">
         <h4>Muleta</h4>
         <p>Muleta ligera de aluminio</p>
         <span class="precio">$15</span>
       </div>
 
-      <!-- 🔹 Tarjetas vacías para agregar -->
+      <!-- Tarjetas para agregar nuevo -->
       <div class="producto-card agregar-card">
         <p>AGREGAR OBJETO</p>
         <div class="mas">+</div>

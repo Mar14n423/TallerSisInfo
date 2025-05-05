@@ -1,0 +1,67 @@
+.detalle-admin-container {
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+
+  .detalle-producto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    .producto-img {
+      max-width: 250px;
+      margin-bottom: 2rem;
+    }
+
+    .info-producto {
+      background: #eee;
+      padding: 1.5rem;
+      border-radius: 8px;
+      width: 100%;
+      max-width: 600px;
+      color: #333;
+
+      ul {
+        margin-top: 0.5rem;
+        padding-left: 1.5rem;
+      }
+    }
+  }
+
+  .acciones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      transition: background 0.3s;
+
+      &.agregar {
+        background-color: #4caf50;
+      }
+
+      &.eliminar {
+        background-color: #8b0000;
+      }
+
+      &.editar {
+        background-color: #5d0c0c;
+      }
+
+      &:hover {
+        opacity: 0.85;
+      }
+    }
+  }
+}
