@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+
+<main class="bolsa-contenedor">
+
+  <!-- TARJETAS (4 bloques iguales con índice diferente) -->
+  <section class="tarjeta-empleo" *ngFor="let i of [0,1,2,3]">
+    <ng-container *ngIf="!completados[i]; else vistaFinal">
+      <div class="formulario">
+        <h3>Agregar empleo</h3>
+        <p>Agregar texto</p>
+        <input type="text" [value]="textos[i]" (input)="onTextChange($event, i)" placeholder="Agregar texto">
+        <div class="botones">
+          <button class="btn añadir" (click)="agregarEmpleo(i)">Añadir</button>
+          <button class="btn eliminar" (click)="eliminarEmpleo(i)">Eliminar</button>
+        </div>
+      </div>
+      <div class="imagen-upload">
+        <p>Agregar Foto</p>
+        <label class="upload-label">
+          <input type="file" accept="image/*" (change)="onFileSelected($event, i)">
+          <img [src]="previews[i] || 'assets/img/upload-icon.png'" alt="Subir archivo">
+        </label>
+      </div>
+    </ng-container>
+
+    <!-- Vista final (reemplazo del formulario) -->
+    <ng-template #vistaFinal>
+      <div class="empleo-finalizado">
+        <img [src]="previews[i]" alt="Imagen subida">
+        <p>{{ textos[i] }}</p>
+        <button class="btn eliminar" (click)="eliminarEmpleo(i)">Eliminar</button>
+      </div>
+    </ng-template>
+  </section>
+
+</main>
