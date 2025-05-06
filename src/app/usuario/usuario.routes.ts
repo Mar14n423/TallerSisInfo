@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from '../guards/auth.guard';
 
 export const usuarioRoutes: Routes = [
   {
     path: 'registrate',
     loadComponent: () =>
-      import('../components/VistaUsuario/register/register.component').then(m => m.RegisterComponent)
+      import('../components/VistaUsuario/register/register.component').then(m => m.RegisterComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',
