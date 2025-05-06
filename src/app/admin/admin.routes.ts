@@ -30,6 +30,11 @@ export const adminRoutes: Routes = [
               path: 'marketplace',
               loadComponent: () =>
                 import('../components/VistaAdmin/marketplace-admin/marketplace-admin.component').then(m => m.MarketplaceAdminComponent)
+      },
+      {
+              path: 'detalle-marketplace',
+              loadComponent: () =>
+                import('../components/VistaAdmin/detalle-marketplace-admin/detalle-marketplace-admin.component').then(m => m.DetalleMarketplaceAdminComponent)
       }
     ]
   },
