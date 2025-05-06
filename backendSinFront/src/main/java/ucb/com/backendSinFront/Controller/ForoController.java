@@ -43,4 +43,9 @@ public class ForoController {
     Respuesta nuevaRespuesta = foroService.agregarRespuesta(id, respuesta);
     return nuevaRespuesta != null ? ResponseEntity.ok(nuevaRespuesta) : ResponseEntity.notFound().build();
   }
+  @GetMapping("/testimonios")
+    public ResponseEntity<List<Publicacion>> obtenerTestimoniosDinamicos() {
+        List<Publicacion> publicaciones = foroService.obtenerTodasLasPublicaciones();
+        return ResponseEntity.ok(publicaciones);
+    }
 }

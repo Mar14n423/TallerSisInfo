@@ -6,12 +6,13 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import {MatCardModule} from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { TestimoniosDinamicosComponent } from '../testimoniosDinamicos/testimoniosDinamicos';
 @Component({
   standalone: true,
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [CommonModule, RouterModule, FooterComponent, NavbarComponent,MatCardModule, MatInputModule, MatButtonModule] 
+  imports: [TestimoniosDinamicosComponent,CommonModule, RouterModule, FooterComponent, NavbarComponent,MatCardModule, MatInputModule, MatButtonModule] 
 })
 export class HomeComponent {}
 

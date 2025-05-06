@@ -1,0 +1,14 @@
+<h2> Comentarios de nuestros usuarios:</h2>
+<div class="d-flex flex-wrap justify-content-center gap-4">
+  <mat-card *ngFor="let post of comentarios" class="testimonial-card d-flex flex-column align-items-center p-4">
+    <mat-card-header class="text-center">
+      <div class="d-flex flex-column align-items-center">
+        <mat-card-title>{{ post.usuario }}</mat-card-title>
+        <mat-icon class="text-primary fs-1 text-primary mt-2">account_circle</mat-icon>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="d-flex justify-content-center align-items-center flex-grow-1">
+      "{{ post.mensaje }}"
+    </mat-card-content>
+  </mat-card>
+</div>
