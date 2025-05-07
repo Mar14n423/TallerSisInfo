@@ -2,6 +2,27 @@
 
 <div class="rutas-container">
   <h1 class="titulo-principal">Sistema de Rutas de Transporte</h1>
+  <div class="informacion-container">
+    <div class="informacion-content">
+      <mat-icon class="info-icon">accessible</mat-icon>
+      <div class="info-text">
+        <h3>Bienvenido al Sistema de Transporte Accesible</h3>
+        <p>
+          Aquí podrás consultar las rutas de transporte especialmente diseñadas para personas 
+          con movilidad reducida o discapacidades. Todas las rutas mostradas cuentan con:
+        </p>
+        <ul>
+          <li><mat-icon>check_circle</mat-icon> Acceso para sillas de ruedas</li>
+          <li><mat-icon>check_circle</mat-icon> Espacios designados</li>
+          <li><mat-icon>check_circle</mat-icon> Paradas accesibles</li>
+          <li><mat-icon>check_circle</mat-icon> Asistencia especializada</li>
+        </ul>
+        <p class="info-adicional">
+          Selecciona una ruta para ver detalles completos de accesibilidad y horarios disponibles.
+        </p>
+      </div>
+    </div>
+  </div>
   
   <div class="contenedor-principal">
     <div class="filtros-container">
@@ -84,6 +105,40 @@
             <p><mat-icon>timer</mat-icon> <strong>Duración:</strong> {{ rutaSeleccionada.duracionEstimada }}</p>
             <p><mat-icon>event_available</mat-icon> <strong>Disponibilidad:</strong> {{ rutaSeleccionada.disponibilidad }}</p>
             <p><mat-icon>description</mat-icon> <strong>Descripción:</strong> {{ rutaSeleccionada.descripcionVisual }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mapa-rutas-container">
+      <h3 class="subtitulo">Mapa de Rutas</h3>
+      <div class="mapa-fondo">
+        <!-- Puntos de ubicación -->
+        <div *ngFor="let ubicacion of ubicaciones" 
+             class="punto-ubicacion" 
+             [style.left]="getUbicacionX(ubicacion) + '%'"
+             [style.top]="getUbicacionY(ubicacion) + '%'"
+             (click)="mostrarInfoUbicacion(ubicacion)"
+             [class.activa]="ubicacionActiva === ubicacion"
+             [title]="ubicacion">
+          {{ ubicacion.charAt(0) }}
+        </div>
+        
+        <div *ngFor="let ruta of resultadosBusqueda" 
+             class="linea-ruta" 
+             [ngClass]="ruta.tipoServicio"
+             [ngStyle]="obtenerEstiloRuta(ruta)">
+        </div>
+      </div>
+  
+      <div *ngIf="ubicacionActiva" class="panel-info-ubicacion">
+        <h4>{{ ubicacionActiva }}</h4>
+        <div class="rutas-en-ubicacion">
+          <div *ngFor="let ruta of getRutasPorUbicacion(ubicacionActiva)" 
+               class="ruta-mini-card"
+               (click)="seleccionarRuta(ruta)"
+               [style.border-left]="'4px solid ' + getColorTipo(ruta.tipoServicio)">
+            <span class="tipo-ruta">{{ ruta.tipoServicio }}</span>
+            {{ ruta.nombre }}
           </div>
         </div>
       </div>

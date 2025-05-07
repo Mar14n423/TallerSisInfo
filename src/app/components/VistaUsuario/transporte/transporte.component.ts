@@ -1,8 +1,8 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
-import { CommonModule } from '@angular/common'; // Importa CommonModule
-import { FormsModule } from '@angular/forms'; 
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Ruta } from './transporte.interface';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,8 +15,19 @@ import { MatCardModule } from '@angular/material/card';
 @Component({
   selector: 'app-transporte',
   standalone: true,
-  imports: [FooterComponent, NavbarComponent, MatProgressBarModule,CommonModule, FormsModule,   MatIconModule,
-    MatButtonModule,MatFormFieldModule,MatInputModule,MatSelectModule,MatCardModule],
+  imports: [
+    FooterComponent,
+    NavbarComponent,
+    MatProgressBarModule,
+    CommonModule,
+    FormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule
+  ],
   templateUrl: './transporte.component.html',
   styleUrl: './transporte.component.scss'
 })
@@ -66,7 +77,6 @@ export class TransporteComponent implements OnInit {
       disponibilidad: 'Diario',
       descripcionVisual: 'Ruta circular que recorre el Anillo Periférico Este y conecta varios mercados centrales.',
     },
-
   ];
 
   filtroUbicacion: string = '';
@@ -74,12 +84,59 @@ export class TransporteComponent implements OnInit {
   resultadosBusqueda: Ruta[] = [];
   rutaSeleccionada: Ruta | null = null;
   mensajeError: string = '';
+  ubicacionActiva: string | null = null; 
 
-  tiposDeServicio: string[] = ['Regular', 'Expreso', 'Circular', 'Todos']; // Para el filtro
-  ubicaciones: string[] = ['Todos', 'Plaza Principal', 'Campus Universitario', 'Barrio Norte', 'Hospital Central', 'Terminal de Buses', 'Plaza 14 de Septiembre', 'Anillo Periférico Este', 'Mercado La Cancha']; // Para el filtro
+  tiposDeServicio: string[] = ['Regular', 'Expreso', 'Circular', 'Todos'];
+  ubicaciones: string[] = ['Plaza Principal', 'Campus Universitario', 'Barrio Norte', 
+                          'Hospital Central', 'Terminal de Buses', 'Plaza 14 de Septiembre', 
+                          'Anillo Periférico Este', 'Mercado La Cancha'];
 
   ngOnInit(): void {
-    this.resultadosBusqueda = [...this.rutas]; // Inicialmente mostrar todas las rutas
+    this.resultadosBusqueda = [...this.rutas];
+  }
+
+  getUbicacionX(ubicacion: string): number {
+    const index = this.ubicaciones.indexOf(ubicacion);
+    if (index === -1) return 0;
+    const col = index % 3;
+    return 15 + (col * 35);
+  }
+
+  getUbicacionY(ubicacion: string): number {
+    const index = this.ubicaciones.indexOf(ubicacion);
+    if (index === -1) return 0;
+    const row = Math.floor(index / 3);
+    return 15 + (row * 30);
+  }
+
+  obtenerEstiloRuta(ruta: Ruta): any {
+    const startX = this.getUbicacionX(ruta.ubicacionInicio);
+    const startY = this.getUbicacionY(ruta.ubicacionInicio);
+    const endX = this.getUbicacionX(ruta.ubicacionFin);
+    const endY = this.getUbicacionY(ruta.ubicacionFin);
+  
+    const dx = endX - startX;
+    const dy = endY - startY;
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+    const length = Math.sqrt(dx * dx + dy * dy);
+  
+    return {
+      'left': `${Math.min(startX, endX)}%`,
+      'top': `${Math.min(startY, endY)}%`,
+      'width': `${length}%`,
+      'transform': `rotate(${angle}deg)`
+    };
+  }
+
+  mostrarInfoUbicacion(ubicacion: string): void {
+    this.ubicacionActiva = this.ubicacionActiva === ubicacion ? null : ubicacion;
+  }
+
+  getRutasPorUbicacion(ubicacion: string): Ruta[] {
+    return this.rutas.filter(ruta => 
+      ruta.ubicacionInicio === ubicacion || 
+      ruta.ubicacionFin === ubicacion
+    );
   }
 
   buscarRutas(): void {
@@ -97,7 +154,8 @@ export class TransporteComponent implements OnInit {
     if (this.resultadosBusqueda.length === 0) {
       this.mensajeError = 'No se encontraron rutas con los criterios de búsqueda.';
     }
-    this.rutaSeleccionada = null; 
+    this.rutaSeleccionada = null;
+    this.ubicacionActiva = null; 
   }
 
   seleccionarRuta(ruta: Ruta): void {
@@ -110,8 +168,19 @@ export class TransporteComponent implements OnInit {
     this.resultadosBusqueda = [...this.rutas];
     this.mensajeError = '';
     this.rutaSeleccionada = null;
+    this.ubicacionActiva = null;
   }
+
   getTipoServicioClass(tipo: string): string {
     return tipo.toLowerCase();
+  }
+
+  getColorTipo(tipo: string): string {
+    const colores: Record<string, string> = {
+      'Regular': '#1976d2',
+      'Expreso': '#ff9800',
+      'Circular': '#9c27b0'
+    };
+    return colores[tipo] || '#1976d2';
   }
 }
