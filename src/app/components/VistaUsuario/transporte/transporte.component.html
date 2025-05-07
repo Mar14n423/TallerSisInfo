@@ -1,11 +1,93 @@
-<app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
+<app-navbar></app-navbar> 
 
-<div class="container mt-5">
-  <h2>En proceso</h2>
-  <p>Contenido de la página <strong>transporte...</strong></p>
-</div>
+<div class="rutas-container">
+  <h1 class="titulo-principal">Sistema de Rutas de Transporte</h1>
+  
+  <div class="contenedor-principal">
+    <div class="filtros-container">
+      <h3 class="subtitulo">Filtrar Rutas</h3>
+      <div class="filtros">
+        <div class="filtro-item busqueda">
+          <mat-form-field appearance="outline" class="ancho-completo">
+            <mat-label>Buscar ruta</mat-label>
+            <input matInput type="text" id="busqueda" [(ngModel)]="filtroUbicacion" 
+                   (input)="buscarRutas()" placeholder="Ubicación o nombre de ruta">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
 
-<div class="d-flex justify-content-center mt-4">
-  <mat-progress-bar mode="indeterminate" color="accent" style="width: 50%;"></mat-progress-bar>
+        <div class="filtro-item filtro-ubicacion">
+          <mat-form-field appearance="outline" class="ancho-completo">
+            <mat-label>Ubicación</mat-label>
+            <mat-select id="ubicacion" [(ngModel)]="filtroUbicacion" (selectionChange)="buscarRutas()">
+              <mat-option *ngFor="let ubicacion of ubicaciones" [value]="ubicacion">
+                {{ ubicacion }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="filtro-item filtro-servicio">
+          <mat-form-field appearance="outline" class="ancho-completo">
+            <mat-label>Tipo de servicio</mat-label>
+            <mat-select id="servicio" [(ngModel)]="filtroTipoServicio" (selectionChange)="buscarRutas()">
+              <mat-option *ngFor="let servicio of tiposDeServicio" [value]="servicio">
+                {{ servicio }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="filtro-item boton-limpiar-container">
+          <button mat-raised-button color="warn" (click)="limpiarFiltros()" class="boton-limpiar">
+            <mat-icon>clear_all</mat-icon> Limpiar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="contenido-principal">
+      <div class="lista-rutas-container">
+        <h3 class="subtitulo">Rutas Disponibles</h3>
+        <div class="lista-rutas">
+          <div *ngFor="let ruta of resultadosBusqueda" class="ruta-item" (click)="seleccionarRuta(ruta)">
+            <div class="ruta-header">
+              <h3>{{ ruta.nombre }}</h3>
+              <span class="badge-tipo" [ngClass]="getTipoServicioClass(ruta.tipoServicio)">
+                {{ ruta.tipoServicio }}
+              </span>
+            </div>
+            <div class="ruta-body">
+              <p><mat-icon>place</mat-icon> <strong>Inicio:</strong> {{ ruta.ubicacionInicio }}</p>
+              <p><mat-icon>flag</mat-icon> <strong>Fin:</strong> {{ ruta.ubicacionFin }}</p>
+              <p class="descripcion-visual">{{ ruta.descripcionVisual }}</p>
+            </div>
+          </div>
+          <p *ngIf="mensajeError" class="error-message">
+            <mat-icon>warning</mat-icon> {{ mensajeError }}
+          </p>
+        </div>
+      </div>
+      <div *ngIf="rutaSeleccionada" class="detalle-ruta-container">
+        <h3 class="subtitulo">Detalles de la Ruta</h3>
+        <div class="detalle-ruta">
+          <div class="detalle-header">
+            <h3>{{ rutaSeleccionada.nombre }}</h3>
+            <span class="badge-tipo" [ngClass]="getTipoServicioClass(rutaSeleccionada.tipoServicio)">
+              {{ rutaSeleccionada.tipoServicio }}
+            </span>
+          </div>
+          <div class="detalle-body">
+            <p><mat-icon>place</mat-icon> <strong>Inicio:</strong> {{ rutaSeleccionada.ubicacionInicio }}</p>
+            <p><mat-icon>flag</mat-icon> <strong>Fin:</strong> {{ rutaSeleccionada.ubicacionFin }}</p>
+            <p><mat-icon>schedule</mat-icon> <strong>Horarios:</strong> {{ rutaSeleccionada.horarios.join(', ') }}</p>
+            <p><mat-icon>timer</mat-icon> <strong>Duración:</strong> {{ rutaSeleccionada.duracionEstimada }}</p>
+            <p><mat-icon>event_available</mat-icon> <strong>Disponibilidad:</strong> {{ rutaSeleccionada.disponibilidad }}</p>
+            <p><mat-icon>description</mat-icon> <strong>Descripción:</strong> {{ rutaSeleccionada.descripcionVisual }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
+<app-footer></app-footer> 
