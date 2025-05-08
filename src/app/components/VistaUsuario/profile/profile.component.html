@@ -45,7 +45,7 @@
               <mat-icon>edit</mat-icon>
               <span>Editar perfil</span>
             </button>
-            <button mat-menu-item (click)="EliminarCuenta()">
+            <button mat-menu-item (click)="eliminarCuenta()">
               <mat-icon color="warn">delete</mat-icon>
               <span>Eliminar cuenta</span>
             </button>
@@ -56,17 +56,45 @@
 
     <mat-divider class="my-4"></mat-divider>
 
-    <section>
+    <!-- Vista normal -->
+    <section *ngIf="!modoEdicion">
       <h4>Información personal y contacto</h4>
       <p><strong>Correo:</strong> {{ user.email }}</p>
       <p><strong>Teléfono:</strong> {{ user.phone }}</p>
       <p><strong>Dirección:</strong> {{ user.address }}</p>
     </section>
 
-    <section>
+    <section *ngIf="!modoEdicion">
       <mat-divider class="my-4"></mat-divider>
       <h4>Información sobre la discapacidad</h4>
       <p>{{ user.disabilityInfo }}</p>
+    </section>
+
+    <!-- Vista edición -->
+    <section *ngIf="modoEdicion">
+      <h4>Editar información personal</h4>
+      <p><strong>Nombre:</strong>
+        <input matInput type="text" #nameInput [value]="user.name" class="form-control" />
+      </p>
+      <p><strong>Correo:</strong>
+        <input matInput type="email" #emailInput [value]="user.email" class="form-control" />
+      </p>
+      <p><strong>Teléfono:</strong>
+        <input matInput type="tel" #phoneInput [value]="user.phone" class="form-control" />
+      </p>
+      <p><strong>Dirección:</strong>
+        <input matInput type="text" #addressInput [value]="user.address" class="form-control" />
+      </p>
+      <p><strong>Discapacidad:</strong>
+        <input matInput type="text" #discapacidadInput [value]="user.disabilityInfo" class="form-control" />
+      </p>
+
+      <div class="mt-3">
+        <button mat-raised-button color="primary"
+                (click)="guardarCambios(nameInput, emailInput, phoneInput, addressInput, discapacidadInput)">
+          Guardar cambios
+        </button>
+      </div>
     </section>
 
     <mat-divider class="my-4"></mat-divider>

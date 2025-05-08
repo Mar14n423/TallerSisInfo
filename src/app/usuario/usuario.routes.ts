@@ -63,10 +63,5 @@ export const usuarioRoutes: Routes = [
       import('../components/VistaUsuario/delete-account/delete-account.component')
         .then(m => m.DeleteAccountComponent)
   },
-  {
-     path: 'editProfile',
-        loadComponent: () =>
-          import('../components/VistaUsuario/editProfile/editProfile.component')
-            .then(m => m.EditProfileComponent)
-      }
+
 ];
