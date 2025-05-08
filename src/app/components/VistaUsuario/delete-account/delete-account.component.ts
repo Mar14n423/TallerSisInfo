@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';  // Asegúrate de importar Inject correctamente
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UsuarioService } from '../register/usuario.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   standalone: true,
@@ -18,26 +20,26 @@ import { MatButtonModule } from '@angular/material/button';
 export class DeleteAccountComponent {
   constructor(
     private dialogRef: MatDialogRef<DeleteAccountComponent>,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    @Inject(MAT_DIALOG_DATA) public data: { user: any }  // Asegúrate de que MAT_DIALOG_DATA está siendo inyectado correctamente
   ) {}
 
   eliminarCuenta() {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      this.usuarioService.eliminarUsuario(+userId).then(
-        () => {
-          alert('Tu cuenta ha sido eliminada exitosamente.');
-          window.location.href = '/';
-        },
-        (error) => {
-          console.error('Error al eliminar la cuenta:', error);
-          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.response?.data || 'Error desconocido'));
-        }
-      );
-    }
+    const userId = this.data.user.id;
+
+    this.usuarioService.eliminarUsuario(userId).then(
+      (response) => {
+        console.log('Cuenta eliminada:', response);
+        this.dialogRef.close('eliminar');  // Cierra el diálogo después de eliminar
+      },
+      (error) => {
+        console.error('Error al eliminar cuenta:', error);
+        alert('Hubo un problema al eliminar la cuenta.');
+      }
+    );
   }
 
   cerrar() {
-    this.dialogRef.close();
+    this.dialogRef.close();  // Cierra el diálogo sin eliminar la cuenta
   }
 }

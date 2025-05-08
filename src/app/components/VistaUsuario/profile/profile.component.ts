@@ -12,6 +12,7 @@ import { DeleteAccountComponent } from '../delete-account/delete-account.compone
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { EditProfileComponent } from '../editProfile/editProfile.component';
+import { Router } from '@angular/router'; // Importar Router
 
 interface User {
   id: number;
@@ -39,7 +40,7 @@ interface User {
     MatCardModule,
     MatIconModule,
     MatMenuModule,
-    MatDividerModule, 
+    MatDividerModule,
     MatListModule,
     MatDialogModule
   ],
@@ -60,7 +61,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private usuarioService: UsuarioService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -89,22 +91,35 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  // Método para abrir el diálogo de edición de perfil
   editarPerfil(): void {
     const dialogRef = this.dialog.open(EditProfileComponent, {
-      width: '800px',
-      panelClass: 'edit-profile-dialog', // Clase CSS personalizada para el diálogo
-      backdropClass: 'custom-backdrop', // Clase CSS para el fondo oscuro
-      autoFocus: false, // Evita el auto-focus que puede causar estilos no deseados
-      data: { user: { ...this.user } }
+      width: '400px',  // Tamaño del diálogo
+      data: { user: this.user }  // Pasa los datos del usuario al diálogo
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'updated') {
-        this.cargarPerfil(); // Recargar los datos después de editar
+      if (result) {
+        this.user = result;  // Si el usuario ha actualizado el perfil, actualiza los datos
       }
     });
   }
 
+  // Método para abrir el diálogo de eliminación de cuenta
+  EliminarCuenta(): void {
+    const dialogRef = this.dialog.open(DeleteAccountComponent, {
+      width: '400px',
+      data: { user: this.user }  // Pasa los datos del usuario para la eliminación
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'eliminar') {
+        this.router.navigate(['/login']);  // Redirige al login después de eliminar la cuenta
+      }
+    });
+  }
+
+  // Método para manejar la selección de imagen de perfil
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -127,21 +142,6 @@ export class ProfileComponent implements OnInit {
       };
       reader.readAsDataURL(file);
     }
-  }
-
-  EliminarCuenta(): void {
-    const dialogRef = this.dialog.open(DeleteAccountComponent, {
-      width: '400px',
-      panelClass: 'delete-account-dialog',
-      backdropClass: 'custom-backdrop'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 'deleted') {
-        localStorage.removeItem('userId');
-        window.location.href = '/';
-      }
-    });
   }
 
   private construirUsuarioActualizado(): any {

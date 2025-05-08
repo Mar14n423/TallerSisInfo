@@ -1,12 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../register/usuario.service';
 
 interface User {
@@ -23,20 +17,9 @@ interface User {
 }
 
 @Component({
-  standalone: true,
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss'],
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatDividerModule
-  ],
 })
 export class EditProfileComponent implements OnInit {
   user: User;
@@ -48,19 +31,20 @@ export class EditProfileComponent implements OnInit {
     public dialogRef: MatDialogRef<EditProfileComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { user: User }
   ) {
-    this.user = { ...data.user };
+    this.user = { ...data.user };  // Clonamos los datos para evitar modificaciones directas
     this.profileForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: [''],
-      address: [''],
-      disabilityInfo: [''],
-      role: [''],
-      specialization: ['']
+      name: [this.user.name, Validators.required],
+      email: [this.user.email, [Validators.required, Validators.email]],
+      phone: [this.user.phone],
+      address: [this.user.address],
+      disabilityInfo: [this.user.disabilityInfo],
+      role: [this.user.role],
+      specialization: [this.user.specialization]
     });
   }
 
   ngOnInit(): void {
+    // Rellenar los campos del formulario con los datos del usuario
     this.profileForm.patchValue({
       name: this.user.name,
       email: this.user.email,
@@ -72,31 +56,49 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
-  guardarCambios(): void {
-    if (this.profileForm.valid) {
-      const formValues = this.profileForm.value;
-      this.user = {
-        ...this.user,
-        name: formValues.name,
-        email: formValues.email,
-        phone: formValues.phone,
-        address: formValues.address,
-        disabilityInfo: formValues.disabilityInfo,
-        role: formValues.role,
-        specialization: formValues.specialization
-      };
-
-      this.usuarioService
-        .actualizarUsuario(this.user.id, this.construirUsuarioActualizado())
-        .then(() => {
-          this.dialogRef.close('updated');
-        })
-        .catch((error) => {
-          console.error('Error al actualizar perfil:', error);
-        });
-    }
+  // Método para construir el usuario actualizado
+  private construirUsuarioActualizado(): any {
+    return {
+      name: this.profileForm.value.name,
+      email: this.profileForm.value.email,
+      phone: this.profileForm.value.phone,
+      address: this.profileForm.value.address,
+      disabilityInfo: this.profileForm.value.disabilityInfo,
+      role: this.profileForm.value.role,
+      specialization: this.profileForm.value.specialization,
+      profileImage: this.user.profileImage,
+      workExperience: this.user.workExperience
+    };
   }
 
+  // Método para guardar los cambios
+  guardarCambios() {
+    if (this.profileForm.invalid) {
+      console.log('Formulario inválido');
+      return;
+    }
+
+    const usuarioActualizado = this.construirUsuarioActualizado();
+
+    // Llamada al servicio para actualizar el perfil
+    this.usuarioService.actualizarUsuario(this.user.id, usuarioActualizado).then(
+      (response: any) => {
+        console.log('Perfil actualizado correctamente:', response);
+        this.dialogRef.close(response);  // Cierra el diálogo con la respuesta
+      },
+      (error: any) => {
+        console.error('Error al actualizar el perfil:', error);
+        alert('Hubo un problema al actualizar el perfil.');
+      }
+    );
+  }
+
+  // Cancelar la edición
+  cancelarEdicion() {
+    this.dialogRef.close();  // Cierra el diálogo sin realizar cambios
+  }
+
+  // Manejar la selección de la imagen de perfil
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -104,35 +106,9 @@ export class EditProfileComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.user.profileImage = e.target.result;
+        this.user.profileImage = e.target.result;  // Establece la nueva imagen de perfil
       };
       reader.readAsDataURL(file);
     }
-  }
-
-  agregarExperiencia(): void {
-    this.user.workExperience = this.user.workExperience || [];
-    this.user.workExperience.push('');
-  }
-
-  eliminarExperiencia(index: number): void {
-    this.user.workExperience.splice(index, 1);
-  }
-
-  cancelarEdicion(): void {
-    this.dialogRef.close();
-  }
-
-  private construirUsuarioActualizado(): any {
-    return {
-      nombre: this.user.name,
-      correo: this.user.email,
-      discapacidad: this.user.disabilityInfo,
-      tipo: this.user.role === 'Administrador' ? 'A' : 'U',
-      profileImage: this.user.profileImage,
-      telefono: this.user.phone,
-      direccion: this.user.address,
-      passwordHash: null
-    };
   }
 }
