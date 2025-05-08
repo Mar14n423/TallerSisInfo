@@ -4,15 +4,27 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UsuarioService } from '../register/usuario.service';
+import { DeleteAccountComponent } from '../delete-account/delete-account.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
-import { UsuarioService } from '../register/usuario.service';
+import { EditProfileComponent } from '../editProfile/editProfile.component';
+
+interface User {
+  id: number;
+  profileImage: string;
+  name: string;
+  role: string;
+  specialization: string;
+  email: string;
+  phone: string;
+  address: string;
+  disabilityInfo: string;
+  workExperience: any[];
+}
 
 @Component({
   standalone: true,
@@ -25,18 +37,16 @@ import { UsuarioService } from '../register/usuario.service';
     FooterComponent,
     NavbarComponent,
     MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatTooltipModule,
-    MatDividerModule,
+    MatDividerModule, 
     MatListModule,
+    MatDialogModule
   ],
 })
 export class ProfileComponent implements OnInit {
-  user: any = {
+  user: User = {
+    id: 0,
     profileImage: '',
     name: '',
     role: '',
@@ -48,16 +58,22 @@ export class ProfileComponent implements OnInit {
     workExperience: [],
   };
 
-  modoEdicion: boolean = false;
-
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(
+    private usuarioService: UsuarioService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    const userId = localStorage.getItem('userId');
+    this.cargarPerfil();
+  }
+
+  cargarPerfil(): void {
+    const userId = this.getUserId();
     if (userId) {
-      this.usuarioService.obtenerUsuarioPorId(+userId)
+      this.usuarioService.obtenerUsuarioPorId(userId)
         .then((usuario) => {
           this.user = {
+            id: usuario.id,
             profileImage: usuario.profileImage || 'assets/default-profile.png',
             name: usuario.nombre,
             role: usuario.tipo === 'A' ? 'Administrador' : 'Usuario',
@@ -74,43 +90,19 @@ export class ProfileComponent implements OnInit {
   }
 
   editarPerfil(): void {
-    this.modoEdicion = true;
-  }
+    const dialogRef = this.dialog.open(EditProfileComponent, {
+      width: '800px',
+      panelClass: 'edit-profile-dialog', // Clase CSS personalizada para el diálogo
+      backdropClass: 'custom-backdrop', // Clase CSS para el fondo oscuro
+      autoFocus: false, // Evita el auto-focus que puede causar estilos no deseados
+      data: { user: { ...this.user } }
+    });
 
-  guardarCambios(
-    nameInput: HTMLInputElement,
-    emailInput: HTMLInputElement,
-    phoneInput: HTMLInputElement,
-    addressInput: HTMLInputElement,
-    discapacidadInput: HTMLInputElement
-  ): void {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      const usuarioActualizado = {
-        nombre: nameInput.value,
-        correo: emailInput.value,
-        discapacidad: discapacidadInput.value,
-        tipo: this.user.role === 'Administrador' ? 'A' : 'U',
-        profileImage: this.user.profileImage,
-        telefono: phoneInput.value,
-        direccion: addressInput.value,
-        passwordHash: null,
-      };
-
-      this.usuarioService
-        .actualizarUsuario(+userId, usuarioActualizado)
-        .then(() => {
-          this.user.name = nameInput.value;
-          this.user.email = emailInput.value;
-          this.user.phone = phoneInput.value;
-          this.user.address = addressInput.value;
-          this.user.disabilityInfo = discapacidadInput.value;
-          this.modoEdicion = false;
-        })
-        .catch((error) =>
-          console.error('Error al actualizar perfil:', error)
-        );
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'updated') {
+        this.cargarPerfil(); // Recargar los datos después de editar
+      }
+    });
   }
 
   onImageSelected(event: Event): void {
@@ -123,24 +115,11 @@ export class ProfileComponent implements OnInit {
         const base64Image = e.target.result;
         this.user.profileImage = base64Image;
 
-        const userId = localStorage.getItem('userId');
+        const userId = this.getUserId();
         if (userId) {
-          const usuarioActualizado = {
-            nombre: this.user.name,
-            correo: this.user.email,
-            discapacidad: this.user.disabilityInfo,
-            tipo: this.user.role === 'Administrador' ? 'A' : 'U',
-            profileImage: base64Image,
-            telefono: this.user.phone,
-            direccion: this.user.address,
-            passwordHash: null,
-          };
-
           this.usuarioService
-            .actualizarUsuario(+userId, usuarioActualizado)
-            .then(() =>
-              console.log('Imagen actualizada correctamente')
-            )
+            .actualizarUsuario(userId, this.construirUsuarioActualizado())
+            .then(() => console.log('Imagen actualizada correctamente'))
             .catch((error) =>
               console.error('Error al actualizar la imagen:', error)
             );
@@ -150,8 +129,36 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  eliminarCuenta(): void {
-    console.log('Eliminar cuenta clickeado');
-    // Aquí podrías llamar a un método DELETE en tu servicio si lo implementas
+  EliminarCuenta(): void {
+    const dialogRef = this.dialog.open(DeleteAccountComponent, {
+      width: '400px',
+      panelClass: 'delete-account-dialog',
+      backdropClass: 'custom-backdrop'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'deleted') {
+        localStorage.removeItem('userId');
+        window.location.href = '/';
+      }
+    });
+  }
+
+  private construirUsuarioActualizado(): any {
+    return {
+      nombre: this.user.name,
+      correo: this.user.email,
+      discapacidad: this.user.disabilityInfo,
+      tipo: this.user.role === 'Administrador' ? 'A' : 'U',
+      profileImage: this.user.profileImage,
+      telefono: this.user.phone,
+      direccion: this.user.address,
+      passwordHash: null
+    };
+  }
+
+  private getUserId(): number | null {
+    const id = localStorage.getItem('userId');
+    return id ? +id : null;
   }
 }

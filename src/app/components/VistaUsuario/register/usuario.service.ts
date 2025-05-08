@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -52,5 +53,13 @@ actualizarUsuario(id: number, usuarioActualizado: any) {
     });
 }
 
+eliminarUsuario(id: number) {
+  return axios.delete(`http://localhost:8080/api/usuarios/${id}`)
+    .then(response => response.data)  //
+    .catch(error => {
+      console.error('Error al eliminar usuario:', error);
+      throw error;
+    });
+}
 
 }
