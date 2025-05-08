@@ -31,13 +31,12 @@
       <div class="flex-grow-1">
         <div class="d-flex justify-content-between align-items-start">
           <div>
-            <h2 *ngIf="!modoEdicion">{{ user.name }}</h2>
+            <h2>{{ user.name }}</h2>
             <p class="text-muted mb-0">{{ user.role }}</p>
             <p class="mb-3">{{ user.specialization }}</p>
           </div>
 
-          <!-- Botón menú en modo vista -->
-          <button *ngIf="!modoEdicion" mat-icon-button [matMenuTriggerFor]="profileMenu">
+          <button mat-icon-button [matMenuTriggerFor]="profileMenu">
             <mat-icon>more_vert</mat-icon>
           </button>
 
