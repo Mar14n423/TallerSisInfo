@@ -37,6 +37,13 @@ export const usuarioRoutes: Routes = [
       import('../components/VistaUsuario/marketplace/marketplace.component').then(m => m.MarketplaceComponent)
   },
   {
+    path: 'marketplace/mas-informacion',
+    loadComponent: () =>
+      import('../components/VistaUsuario/marketplace/mas-informacion/mas-informacion.component')
+        .then(m => m.MasInformacionComponent)
+  },
+
+  {
     path: 'marketplace/:id',
     loadComponent: () =>
       import('../components/VistaUsuario/detalle-marketplace/detalle-marketplace.component')
