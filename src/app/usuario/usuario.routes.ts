@@ -42,6 +42,13 @@ export const usuarioRoutes: Routes = [
       import('../components/VistaUsuario/marketplace/mas-informacion/mas-informacion.component')
         .then(m => m.MasInformacionComponent)
   },
+  {
+    path: 'marketplace/carrito',
+    loadComponent: () =>
+      import('../components/VistaUsuario/marketplace/carrito/carrito.component')
+        .then(m => m.CarritoComponent)
+  },
+
 
   {
     path: 'marketplace/:id',
