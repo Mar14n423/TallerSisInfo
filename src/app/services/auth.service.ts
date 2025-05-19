@@ -52,7 +52,7 @@ export class AuthService {
       // Continuamos con el logout en frontend aunque falle la llamada al backend
     } finally {
       this.clearAuthData();
-      this.router.navigate(['/login-admin']); // Redirige al login de admin
+      this.router.navigate(['/']); // Redirige al login de admin
     }
   }
 

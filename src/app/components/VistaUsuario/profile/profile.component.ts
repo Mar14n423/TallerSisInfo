@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { UsuarioService } from '../register/usuario.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -50,7 +51,7 @@ export class ProfileComponent implements OnInit {
 
   modoEdicion: boolean = false;
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(private usuarioService: UsuarioService, private authService: AuthService,private router: Router) {}
 
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
@@ -153,5 +154,10 @@ export class ProfileComponent implements OnInit {
   eliminarCuenta(): void {
     console.log('Eliminar cuenta clickeado');
     // Aquí podrías llamar a un método DELETE en tu servicio si lo implementas
+  }
+    logout(): void {
+    this.authService.logout();
+    //this.router.navigate(['/login']); 
+    this.router.navigate(['/']);
   }
 }

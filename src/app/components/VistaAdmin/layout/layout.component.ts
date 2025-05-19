@@ -46,7 +46,7 @@ export class LayoutComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.authService.logout().then(()=>{
-        this.router.navigate(['/login-admin']);
+        this.router.navigate(['/']);
         })
       }
     });
