@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import static org.springframework.security.config.Customizer.withDefaults;
 import java.util.Arrays;
+import org.springframework.http.HttpStatus;
 
 @Configuration
 @EnableWebSecurity
@@ -37,6 +38,16 @@ public class SecurityConfig {
           "/v3/api-docs/**"
         ).permitAll()
         .anyRequest().authenticated()
+      )
+      .logout(logout -> logout
+        .logoutUrl("/api/logout") // Endpoint para logout
+        .logoutSuccessHandler((request, response, authentication) -> {
+          response.setStatus(HttpStatus.OK.value());
+          response.getWriter().flush();
+        })
+        .invalidateHttpSession(true)
+        .deleteCookies("JSESSIONID")
+        .permitAll()
       )
       .formLogin(form -> form.disable())
       .httpBasic(basic -> basic.disable());

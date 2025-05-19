@@ -39,11 +39,21 @@ export class AuthService {
       }
   }
 
-  logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('tipo');
-    localStorage.removeItem('userId');
-    this.router.navigate(['/login']);
+ async logout(): Promise<void> {
+    try {
+      // Opcional: Llama al endpoint de logout del backend si lo tienes
+      await axios.post(`${this.apiUrl}/logout`, {}, {
+        headers: {
+          'Authorization': `Bearer ${this.getToken()}`
+        }
+      });
+    } catch (error) {
+      console.warn('Error al notificar al backend sobre el logout:', error);
+      // Continuamos con el logout en frontend aunque falle la llamada al backend
+    } finally {
+      this.clearAuthData();
+      this.router.navigate(['/login-admin']); // Redirige al login de admin
+    }
   }
 
   isLoggedIn(): boolean {
@@ -56,5 +66,10 @@ export class AuthService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+   public clearAuthData(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('tipo');
+    localStorage.removeItem('userId');
   }
 }
