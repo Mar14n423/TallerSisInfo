@@ -78,7 +78,7 @@ export class ProfilecompanyComponent implements OnInit {
             email: empresa.correo,
             phone: empresa.telefono ?? 'No disponible',
             address: empresa.direccion ?? 'No disponible',
-            disabilityInfo: empresa.discapacidad || 'No especificada',
+            disabilityInfo: empresa.informacion || 'No especificada',
             workExperience: []
           };
         })
@@ -102,7 +102,7 @@ export class ProfilecompanyComponent implements OnInit {
     emailInput: HTMLInputElement,
     phoneInput: HTMLInputElement,
     addressInput: HTMLInputElement,
-    discapacidadInput: HTMLInputElement
+    informacionInput: HTMLInputElement
   ): void {
     const empresaId = localStorage.getItem('empresaId');
     if (empresaId) {
@@ -111,7 +111,7 @@ export class ProfilecompanyComponent implements OnInit {
         correo: emailInput.value,
         telefono: phoneInput.value,
         direccion: addressInput.value,
-        discapacidad: discapacidadInput.value,
+        informacion: informacionInput.value,
         profileImage: this.user.profileImage
       };
 
@@ -122,7 +122,7 @@ export class ProfilecompanyComponent implements OnInit {
           this.user.email = emailInput.value;
           this.user.phone = phoneInput.value;
           this.user.address = addressInput.value;
-          this.user.disabilityInfo = discapacidadInput.value;
+          this.user.disabilityInfo = informacionInput.value;
           this.modoEdicion = false;
         })
         .catch((error) => console.error('Error al actualizar empresa:', error));
@@ -165,7 +165,7 @@ export class ProfilecompanyComponent implements OnInit {
             correo: this.user.email,
             telefono: this.user.phone,
             direccion: this.user.address,
-            discapacidad: this.user.disabilityInfo,
+            informacion: this.user.disabilityInfo,
             profileImage: base64Image
           };
 

@@ -57,7 +57,7 @@
 
       <mat-divider class="my-4"></mat-divider>
 
-      <h4>Información sobre la discapacidad</h4>
+      <h4>Información sobre la empresa</h4>
       <p>{{ user.disabilityInfo }}</p>
     </section>
 
@@ -82,7 +82,7 @@
           <input matInput type="text" #addressInput [value]="user.address" class="form-control" />
         </div>
         <div class="col-md-12 mb-3">
-          <label><strong>Discapacidad:</strong></label>
+          <label><strong>Informacion sobre la empresa:</strong></label>
           <input matInput type="text" #discapacidadInput [value]="user.disabilityInfo" class="form-control" />
         </div>
       </div>
@@ -99,7 +99,7 @@
 
     <!-- Experiencia -->
     <section>
-      <h4>Experiencia laboral</h4>
+      <h4>Trabajos disponibles</h4>
       <mat-list>
         <mat-list-item *ngFor="let job of user.workExperience">
           <mat-icon matListIcon>work</mat-icon>
