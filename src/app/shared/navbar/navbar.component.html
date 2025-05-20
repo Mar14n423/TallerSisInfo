@@ -47,25 +47,49 @@
 
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg navbar-custom shadow-sm py-3 py-lg-0 px-3 px-lg-0 ">
-        <a href="index.html" class="navbar-brand ms-lg-5">
-            <img src="imagenes/LOGONUEVO.png" alt="Logo " class="img-fluid" style="max-height: 90px;">
-            <img src="imagenes/logoSF.png" alt="sin fronteras" class="img-fluid ms-2" style="max-height: 200px;">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0">
-              <a href="index.html" class="nav-item nav-link active">Inicio</a>
-              <a routerLink="/empleo" class="nav-item nav-link">Empleo</a>
-              <a routerLink="/transporte" class="nav-item nav-link">Transporte</a>
-              <a routerLink="/foro" class="nav-item nav-link">Foro</a>
-              <a routerLink="/marketplace" class="nav-item nav-link">Marketplace</a>
-              <a routerLink="/eventos-usuario" class="nav-item nav-link">Eventos</a>
-                <a routerLink="/registrate" class="nav-item nav-link nav-contact bg-primary w-300 text-white px-5 ms-lg-5">Registrate <i class="bi bi-arrow-right"></i></a>
-            </div>
+      <a routerLink="/" class="navbar-brand ms-lg-5">
+        <img src="imagenes/LOGONUEVO.png" alt="Logo" class="img-fluid" style="max-height: 90px;">
+        <img src="imagenes/logoSF.png" alt="sin fronteras" class="img-fluid ms-2" style="max-height: 200px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto py-0">
+
+          <!-- Rutas para USUARIO -->
+          <ng-container *ngIf="tipoUsuario === 'usuario'">
+            <a routerLink="/empleo" class="nav-item nav-link">Empleo</a>
+            <a routerLink="/transporte" class="nav-item nav-link">Transporte</a>
+            <a routerLink="/foro" class="nav-item nav-link">Foro</a>
+            <a routerLink="/marketplace" class="nav-item nav-link">Marketplace</a>
+            <a routerLink="/eventos-usuario" class="nav-item nav-link">Eventos</a>
+            <a routerLink="/profile" class="nav-item nav-link">Mi Perfil</a>
+            <a class="nav-item nav-link text-danger" (click)="logout()">Cerrar sesión</a>
+          </ng-container>
+
+          <!-- Rutas para EMPRESA -->
+          <ng-container *ngIf="tipoUsuario === 'empresa'">
+            <a routerLink="/homecompany" class="nav-item nav-link">Inicio Empresa</a>
+            <a routerLink="/empleo-empresa" class="nav-item nav-link">Empleos Publicados</a>
+            <a routerLink="/profilecompany" class="nav-item nav-link">Perfil</a>
+            <!--  <a routerLink="/delete-account" class="nav-item nav-link">Eliminar Cuenta</a>--> <!-- si aplica -->
+            <a class="nav-item nav-link text-danger" (click)="logout()">Cerrar sesión</a>
+          </ng-container>
+
+
+          <!-- Rutas para NO AUTENTICADOS -->
+          <ng-container *ngIf="!tipoUsuario">
+            <a routerLink="/login" class="nav-item nav-link">Iniciar sesión</a>
+            <a routerLink="/registrate" class="nav-item nav-link nav-contact bg-primary w-300 text-white px-5 ms-lg-5">
+              Regístrate <i class="bi bi-arrow-right"></i>
+            </a>
+          </ng-container>
+
         </div>
+      </div>
     </nav>
-    
     <!-- Navbar End -->
+
 </body>

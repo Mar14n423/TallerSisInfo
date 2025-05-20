@@ -14,6 +14,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { UsuarioService } from '../register/usuario.service';
 
+// 👉 Añadidos para el diálogo
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DeleteAccountComponent } from '../delete-account/delete-account.component';
+
 @Component({
   standalone: true,
   selector: 'app-profile',
@@ -33,6 +37,7 @@ import { UsuarioService } from '../register/usuario.service';
     MatTooltipModule,
     MatDividerModule,
     MatListModule,
+    MatDialogModule // 👉 necesario para usar <mat-dialog>
   ],
 })
 export class ProfileComponent implements OnInit {
@@ -50,7 +55,10 @@ export class ProfileComponent implements OnInit {
 
   modoEdicion: boolean = false;
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(
+    private usuarioService: UsuarioService,
+    private dialog: MatDialog // 👉 inyectamos MatDialog
+  ) {}
 
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
@@ -146,24 +154,18 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  eliminarCuenta() {
-    const confirmacion = confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');
-    if (confirmacion) {
-      if (!this.user?.id) {
-        alert('El ID del usuario no es válido. No se puede eliminar la cuenta.');
-        return;
-      }
+  // 🆕 Nueva forma de abrir el diálogo
+  eliminarCuenta(): void {
+    const dialogRef = this.dialog.open(DeleteAccountComponent, {
+      width: '400px',
+      data: { user: this.user }
+    });
 
-      this.usuarioService.eliminarUsuario(this.user.id).then(
-        () => {
-          alert('Tu cuenta ha sido eliminada exitosamente.');
-          window.location.href = '/';
-        },
-        (error) => {
-          console.error('Error al eliminar la cuenta:', error);
-          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.response?.data || 'Error desconocido'));
-        }
-      );
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'eliminar') {
+        localStorage.clear();
+        window.location.href = '/';
+      }
+    });
   }
 }

@@ -37,8 +37,9 @@ export class RegisterComponent {
         .then(response => {
           console.log('Usuario registrado con éxito:', response.data);
 
-          // ✅ Guardar el ID del usuario
-          localStorage.setItem('userId', response.data.id);
+          // ✅ Guardar en localStorage como usuario logueado
+                  localStorage.setItem('usuario', JSON.stringify(response.data));
+                  localStorage.setItem('userId', response.data.id);
 
           // ✅ Redirigir manualmente a la página de perfil
           window.location.href = '/profile';

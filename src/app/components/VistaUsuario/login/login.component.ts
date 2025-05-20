@@ -38,6 +38,8 @@ export class LoginComponent {
 
         // ✅ GUARDAR EL ID DEL USUARIO EN LOCALSTORAGE
         localStorage.setItem('userId', response.id);
+        // ✅ Guardar tipo usuario
+          localStorage.setItem('usuario', JSON.stringify(response));
 
         // ✅ REDIRIGIR AL PERFIL (o donde quieras)
         this.router.navigate(['/profile']); // Puedes cambiar la ruta si es necesario
