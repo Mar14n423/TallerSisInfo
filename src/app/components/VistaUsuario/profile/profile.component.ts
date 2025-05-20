@@ -57,8 +57,10 @@ export class ProfileComponent implements OnInit {
     if (userId) {
       this.usuarioService.obtenerUsuarioPorId(+userId)
         .then((usuario) => {
+          console.log('Usuario cargado:', usuario);
           this.user = {
             profileImage: usuario.profileImage || 'assets/default-profile.png',
+            id: usuario.id,
             name: usuario.nombre,
             role: usuario.tipo === 'A' ? 'Administrador' : 'Usuario',
             specialization: 'No especificada',
@@ -107,9 +109,7 @@ export class ProfileComponent implements OnInit {
           this.user.disabilityInfo = discapacidadInput.value;
           this.modoEdicion = false;
         })
-        .catch((error) =>
-          console.error('Error al actualizar perfil:', error)
-        );
+        .catch((error) => console.error('Error al actualizar perfil:', error));
     }
   }
 
@@ -138,20 +138,32 @@ export class ProfileComponent implements OnInit {
 
           this.usuarioService
             .actualizarUsuario(+userId, usuarioActualizado)
-            .then(() =>
-              console.log('Imagen actualizada correctamente')
-            )
-            .catch((error) =>
-              console.error('Error al actualizar la imagen:', error)
-            );
+            .then(() => console.log('Imagen actualizada correctamente'))
+            .catch((error) => console.error('Error al actualizar la imagen:', error));
         }
       };
       reader.readAsDataURL(file);
     }
   }
 
-  eliminarCuenta(): void {
-    console.log('Eliminar cuenta clickeado');
-    // Aquí podrías llamar a un método DELETE en tu servicio si lo implementas
+  eliminarCuenta() {
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');
+    if (confirmacion) {
+      if (!this.user?.id) {
+        alert('El ID del usuario no es válido. No se puede eliminar la cuenta.');
+        return;
+      }
+
+      this.usuarioService.eliminarUsuario(this.user.id).then(
+        () => {
+          alert('Tu cuenta ha sido eliminada exitosamente.');
+          window.location.href = '/';
+        },
+        (error) => {
+          console.error('Error al eliminar la cuenta:', error);
+          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.response?.data || 'Error desconocido'));
+        }
+      );
+    }
   }
 }
