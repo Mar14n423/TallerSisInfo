@@ -81,4 +81,12 @@ public class Publicacion {
     respuestas.add(respuesta);
     respuesta.setPublicacion(this); // Relacionamos la respuesta con esta publicación
   }
+  @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonManagedReference
+  private List<Reporte> reportes = new ArrayList<>();
+
+  public void agregarReporte(Reporte reporte) {
+    reportes.add(reporte);
+    reporte.setPublicacion(this);
+  }
 }

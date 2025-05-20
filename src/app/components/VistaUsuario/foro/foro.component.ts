@@ -29,6 +29,25 @@ export class ForoComponent {
   nuevoTitulo: string = '';
   nuevoMensaje: string = '';
   usuarioActual: string = 'UsuarioDemo';
+    mostrarModalReporteFlag: boolean = false;
+  contenidoReportadoId: string = '';
+  tipoContenidoReportado: 'post' | 'comentario' = 'post';
+  postPadreId: string = ''; // Para comentarios
+  razonReporte: string = '';
+  otraRazon: string = '';
+
+  // Variables para reglas
+  mostrarReglasFlag: boolean = false;
+  reglasForo: string = `
+    <ol>
+      <li><strong>Sé respetuoso:</strong> No toleramos comentarios ofensivos, discriminatorios o ataques personales.</li>
+      <li><strong>No spam:</strong> Publicar contenido repetitivo o promocional no está permitido.</li>
+      <li><strong>Mantén el contenido relevante:</strong> Los posts deben estar relacionados con la temática del foro.</li>
+      <li><strong>Protege la privacidad:</strong> No compartas información personal tuya o de otros.</li>
+      <li><strong>Reporta contenido inapropiado:</strong> Usa el botón de reporte para contenido que viola las reglas.</li>
+    </ol>
+    <p>Los administradores pueden editar o eliminar contenido que infrinja estas reglas.</p>
+  `;
 
   constructor(private foroService: ForoService) {
     this.cargarPublicaciones();
@@ -98,5 +117,51 @@ export class ForoComponent {
         }
       });
     }
+  }
+    mostrarModalReporte(id: string, tipo: 'post' | 'comentario', postPadreId?: string) {
+    this.contenidoReportadoId = id;
+    this.tipoContenidoReportado = tipo;
+    this.postPadreId = postPadreId || '';
+    this.mostrarModalReporteFlag = true;
+    this.razonReporte = '';
+    this.otraRazon = '';
+  }
+
+  cerrarModalReporte() {
+    this.mostrarModalReporteFlag = false;
+  }
+
+  enviarReporte() {
+    if (!this.razonReporte) {
+      alert('Por favor selecciona una razón para el reporte');
+      return;
+    }
+
+    const razonFinal = this.razonReporte === 'otro' ? this.otraRazon : this.razonReporte;
+    
+    const reporte = {
+      tipo: this.tipoContenidoReportado,
+      contenidoId: this.contenidoReportadoId,
+      postPadreId: this.postPadreId,
+      usuarioReportador: this.usuarioActual,
+      razon: razonFinal,
+      fecha: new Date().toISOString()
+    };
+
+    // En un entorno real, aquí llamarías al servicio para enviar el reporte
+    this.foroService.enviarReporte(reporte).subscribe({
+      next: () => {
+        alert('Reporte enviado correctamente. Los moderadores revisarán el contenido.');
+        this.cerrarModalReporte();
+      },
+      error: (err) => {
+        console.error('Error al enviar reporte:', err);
+        alert('Ocurrió un error al enviar el reporte. Por favor intenta nuevamente.');
+      }
+    });
+  }
+
+  mostrarReglas() {
+    this.mostrarReglasFlag = true;
   }
 }

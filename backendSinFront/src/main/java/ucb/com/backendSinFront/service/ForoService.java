@@ -2,23 +2,31 @@ package ucb.com.backendSinFront.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ucb.com.backendSinFront.entity.Publicacion;
-import ucb.com.backendSinFront.entity.Respuesta;
-import ucb.com.backendSinFront.repository.PublicacionRepository;
-import ucb.com.backendSinFront.repository.RespuestaRepository;
+import ucb.com.backendSinFront.entity.*;
+import ucb.com.backendSinFront.repository.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ForoService {
+    private final PublicacionRepository publicacionRepository;
+    private final RespuestaRepository respuestaRepository;
+    private final ReporteRepository reporteRepository;
+    private final ReglaForoRepository reglaForoRepository;
+    
+    @Autowired
+    public ForoService(PublicacionRepository publicacionRepository,
+                      RespuestaRepository respuestaRepository,
+                      ReporteRepository reporteRepository,
+                      ReglaForoRepository reglaForoRepository) {
+        this.publicacionRepository = publicacionRepository;
+        this.respuestaRepository = respuestaRepository;
+        this.reporteRepository = reporteRepository;
+        this.reglaForoRepository = reglaForoRepository;
+    }
 
-  @Autowired
-  private PublicacionRepository publicacionRepository;
-
-  @Autowired
-  private RespuestaRepository respuestaRepository;
-
+  
   public Publicacion crearPublicacion(Publicacion publicacion) {
     return publicacionRepository.save(publicacion);
   }
@@ -41,4 +49,23 @@ public class ForoService {
     }
     return null;
   }
+  public Reporte crearReporte(ReporteF reporte) {
+        reporte.setFecha(LocalDateTime.now());
+        reporte.setRevisado(false);
+        
+        if (reporte.getTipo() == Reporte.TipoContenido.POST) {
+            Publicacion publicacion = publicacionRepository.findById(reporte.getContenidoId())
+                .orElseThrow(() -> new RuntimeException("Publicación no encontrada"));
+            reporte.setPublicacion(publicacion);
+        } else {
+            Respuesta respuesta = respuestaRepository.findById(reporte.getContenidoId())
+                .orElseThrow(() -> new RuntimeException("Respuesta no encontrada"));
+            reporte.setRespuesta(respuesta);
+        }
+        
+        return reporteRepository.save(reporte);
+    }
+    public List<ReglaForo> obtenerReglasForo() {
+        return reglaForoRepository.findAllByOrderByOrdenAsc();
+    }
 }

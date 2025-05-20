@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ForoService {
-
-  private apiUrl = 'http://localhost:8080/api/foro'; // Ajusta la URL si tu backend usa otra
+  private apiUrl = 'http://localhost:8080/api/foro';
 
   constructor(private http: HttpClient) {}
 
@@ -21,5 +20,9 @@ export class ForoService {
 
   agregarRespuesta(publicacionId: number, respuesta: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/publicacion/${publicacionId}/respuesta`, respuesta);
+  }
+
+  enviarReporte(reporte: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/reporte`, reporte);
   }
 }
