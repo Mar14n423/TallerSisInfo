@@ -2,6 +2,8 @@ package ucb.com.backendSinFront.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
@@ -18,69 +20,32 @@ public class Respuesta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publicacion_id")
-    @JsonBackReference
+    @JsonBackReference 
     private Publicacion publicacion;
+    @OneToMany(mappedBy = "respuesta" /*, cascade = CascadeType.ALL, orphanRemoval = true */)
+    private List<ReporteF> reportes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "respuesta", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reporte> reportes = new ArrayList<>();
-
-    // Añade esta anotación para manejar la fecha automáticamente
     @PrePersist
     protected void onCreate() {
         this.fecha = LocalDate.now();
     }
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
+    public Respuesta() {} 
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
+    public Respuesta(String usuario, String mensaje) { /
         this.usuario = usuario;
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public Publicacion getPublicacion() {
-        return publicacion;
-    }
-
-    public void setPublicacion(Publicacion publicacion) {
-        this.publicacion = publicacion;
-    }
-
-    public List<Reporte> getReportes() {
-        return reportes;
-    }
-
-    public void setReportes(List<Reporte> reportes) {
-        this.reportes = reportes;
-    }
-
-    public void agregarReporte(Reporte reporte) {
-        reportes.add(reporte);
-        reporte.setRespuesta(this);
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getUsuario() { return usuario; }
+    public void setUsuario(String usuario) { this.usuario = usuario; }
+    public String getMensaje() { return mensaje; }
+    public void setMensaje(String mensaje) { this.mensaje = mensaje; }
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public Publicacion getPublicacion() { return publicacion; }
+    public void setPublicacion(Publicacion publicacion) { this.publicacion = publicacion; }
+    public List<ReporteF> getReportes() { return reportes; } 
+    public void setReportes(List<ReporteF> reportes) { this.reportes = reportes; }
 }

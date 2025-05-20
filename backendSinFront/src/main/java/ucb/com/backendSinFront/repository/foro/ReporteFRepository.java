@@ -1,10 +1,10 @@
 package ucb.com.backendSinFront.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ucb.com.backendSinFront.entity.Reporte;
+import ucb.com.backendSinFront.entity.ReporteF; 
 import java.util.List;
 
-public interface ReporteRepository extends JpaRepository<Reporte, Long> {
-    List<Reporte> findByRevisadoFalse();
-    List<Reporte> findByTipoAndContenidoId(Reporte.TipoContenido tipo, Long contenidoId);
+public interface ReporteFRepository extends JpaRepository<ReporteF, Long> { 
+    List<ReporteF> findByRevisadoFalse();
+    List<ReporteF> findByTipoAndContenidoId(ReporteF.TipoContenido tipo, Long contenidoId);
 }

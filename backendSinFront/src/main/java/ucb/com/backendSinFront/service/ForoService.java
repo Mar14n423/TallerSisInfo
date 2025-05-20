@@ -2,69 +2,80 @@ package ucb.com.backendSinFront.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ucb.com.backendSinFront.entity.*;
-import ucb.com.backendSinFront.repository.*;
+import ucb.com.backendSinFront.entity.*; 
+import ucb.com.backendSinFront.repository.*; 
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ForoService {
     private final PublicacionRepository publicacionRepository;
     private final RespuestaRepository respuestaRepository;
-    private final ReporteRepository reporteRepository;
+    private final ReporteFRepository reporteFRepository; 
     private final ReglaForoRepository reglaForoRepository;
-    
+
     @Autowired
     public ForoService(PublicacionRepository publicacionRepository,
                       RespuestaRepository respuestaRepository,
-                      ReporteRepository reporteRepository,
+                      ReporteFRepository reporteFRepository, 
                       ReglaForoRepository reglaForoRepository) {
         this.publicacionRepository = publicacionRepository;
         this.respuestaRepository = respuestaRepository;
-        this.reporteRepository = reporteRepository;
+        this.reporteFRepository = reporteFRepository;
         this.reglaForoRepository = reglaForoRepository;
     }
 
-  
-  public Publicacion crearPublicacion(Publicacion publicacion) {
-    return publicacionRepository.save(publicacion);
-  }
-
-  public List<Publicacion> obtenerTodasLasPublicaciones() {
-    return publicacionRepository.findAll();
-  }
-
-  public Optional<Publicacion> obtenerPublicacionPorId(Long id) {
-    return publicacionRepository.findById(id);
-  }
-
-  public Respuesta agregarRespuesta(Long publicacionId, Respuesta respuesta) {
-    Optional<Publicacion> publicacionOpt = publicacionRepository.findById(publicacionId);
-    if (publicacionOpt.isPresent()) {
-      Publicacion publicacion = publicacionOpt.get();
-      publicacion.agregarRespuesta(respuesta);
-      respuestaRepository.save(respuesta);
-      return respuesta;
+    public Publicacion crearPublicacion(Publicacion publicacion) {
+        return publicacionRepository.save(publicacion);
     }
-    return null;
-  }
-  public Reporte crearReporte(ReporteF reporte) {
-        reporte.setFecha(LocalDateTime.now());
-        reporte.setRevisado(false);
-        
-        if (reporte.getTipo() == Reporte.TipoContenido.POST) {
-            Publicacion publicacion = publicacionRepository.findById(reporte.getContenidoId())
-                .orElseThrow(() -> new RuntimeException("Publicación no encontrada"));
-            reporte.setPublicacion(publicacion);
-        } else {
-            Respuesta respuesta = respuestaRepository.findById(reporte.getContenidoId())
-                .orElseThrow(() -> new RuntimeException("Respuesta no encontrada"));
-            reporte.setRespuesta(respuesta);
+
+    public List<Publicacion> obtenerTodasLasPublicaciones() {
+        return publicacionRepository.findAll();
+    }
+
+    public Optional<Publicacion> obtenerPublicacionPorId(Long id) {
+        return publicacionRepository.findById(id);
+    }
+
+    public Respuesta agregarRespuesta(Long publicacionId, Respuesta respuesta) {
+        Optional<Publicacion> publicacionOpt = publicacionRepository.findById(publicacionId);
+        if (publicacionOpt.isPresent()) {
+            Publicacion publicacion = publicacionOpt.get();
+            respuesta.setPublicacion(publicacion); 
+            publicacion.agregarRespuesta(respuesta); 
+            respuestaRepository.save(respuesta);
+            return respuesta;
         }
-        
-        return reporteRepository.save(reporte);
+        return null;
     }
+
+    public ReporteF crearReporte(ReporteF reporte) { 
+
+        if (reporte.getTipo() == ReporteF.TipoContenido.POST) {
+            Publicacion publicacion = publicacionRepository.findById(reporte.getContenidoId())
+                .orElseThrow(() -> new RuntimeException("Publicación no encontrada con ID: " + reporte.getContenidoId()));
+            reporte.setPublicacion(publicacion);
+            reporte.setRespuesta(null); 
+            reporte.setPostPadreId(null); 
+        } else if (reporte.getTipo() == ReporteF.TipoContenido.COMENTARIO) {
+            Respuesta respuesta = respuestaRepository.findById(reporte.getContenidoId())
+                .orElseThrow(() -> new RuntimeException("Respuesta no encontrada con ID: " + reporte.getContenidoId()));
+            reporte.setRespuesta(respuesta);
+            reporte.setPublicacion(null); 
+            if (respuesta.getPublicacion() != null) {
+                reporte.setPostPadreId(respuesta.getPublicacion().getId());
+            } else {
+                reporte.setPostPadreId(null);
+            }
+        } else {
+            throw new IllegalArgumentException("Tipo de contenido de reporte no válido: " + reporte.getTipo());
+        }
+
+        return reporteFRepository.save(reporte); 
+    }
+
     public List<ReglaForo> obtenerReglasForo() {
         return reglaForoRepository.findAllByOrderByOrdenAsc();
     }

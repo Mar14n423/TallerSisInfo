@@ -20,73 +20,42 @@ public class Publicacion {
   private String mensaje;
 
   @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonManagedReference
+  @JsonManagedReference 
   private List<Respuesta> respuestas = new ArrayList<>();
+
+  @OneToMany(mappedBy = "publicacion" /*, cascade = CascadeType.ALL, orphanRemoval = true */)
+  private List<ReporteF> reportes = new ArrayList<>();
+
 
   @PrePersist
   protected void onCreate() {
     this.fecha = LocalDate.now();
   }
 
-  public Long getId() {
-    return id;
-  }
+  public Publicacion() {} 
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getUsuario() {
-    return usuario;
-  }
-
-  public void setUsuario(String usuario) {
+  public Publicacion(String usuario, String titulo, String mensaje) { 
     this.usuario = usuario;
-  }
-
-  public LocalDate getFecha() {
-    return fecha;
-  }
-
-  public void setFecha(LocalDate fecha) {
-    this.fecha = fecha;
-  }
-
-  public String getTitulo() {
-    return titulo;
-  }
-
-  public void setTitulo(String titulo) {
     this.titulo = titulo;
-  }
-
-  public String getMensaje() {
-    return mensaje;
-  }
-
-  public void setMensaje(String mensaje) {
     this.mensaje = mensaje;
   }
+  public Long getId() { return id; }
+  public void setId(Long id) { this.id = id; }
+  public String getUsuario() { return usuario; }
+  public void setUsuario(String usuario) { this.usuario = usuario; }
+  public LocalDate getFecha() { return fecha; }
+  public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+  public String getTitulo() { return titulo; }
+  public void setTitulo(String titulo) { this.titulo = titulo; }
+  public String getMensaje() { return mensaje; }
+  public void setMensaje(String mensaje) { this.mensaje = mensaje; } 
+  public List<Respuesta> getRespuestas() { return respuestas; }
+  public void setRespuestas(List<Respuesta> respuestas) { this.respuestas = respuestas; }
+  public List<ReporteF> getReportes() { return reportes; } 
+  public void setReportes(List<ReporteF> reportes) { this.reportes = reportes; }
 
-  public List<Respuesta> getRespuestas() {
-    return respuestas;
-  }
-
-  public void setRespuestas(List<Respuesta> respuestas) {
-    this.respuestas = respuestas;
-  }
-
-  // Método para agregar una respuesta
   public void agregarRespuesta(Respuesta respuesta) {
     respuestas.add(respuesta);
-    respuesta.setPublicacion(this); // Relacionamos la respuesta con esta publicación
-  }
-  @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonManagedReference
-  private List<Reporte> reportes = new ArrayList<>();
-
-  public void agregarReporte(Reporte reporte) {
-    reportes.add(reporte);
-    reporte.setPublicacion(this);
+    respuesta.setPublicacion(this); 
   }
 }
