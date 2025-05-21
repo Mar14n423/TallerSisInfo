@@ -43,6 +43,13 @@ export class EventosComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.createEventosData();
     await this.loadEventsForMonth();
+
+    try{
+      const allEvents= await this.eventosService.getEventos();
+      this.assignEventsToCalendar(allEvents);
+    } catch(error){
+      console.error('Error cargando todos los eventos', error);
+    }
   }
 
   // Métodos de navegación
@@ -150,18 +157,23 @@ export class EventosComponent implements OnInit {
     if (!item.id) return;
 
     try {
-      if (this.eventExists(item.id)) {
-        const updatedEvent = await this.eventosService.actualizarEvento(item.id, item);
-        this.updateEventInCalendar(updatedEvent);
-      } else {
-        const newEvent = await this.eventosService.crearEvento(item);
-        this.addEventToCalendar(newEvent);
-      }
-    } catch (error) {
-      console.error('Error al manejar evento:', error);
-    }
-  }
+        // Asegurar que la fecha es un objeto Date válido
+        const eventToProcess = {
+            ...item,
+            date: item.date instanceof Date ? item.date : new Date(item.date)
+        };
 
+        if (this.eventExists(item.id)) {
+            const updatedEvent = await this.eventosService.actualizarEvento(item.id, eventToProcess);
+            this.updateEventInCalendar(updatedEvent);
+        } else {
+            const newEvent = await this.eventosService.crearEvento(eventToProcess);
+            this.addEventToCalendar(newEvent);
+        }
+    } catch (error) {
+        console.error('Error al manejar evento:', error);
+    }
+}
   private updateEventInCalendar(updatedEvent: NEventos.IEvent): void {
     for (const day of this.eventosData) {
       const eventIndex = day.events.findIndex(e => e.id === updatedEvent.id);
