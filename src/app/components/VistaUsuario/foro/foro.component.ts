@@ -4,7 +4,8 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ForoService } from '../../../services/foro.service';
+import {ForoService} from '../../../services/foro.service';
+import { UsuarioService } from '../register/usuario.service';
 
 @Component({
   selector: 'app-foro',
@@ -20,7 +21,7 @@ import { ForoService } from '../../../services/foro.service';
   styleUrl: './foro.component.scss'
 })
 export class ForoComponent implements OnInit { 
-
+  user: any = null;
   posts: any[] = [];
   mostrarFormulario: boolean[] = [];
   nuevaRespuesta: string[] = [];
@@ -38,11 +39,27 @@ export class ForoComponent implements OnInit {
   mostrarReglasFlag: boolean = false;
   reglasForo: string = ''; 
 
-  constructor(private foroService: ForoService) { }
+  constructor(
+    private foroService: ForoService,
+    private usuarioService: UsuarioService
+  ) {}
 
   ngOnInit(): void {
+    this.cargarUsuario();
     this.cargarPublicaciones();
     this.cargarReglasForo(); 
+  }
+
+  cargarUsuario(): void {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.usuarioService.obtenerUsuarioPorId(+userId)
+        .then((usuario) => {
+          this.user = usuario;
+          this.usuarioActual = usuario.nombre;
+        })
+        .catch((err) => console.error('Error al cargar usuario:', err));
+    }
   }
 
   cargarPublicaciones(): void {

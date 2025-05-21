@@ -2,14 +2,19 @@
 
 <body>
 <div class="foro-container">
-  <aside class="sidebar">
-    <img src="imagenes/avatar.PNG" class="avatar" alt="Avatar">
-    <h3>Nombre</h3>
-    <p><strong>Usuario:</strong> user1234pkmksf</p>
+
+  <!-- Sidebar izquierda -->
+  <aside class="sidebar" *ngIf="user">
+    <img [src]="user.profileImage || 'assets/default-profile.png'" class="avatar" alt="Avatar">
+    <h3>{{ user.nombre }}</h3>
+    <p><strong>Usuario:</strong> {{ user.nombre }}</p>
     <p><strong>Password:</strong> ********</p>
-    <p><strong>Correo:</strong> user123&#64;gmail.com</p>
-    <button class="editar-btn">Editar perfil</button>
+    <p><strong>Correo:</strong> {{ user.correo }}</p>
+
   </aside>
+
+
+  <!-- Contenido central -->
   <main class="foro-main">
     <header class="foro-header">
       <input type="text" placeholder="Buscar">
