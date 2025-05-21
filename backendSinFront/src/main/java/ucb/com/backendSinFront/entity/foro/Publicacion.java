@@ -1,10 +1,14 @@
-package ucb.com.backendSinFront.entity;
+package ucb.com.backendSinFront.entity.foro;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import ucb.com.backendSinFront.entity.foro.Respuesta;
+import ucb.com.backendSinFront.entity.foro.ReporteF;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "publicacion")
@@ -20,10 +24,11 @@ public class Publicacion {
   private String mensaje;
 
   @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonManagedReference 
+  @JsonManagedReference
   private List<Respuesta> respuestas = new ArrayList<>();
 
   @OneToMany(mappedBy = "publicacion" /*, cascade = CascadeType.ALL, orphanRemoval = true */)
+  @JsonIgnore //  Evita bucle infinito al serializar
   private List<ReporteF> reportes = new ArrayList<>();
 
 
@@ -32,9 +37,9 @@ public class Publicacion {
     this.fecha = LocalDate.now();
   }
 
-  public Publicacion() {} 
+  public Publicacion() {}
 
-  public Publicacion(String usuario, String titulo, String mensaje) { 
+  public Publicacion(String usuario, String titulo, String mensaje) {
     this.usuario = usuario;
     this.titulo = titulo;
     this.mensaje = mensaje;
@@ -48,14 +53,14 @@ public class Publicacion {
   public String getTitulo() { return titulo; }
   public void setTitulo(String titulo) { this.titulo = titulo; }
   public String getMensaje() { return mensaje; }
-  public void setMensaje(String mensaje) { this.mensaje = mensaje; } 
+  public void setMensaje(String mensaje) { this.mensaje = mensaje; }
   public List<Respuesta> getRespuestas() { return respuestas; }
   public void setRespuestas(List<Respuesta> respuestas) { this.respuestas = respuestas; }
-  public List<ReporteF> getReportes() { return reportes; } 
+  public List<ReporteF> getReportes() { return reportes; }
   public void setReportes(List<ReporteF> reportes) { this.reportes = reportes; }
 
   public void agregarRespuesta(Respuesta respuesta) {
     respuestas.add(respuesta);
-    respuesta.setPublicacion(this); 
+    respuesta.setPublicacion(this);
   }
 }

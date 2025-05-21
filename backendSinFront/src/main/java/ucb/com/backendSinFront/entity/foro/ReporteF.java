@@ -1,31 +1,34 @@
-package ucb.com.backendSinFront.entity;
+package ucb.com.backendSinFront.entity.foro;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import ucb.com.backendSinFront.entity.foro.Respuesta;
+import ucb.com.backendSinFront.entity.foro.ReporteF;
+
 
 @Entity
-@Table(name = "reporte_foro") 
-public class ReporteF { 
+@Table(name = "reporte_foro")
+public class ReporteF {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING) 
-    private TipoContenido tipo; 
+    @Enumerated(EnumType.STRING)
+    private TipoContenido tipo;
 
-    private Long contenidoId; 
-    private Long postPadreId; 
-    private String usuarioReportador; 
-    private String razon; 
-    private String otraRazon; 
-    private LocalDateTime fecha; 
-    private boolean revisado; 
+    private Long contenidoId;
+    private Long postPadreId;
+    private String usuarioReportador;
+    private String razon;
+    private String otraRazon;
+    private LocalDateTime fecha;
+    private boolean revisado;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publicacion_id", nullable = true) 
+    @JoinColumn(name = "publicacion_id", nullable = true)
     private Publicacion publicacion;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "respuesta_id", nullable = true) 
+    @JoinColumn(name = "respuesta_id", nullable = true)
     private Respuesta respuesta;
     public enum TipoContenido {
         POST, COMENTARIO
@@ -41,11 +44,11 @@ public class ReporteF {
         this.otraRazon = otraRazon;
     }
 
-    
+
     @PrePersist
     protected void onCreate() {
         this.fecha = LocalDateTime.now();
-        this.revisado = false; 
+        this.revisado = false;
     }
 
     public Long getId() {

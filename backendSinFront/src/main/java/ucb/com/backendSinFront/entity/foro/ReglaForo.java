@@ -1,4 +1,4 @@
-package ucb.com.backendSinFront.entity;
+package ucb.com.backendSinFront.entity.foro;
 
 import jakarta.persistence.*;
 
@@ -8,11 +8,11 @@ public class ReglaForo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String titulo;
-    @Column(columnDefinition = "TEXT") 
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
-    private int orden; 
+    private int orden;
     public ReglaForo() {
     }
 
@@ -53,4 +53,6 @@ public class ReglaForo {
     public void setOrden(int orden) {
         this.orden = orden;
     }
+
+
 }

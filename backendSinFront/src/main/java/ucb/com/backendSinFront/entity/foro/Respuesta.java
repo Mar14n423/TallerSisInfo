@@ -1,10 +1,14 @@
-package ucb.com.backendSinFront.entity;
+package ucb.com.backendSinFront.entity.foro;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import ucb.com.backendSinFront.entity.foro.Publicacion;
+import ucb.com.backendSinFront.entity.foro.ReporteF;
+import com.fasterxml.jackson.annotation.JsonIgnore; //  Import necesario
+
 
 @Entity
 @Table(name = "respuesta")
@@ -20,9 +24,10 @@ public class Respuesta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publicacion_id")
-    @JsonBackReference 
+    @JsonBackReference
     private Publicacion publicacion;
     @OneToMany(mappedBy = "respuesta" /*, cascade = CascadeType.ALL, orphanRemoval = true */)
+    @JsonIgnore //  Evita bucle infinito al serializar
     private List<ReporteF> reportes = new ArrayList<>();
 
     @PrePersist
@@ -30,9 +35,9 @@ public class Respuesta {
         this.fecha = LocalDate.now();
     }
 
-    public Respuesta() {} 
+    public Respuesta() {}
 
-    public Respuesta(String usuario, String mensaje) { /
+    public Respuesta(String usuario, String mensaje) {
         this.usuario = usuario;
         this.mensaje = mensaje;
     }
@@ -46,6 +51,6 @@ public class Respuesta {
     public void setFecha(LocalDate fecha) { this.fecha = fecha; }
     public Publicacion getPublicacion() { return publicacion; }
     public void setPublicacion(Publicacion publicacion) { this.publicacion = publicacion; }
-    public List<ReporteF> getReportes() { return reportes; } 
+    public List<ReporteF> getReportes() { return reportes; }
     public void setReportes(List<ReporteF> reportes) { this.reportes = reportes; }
 }
