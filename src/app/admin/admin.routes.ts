@@ -25,6 +25,11 @@ export const adminRoutes: Routes = [
         path: 'eventos',
         loadComponent: () =>
           import('../components/VistaAdmin/eventos/eventos.component').then(m => m.EventosComponent)
+      },
+      {
+        path: 'foro',
+        loadComponent: () => 
+          import('../components/VistaAdmin/foroAdmin/foroAdmin.component').then(m => m.ForoAdminComponent)
       }
     ]
   },

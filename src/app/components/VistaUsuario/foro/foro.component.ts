@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; 
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -20,9 +20,8 @@ import { UsuarioService } from '../register/usuario.service';
   templateUrl: './foro.component.html',
   styleUrl: './foro.component.scss'
 })
-export class ForoComponent implements OnInit { // 🔹 implementa OnInit
+export class ForoComponent implements OnInit { 
   user: any = null;
-
   posts: any[] = [];
   mostrarFormulario: boolean[] = [];
   nuevaRespuesta: string[] = [];
@@ -30,7 +29,15 @@ export class ForoComponent implements OnInit { // 🔹 implementa OnInit
   nuevoPostVisible: boolean = false;
   nuevoTitulo: string = '';
   nuevoMensaje: string = '';
-  usuarioActual: string = 'UsuarioDemo';
+  usuarioActual: string = 'UsuarioDemo'; 
+  mostrarModalReporteFlag: boolean = false;
+  contenidoReportadoId: string = '';
+  tipoContenidoReportado: 'post' | 'comentario' = 'post';
+  postPadreId: string = ''; 
+  razonReporte: string = '';
+  otraRazon: string = '';
+  mostrarReglasFlag: boolean = false;
+  reglasForo: string = ''; 
 
   constructor(
     private foroService: ForoService,
@@ -40,6 +47,7 @@ export class ForoComponent implements OnInit { // 🔹 implementa OnInit
   ngOnInit(): void {
     this.cargarUsuario();
     this.cargarPublicaciones();
+    this.cargarReglasForo(); 
   }
 
   cargarUsuario(): void {
@@ -89,6 +97,7 @@ export class ForoComponent implements OnInit { // 🔹 implementa OnInit
         },
         error: (err) => {
           console.error('Error al agregar respuesta:', err);
+          alert('Ocurrió un error al publicar la respuesta. Intenta nuevamente.');
         }
       });
     }
@@ -115,8 +124,84 @@ export class ForoComponent implements OnInit { // 🔹 implementa OnInit
         },
         error: (err) => {
           console.error('Error al crear publicación:', err);
+          alert('Ocurrió un error al crear la publicación. Intenta nuevamente.');
         }
       });
     }
+  }
+
+  mostrarModalReporte(id: string, tipo: 'post' | 'comentario', postPadreId?: string) {
+    this.contenidoReportadoId = id;
+    this.tipoContenidoReportado = tipo;
+    this.postPadreId = postPadreId || ''; 
+    this.mostrarModalReporteFlag = true;
+    this.razonReporte = '';
+    this.otraRazon = '';
+  }
+
+  cerrarModalReporte() {
+    this.mostrarModalReporteFlag = false;
+  }
+
+  enviarReporte() {
+    if (!this.razonReporte) {
+      alert('Por favor selecciona una razón para el reporte');
+      return;
+    }
+
+    const razonFinal = this.razonReporte === 'otro' ? this.otraRazon : this.razonReporte;
+    const reporte = {
+      tipo: this.tipoContenidoReportado.toUpperCase(), 
+      contenidoId: Number(this.contenidoReportadoId), 
+      postPadreId: this.postPadreId ? Number(this.postPadreId) : null, 
+      usuarioReportador: this.usuarioActual,
+      razon: razonFinal,
+    };
+
+    this.foroService.enviarReporte(reporte).subscribe({
+      next: () => {
+        alert('Reporte enviado correctamente. Los moderadores revisarán el contenido.');
+        this.cerrarModalReporte();
+      },
+      error: (err) => {
+        console.error('Error al enviar reporte:', err);
+        alert('Ocurrió un error al enviar el reporte. Por favor intenta nuevamente.');
+      }
+    });
+  }
+
+  mostrarReglas() {
+    this.mostrarReglasFlag = true;
+  }
+
+  cargarReglasForo(): void {
+    this.foroService.obtenerReglas().subscribe({
+      next: (data: any[]) => {
+        this.reglasForo = this.convertirReglasAHtml(data);
+      },
+      error: (err) => {
+        console.error('Error al cargar reglas:', err);
+        this.reglasForo = `
+          <ol>
+            <li><strong>Error al cargar:</strong> No se pudieron cargar las reglas del foro.</li>
+            <li><strong>Sé respetuoso:</strong> No toleramos comentarios ofensivos, discriminatorios o ataques personales.</li>
+            <li><strong>No spam:</strong> Publicar contenido repetitivo o promocional no está permitido.</li>
+            <li><strong>Mantén el contenido relevante:</strong> Los posts deben estar relacionados con la temática del foro.</li>
+            <li><strong>Protege la privacidad:</strong> No compartas información personal tuya o de otros.</li>
+            <li><strong>Reporta contenido inapropiado:</strong> Usa el botón de reporte para contenido que viola las reglas.</li>
+          </ol>
+          <p>Por favor, inténtalo de nuevo más tarde o contacta al soporte técnico.</p>
+        `;
+      }
+    });
+  }
+
+  private convertirReglasAHtml(reglas: any[]): string {
+    let html = '<ol>';
+    reglas.forEach(regla => {
+      html += `<li><strong>${regla.titulo}:</strong> ${regla.descripcion}</li>`;
+    });
+    html += '</ol>';
+    return html;
   }
 }
