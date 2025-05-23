@@ -64,4 +64,10 @@ export const usuarioRoutes: Routes = [
         .then(m => m.DeleteAccountComponent)
   },
 
+  {
+    path: 'reportes-usuario',
+    loadComponent: () =>
+      import('../components/VistaUsuario/reportes-usuario/reportes-usuario.component')
+        .then(m => m.ReportesUsuarioComponent)
+  }
 ];
