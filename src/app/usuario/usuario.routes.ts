@@ -65,12 +65,9 @@ export const usuarioRoutes: Routes = [
   },
 
   {
-    path: 'reportes',
+    path: 'reportes-usuario',
     loadComponent: () =>
-      import('../components/VistaUsuario/reportes/reportes.component')
-        .then(m => m.ReportesComponent)
+      import('../components/VistaUsuario/reportes-usuario/reportes-usuario.component')
+        .then(m => m.ReportesUsuarioComponent)
   }
-
-
-
 ];
