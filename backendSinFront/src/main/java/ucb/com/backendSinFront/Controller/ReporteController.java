@@ -27,6 +27,7 @@ public class ReporteController {
     return service.save(reporte);
   }
 
+
   @DeleteMapping("/{id}")
   public void delete(@PathVariable Long id) {
     service.delete(id);
