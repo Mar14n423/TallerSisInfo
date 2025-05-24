@@ -94,6 +94,25 @@ export class ProfileComponent implements OnInit {
     addressInput: HTMLInputElement,
     discapacidadInput: HTMLInputElement
   ): void {
+    const namePattern = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/;
+    const phonePattern = /^[0-9]+$/;
+    const discapacidadPattern = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/;
+
+    if (!namePattern.test(nameInput.value)) {
+      alert('El nombre solo puede contener letras.');
+      return;
+    }
+
+    if (!phonePattern.test(phoneInput.value)) {
+      alert('El teléfono solo puede contener números.');
+      return;
+    }
+
+    if (!discapacidadPattern.test(discapacidadInput.value)) {
+      alert('El campo de discapacidad solo puede contener letras.');
+      return;
+    }
+
     const userId = localStorage.getItem('userId');
     if (userId) {
       const usuarioActualizado = {
@@ -120,6 +139,7 @@ export class ProfileComponent implements OnInit {
         .catch((error) => console.error('Error al actualizar perfil:', error));
     }
   }
+
 
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

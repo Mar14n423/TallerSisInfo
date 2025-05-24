@@ -1,17 +1,18 @@
-<app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
+<app-navbar></app-navbar> 
 
 <body>
 <div class="foro-container">
 
   <!-- Sidebar izquierda -->
-  <aside class="sidebar">
-    <img src="imagenes/avatar.PNG" class="avatar" alt="Avatar">
-    <h3>Nombre</h3>
-    <p><strong>Usuario:</strong> user1234pkmksf</p>
+  <aside class="sidebar" *ngIf="user">
+    <img [src]="user.profileImage || 'assets/default-profile.png'" class="avatar" alt="Avatar">
+    <h3>{{ user.nombre }}</h3>
+    <p><strong>Usuario:</strong> {{ user.nombre }}</p>
     <p><strong>Password:</strong> ********</p>
-    <p><strong>Correo:</strong> user123&#64;gmail.com</p>
-    <button class="editar-btn">Editar perfil</button>
+    <p><strong>Correo:</strong> {{ user.correo }}</p>
+
   </aside>
+
 
   <!-- Contenido central -->
   <main class="foro-main">
@@ -19,15 +20,12 @@
       <input type="text" placeholder="Buscar">
       <button class="crear-btn" (click)="mostrarFormularioNuevoPost()">+ Crear</button>
     </header>
-
-    <!-- Formulario de nuevo post -->
     <div class="nuevo-post-formulario" *ngIf="nuevoPostVisible">
       <input [(ngModel)]="nuevoTitulo" placeholder="Título de la publicación">
       <textarea [(ngModel)]="nuevoMensaje" placeholder="Contenido del mensaje..."></textarea>
       <button (click)="crearNuevoPost()">Publicar</button>
     </div>
 
-    <!-- 🔁 Publicaciones dinámicas -->
     <section class="post" *ngFor="let post of posts; let i = index">
       <div class="post-header">
         <img src="imagenes/usuario.PNG" alt="Usuario" class="mini-avatar">
@@ -35,16 +33,24 @@
           <strong>{{ post.usuario }}</strong> <span class="fecha">{{ post.fecha }}</span>
           <p class="titulo">{{ post.titulo }}</p>
         </div>
+        <div class="post-actions">
+          <button class="report-btn" (click)="mostrarModalReporte(post.id, 'post')">
+            <i class="fas fa-flag"></i> Reportar
+          </button>
+        </div>
       </div>
       <p class="mensaje">{{ post.mensaje }}</p>
 
-      <!-- 🔁 Respuestas dinámicas -->
-      <div class="respuesta" *ngFor="let r of post.respuestas">
+      <div class="respuesta" *ngFor="let r of post.respuestas; let j = index">
         <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
-        <p><strong>{{ r.usuario }}:</strong> {{ r.mensaje }}</p>
+        <div class="respuesta-content">
+          <p><strong>{{ r.usuario }}:</strong> {{ r.mensaje }}</p>
+          <button class="report-btn-small" (click)="mostrarModalReporte(r.id, 'comentario', post.id)">
+            <i class="fas fa-flag"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- 📥 Comentar -->
       <p class="comentar" (click)="toggleFormulario(i)">Comentar</p>
       <div class="formulario-respuesta" *ngIf="mostrarFormulario[i]">
         <textarea [(ngModel)]="nuevaRespuesta[i]" placeholder="Escribe tu respuesta..."></textarea>
@@ -53,18 +59,39 @@
     </section>
   </main>
 
-
-
-  <!-- Sidebar derecha -->
   <aside class="filtros">
     <p><strong>Filtrar por:</strong></p>
     <button class="filtro-btn">Recientes</button>
     <button class="filtro-btn">Mis Publicaciones</button>
     <button class="rojo-btn">Acerca de</button>
-    <button class="rojo-btn">Reglas</button>
+    <button class="rojo-btn" (click)="mostrarReglas()">Reglas</button>
   </aside>
 
+  <div class="modal-reporte" *ngIf="mostrarModalReporteFlag">
+    <div class="modal-content">
+      <button class="close-btn" (click)="cerrarModalReporte()">&times;</button>
+      <h3>Reportar {{ tipoContenidoReportado === 'post' ? 'Publicación' : 'Comentario' }}</h3>
+      <select [(ngModel)]="razonReporte">
+        <option value="">Selecciona una razón</option>
+        <option value="spam">Spam o publicidad no deseada</option>
+        <option value="inapropiado">Contenido inapropiado</option>
+        <option value="ofensivo">Lenguaje ofensivo</option>
+        <option value="acoso">Acoso o bullying</option>
+        <option value="otro">Otro</option>
+      </select>
+      <textarea *ngIf="razonReporte === 'otro'" [(ngModel)]="otraRazon" placeholder="Por favor, especifica la razón"></textarea>
+      <button class="enviar-reporte-btn" (click)="enviarReporte()">Enviar Reporte</button>
+    </div>
+  </div>
+
+  <div class="modal-reglas" *ngIf="mostrarReglasFlag">
+    <div class="modal-content">
+      <button class="close-btn" (click)="mostrarReglasFlag = false">&times;</button>
+      <h3>Reglas del Foro</h3>
+      <div class="reglas-content" [innerHTML]="reglasForo"></div>
+    </div>
+  </div>
 </div>
 </body>
 
-<app-footer></app-footer> <!-- 🔹 Footer reutilizable -->
+<app-footer></app-footer>

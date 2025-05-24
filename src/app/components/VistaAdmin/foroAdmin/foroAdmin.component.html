@@ -1,0 +1,174 @@
+<div class="admin-foro-container">
+  <h1 class="admin-foro-title">
+    <mat-icon>admin_panel_settings</mat-icon>
+    Panel de Administración del Foro
+  </h1>
+
+  <div class="admin-foro-content">
+    <!-- Sección de Configuración -->
+    <mat-card class="admin-card">
+      <mat-card-header>
+        <mat-card-title>Configuración del Foro</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form class="config-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Reglas del Foro</mat-label>
+            <textarea matInput [(ngModel)]="reglasForo" name="reglas" required></textarea>
+          </mat-form-field>
+
+          <div class="config-options">
+            <mat-checkbox [(ngModel)]="permiteNuevosPosts" name="permitePosts">
+              Permitir nuevos posts
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="permiteComentarios" name="permiteComentarios">
+              Permitir comentarios
+            </mat-checkbox>
+            <mat-checkbox [(ngModel)]="moderacionPrevia" name="moderacionPrevia">
+              Moderación previa
+            </mat-checkbox>
+          </div>
+
+          <button mat-raised-button color="primary" (click)="guardarConfiguracion()">
+            <mat-icon>save</mat-icon>
+            Guardar Configuración
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Sección de Moderación -->
+    <mat-card class="admin-card">
+      <mat-card-header>
+        <mat-card-title>Moderación de Contenido</mat-card-title>
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Buscar posts o usuarios" [(ngModel)]="filtroBusqueda" (input)="filtrarContenido()">
+        </mat-form-field>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab label="Posts Reportados">
+            <div class="posts-list">
+              <div class="post-item" *ngFor="let post of postsReportadosFiltrados">
+                <div class="post-header">
+                  <span class="post-author">{{post.usuario}}</span>
+                  <span class="post-date">{{post.fecha | date:'medium'}}</span>
+                  <span class="report-count">{{post.reportes}} reporte(s)</span>
+                </div>
+                <div class="post-content">
+                  <h4>{{post.titulo}}</h4>
+                  <p>{{post.mensaje}}</p>
+                </div>
+                <div class="post-actions">
+                  <button mat-stroked-button color="warn" (click)="eliminarPost(post.id)">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar
+                  </button>
+                  <button mat-stroked-button color="primary" (click)="ignorarReporte(post.id)">
+                    <mat-icon>done</mat-icon>
+                    Ignorar Reporte
+                  </button>
+                  <button mat-stroked-button (click)="verDetallesPost(post)">
+                    <mat-icon>visibility</mat-icon>
+                    Ver Detalles
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="postsReportadosFiltrados.length === 0" class="no-results">
+                No hay posts reportados
+              </div>
+            </div>
+          </mat-tab>
+          
+          <mat-tab label="Usuarios Sancionados">
+            <table mat-table [dataSource]="usuariosSancionadosFiltrados" class="mat-elevation-z1">
+              <ng-container matColumnDef="usuario">
+                <th mat-header-cell *matHeaderCellDef>Usuario</th>
+                <td mat-cell *matCellDef="let user">{{user.nombre}}</td>
+              </ng-container>
+              
+              <ng-container matColumnDef="razon">
+                <th mat-header-cell *matHeaderCellDef>Razón</th>
+                <td mat-cell *matCellDef="let user">{{user.razon}}</td>
+              </ng-container>
+              
+              <ng-container matColumnDef="finSancion">
+                <th mat-header-cell *matHeaderCellDef>Fin de Sanción</th>
+                <td mat-cell *matCellDef="let user">{{user.finSancion | date:'mediumDate'}}</td>
+              </ng-container>
+              
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let user">
+                  <button mat-icon-button color="primary" (click)="quitarSancion(user.id)">
+                    <mat-icon>lock_open</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              
+              <tr mat-header-row *matHeaderRowDef="columnasUsuarios"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnasUsuarios;"></tr>
+            </table>
+            <div *ngIf="usuariosSancionadosFiltrados.length === 0" class="no-results">
+              No hay usuarios sancionados
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Sección de Estadísticas -->
+    <mat-card class="admin-card">
+      <mat-card-header>
+        <mat-card-title>Estadísticas del Foro</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">{{estadisticas.totalPosts}}</div>
+            <div class="stat-label">Posts Totales</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{estadisticas.postsDia}}</div>
+            <div class="stat-label">Posts Hoy</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{estadisticas.usuariosActivos}}</div>
+            <div class="stat-label">Usuarios Activos</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{estadisticas.postsReportados}}</div>
+            <div class="stat-label">Posts Reportados</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Modal de Detalles del Post -->
+    <div class="modal-backdrop" *ngIf="postSeleccionado">
+      <div class="modal-content">
+        <button mat-icon-button class="close-button" (click)="postSeleccionado = null">
+          <mat-icon>close</mat-icon>
+        </button>
+        <h2>Detalles del Post</h2>
+        <div class="post-details">
+          <div class="post-header">
+            <span class="author">{{postSeleccionado.usuario}}</span>
+            <span class="date">{{postSeleccionado.fecha | date:'medium'}}</span>
+          </div>
+          <h3>{{postSeleccionado.titulo}}</h3>
+          <p>{{postSeleccionado.mensaje}}</p>
+          
+          <div class="reports-section" *ngIf="postSeleccionado.reportesDetalle">
+            <h4>Reportes:</h4>
+            <div class="report-item" *ngFor="let reporte of postSeleccionado.reportesDetalle">
+              <span class="reporter">{{reporte.usuario}}</span>
+              <span class="reason">Razón: {{reporte.razon}}</span>
+              <span class="date">{{reporte.fecha | date:'short'}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
