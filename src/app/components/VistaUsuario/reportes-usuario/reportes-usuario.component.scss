@@ -20,14 +20,16 @@
 
 .mapa-individual {
   height: 250px;
+  min-height: 250px;
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 0 5px #aaa;
   margin-bottom: 0.75rem;
   z-index: 1;
-    cursor: crosshair;
-    position: relative;
-    overflow: hidden;
+  cursor: crosshair;
+  position: relative;
+  overflow: hidden;
+
 }
 
 .descripcion {
@@ -82,3 +84,6 @@
     color: #e67e22; // tono dorado
   }
 }
+
+
+

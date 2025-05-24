@@ -49,6 +49,7 @@ export class ReportesUsuarioComponent implements OnInit {
               attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
+
             // Marcador exacto con popup
             L.marker([reporte.latitud, reporte.longitud], {
               icon: L.divIcon({
@@ -58,6 +59,7 @@ export class ReportesUsuarioComponent implements OnInit {
                 iconAnchor: [15, 15]
               })
             }).addTo(map).bindPopup(`<b>${reporte.descripcion}</b>`);
+
           });
         }, 100); // Espera a que los elementos HTML existan
       })
