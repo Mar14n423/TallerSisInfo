@@ -7,13 +7,13 @@ export const adminRoutes: Routes = [
       import('../components/VistaAdmin/layout/layout.component').then(m => m.LayoutComponent),
     children: [
       {
-        path: '', 
+        path: '',
         loadComponent: () =>
           import('../components/VistaAdmin/homeadmin/homeadmin.component').then(m => m.HomeadminComponent)
       },
       {
         path: 'dashboard',
-        redirectTo: '', 
+        redirectTo: '',
         pathMatch: 'full'
       },
       {
@@ -28,14 +28,23 @@ export const adminRoutes: Routes = [
       },
       {
         path: 'foro',
-        loadComponent: () => 
+        loadComponent: () =>
           import('../components/VistaAdmin/foroAdmin/foroAdmin.component').then(m => m.ForoAdminComponent)
       }
     ]
   },
+
   {
     path: 'login-admin',
     loadComponent: () =>
       import('../components/VistaAdmin/login-admin/login-admin.component').then(m => m.LoginAdminComponent)
+  },
+
+
+  {
+    path: 'reportes',
+    loadComponent: () =>
+      import('../components/VistaAdmin/reportes/reportes.component')
+        .then(m => m.ReportesComponent)
   }
 ];
