@@ -39,11 +39,12 @@
     </button>
   </div>
 
+  <!-- Sección de Bienvenida -->
   <section class="container-fluid py-5 bienvenida">
     <div class="container">
-      <div class="row gx-5 align-items-center">
-        <div class="col-lg-5 mb-5 mb-lg-0">
-          <div class="position-relative h-100 welcome-image-container">
+      <div class="row gx-5">
+        <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
+          <div class="position-relative h-100">
             <img class="position-absolute w-100 h-100 rounded" src="imagenes/imagenMainSillaRuedas.PNG" style="object-fit: cover;" alt="Persona en silla de ruedas">
           </div>
         </div>
@@ -55,6 +56,7 @@
           <h4 class="text-body mb-4">Nuestra plataforma está diseñada para ser inclusiva, fácil de usar y amigable para personas con discapacidad.</h4>
           <mat-card appearance="outlined">
             <mat-card-content>
+              <!-- Sección de tabs con el efecto de cambio de contenido -->
               <ul class="nav nav-pills justify-content-between mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item w-50" role="presentation">
                   <button class="nav-link text-uppercase w-100 active" id="pills-1-tab" data-bs-toggle="pill" data-bs-target="#pills-1" type="button" role="tab" aria-controls="pills-1" aria-selected="true">Nuestra misión</button>
@@ -65,7 +67,7 @@
               </ul>
               <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">
-                  <p class="mb-0">"En **Sin Fronteras**, nuestra misión es brindar un espacio digital inclusivo donde todas las personas, sin importar sus capacidades, puedan acceder a oportunidades laborales y recursos."</p>
+                  <p class="mb-0">"En Sin Fronteras, nuestra misión es brindar un espacio digital inclusivo donde todas las personas, sin importar sus capacidades, puedan acceder a oportunidades laborales, y recursos."</p>
                 </div>
                 <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">
                   <p class="mb-0">"Ser la comunidad líder en inclusión digital, promoviendo la accesibilidad y eliminando barreras tecnológicas para una sociedad más equitativa."</p>
@@ -111,7 +113,7 @@
               </mat-card-header>
             </mat-card>
 
-            <mat-card appearance="outlined" class="card rutas" routerLink="/transporte" role="button" tabindex="0">
+            <mat-card appearance="outlined" class="card rutas" routerLink="/transporteyy" role="button" tabindex="0">
               <mat-card-header>
                 <mat-card-title>Rutas</mat-card-title>
                 <mat-card-subtitle>Encuentra rutas de nuestros buses inclusivos</mat-card-subtitle>
