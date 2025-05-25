@@ -159,46 +159,139 @@ section h2 {
 }
 /*Sección de Beneficios*/
 .beneficios {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
+    padding: 80px 20px;
+    background-color: var(--background-light-grey);
+}
 
-  .contenido {
-    display: flex;
-    gap: 20px;
-  }
+.beneficios .border-start {
+    border-color: var(--primary-color) !important;
+}
 
-  .cards {
+.beneficios h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--dark-text-color);
+}
+
+.beneficios h6 {
+    font-size: 1rem;
+    text-align: center;
+    color: var(--primary-color);
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+@media (min-width: 992px) {
+    .beneficios h1,
+    .beneficios h6 {
+        text-align: left;
+    }
+}
+
+.beneficios .contenido {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-  }
-
-  .card {
-    padding: 10px;
-    color: white;
-  }
-
-  .empleo { background-color: #ff5722; }
-  .rutas { background-color: #4caf50; }
-  .eventos { background-color: #2196f3; }
-  .foro { background-color: #9c27b0; }
-
-  .imagen img {
-    width: 91%;
-    height: auto;
-
-  }
-
-
-
-.beneficios li {
-    font-size: 18px;
-    margin-bottom: 15px;
-    display: flex;
+    gap: 40px;
     align-items: center;
+}
+
+@media (min-width: 992px) {
+    .beneficios .contenido {
+        flex-direction: row;
+        gap: 60px;
+    }
+}
+
+.beneficios .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    flex: 1;
+    width: 100%;
+    max-width: 500px;
+}
+
+@media (min-width: 576px) {
+    .beneficios .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.beneficios .card {
+    padding: 30px;
+    color: white;
+    border-radius: 15px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.beneficios .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.beneficios .card mat-card-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.beneficios .card mat-card-subtitle {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.empleo { background-color: #ff5722; }
+.rutas { background-color: #4CAF50; }
+.eventos { background-color: #2196F3; }
+.foro { background-color: #9C27B0; }
+
+.beneficios .imagen {
+    flex: 1;
+    text-align: center;
+}
+
+.beneficios .imagen img {
+    width: 100%;
+    height: auto;
+    max-width: 700px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .beneficios .card {
+        min-height: 140px;
+        padding: 25px;
+    }
+    .beneficios .card mat-card-title {
+        font-size: 1.4rem;
+    }
+    .beneficios .card mat-card-subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .beneficios .card {
+        min-height: 120px;
+        padding: 20px;
+    }
+    .beneficios .card mat-card-title {
+        font-size: 1.2rem;
+    }
+    .beneficios .card mat-card-subtitle {
+        font-size: 0.85rem;
+    }
 }
 
 /*Sección de Testimonios*/
