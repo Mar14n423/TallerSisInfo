@@ -13,16 +13,8 @@
     --elevated-container-color: var(--mat-sys-surface-container-low);
     --outlined-container-color: var(--mat-sys-surface);
     --outlined-outline-color: var(--mat-sys-outline-variant);
-
-    /* Custom colors for Sin Fronteras */
-    --primary-color: #ff9900; /* Orange */
-    --secondary-color: #e4c3a5; /* Light Brown */
-    --dark-text-color: #333;
-    --light-text-color: #555;
-    --background-light-grey: #f4f4f4;
-    --section-background-light: #f8f8f8;
 }
- 
+  
 .custom-card {
     background-color: var(--elevated-container-color);
     border-radius: 8px;
@@ -30,7 +22,7 @@
     margin: 20px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
- 
+  
 .title-text {
     font-family: var(--title-text-font);
     font-size: var(--title-text-size);
@@ -39,7 +31,7 @@
     letter-spacing: var(--title-text-tracking);
     color: var(--subtitle-text-color);
 }
- 
+  
 .subtitle-text {
     font-family: var(--subtitle-text-font);
     font-size: var(--subtitle-text-size);
@@ -49,105 +41,112 @@
 }
 
 body, html{
-    background-color: var(--background-light-grey);
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
     overflow-x: hidden;
-}
-
-/* Navbar styles */
-.navbar {
-    background-color: var(--secondary-color) !important;
-}
-
-.navbar .btn-register {
-    margin-right: 10px !important;
-}
-
-/* Carousel styles */
-.carousel-item img {
+  }
+  .navbar {
+    background-color: #e4c3a5 !important;
+  }
+  .carousel-item img {
     height: 500px;
     object-fit: cover;
 }
+.navbar .btn-register {
+    margin-right: 10px !important;
+  }
 
-/* Global section styling */
-section {
+*{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    align-items: center;
+    width: 90%;
+    margin: auto;
+
+}
+
+header nav button {
+    background-color: #ff9900;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5%;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+nav button:hover{
+    background-color: #e68a00;;
+}
+
+main
+{
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+section{
     padding: 40px;
-    background-color: var(--section-background-light);
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 20px auto; /* Centering sections with margin */
-    max-width: 95%; /* Adjust max-width for better responsiveness */
+    background-color: #f8f8f8; /* Fondo gris claro */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 section h2 {
-    font-size: 2.5rem; /* Increased font size */
-    margin-bottom: 25px; /* More space below heading */
+    font-size: 24px;
+    margin-bottom: 20px;
     text-align: center;
-    color: var(--dark-text-color);
-    font-weight: bold; /* Make headings bold */
+    color: #333; /* Color oscuro para títulos */
 }
 
-/* Welcome Section */
 .bienvenida {
     display: flex;
-    flex-direction: column; /* Stack on small screens */
     align-items: center;
     gap: 40px;
 }
 
-.bienvenida .welcome-image-container {
-    min-height: 400px; /* Ensure image container has a minimum height */
-}
-
 .bienvenida img {
-    width: 100%; /* Make image take full width of its container */
+    width: 70%; /* Para que ocupe la mitad del espacio */
     border-radius: 10px;
 }
 
-.bienvenida .text-content { /* Added a class for the text content */
+.bienvenida .texto {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column; /* Organiza título arriba y texto abajo */
+    align-items: flex-start; /* Alinea a la izquierda */
     flex: 1;
-    max-width: 100%; /* Allow full width on small screens */
+    max-width: 600px;
 }
 
 .bienvenida p {
-    font-size: 1.125rem; /* 18px */
-    line-height: 1.6;
-    color: var(--light-text-color);
+    font-size: 18px;
+    line-height: 1.6; /* Espaciado entre líneas */
+    color: #555;
     flex: 1;
 }
 
-/* Tab styles within the welcome section */
-.nav-pills .nav-link.active {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.nav-pills .nav-link {
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-    margin: 0 5px; /* Add some margin between tabs */
-    transition: all 0.3s ease;
-}
-
-.nav-pills .nav-link:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-
-/* Featured Phrases Section */
+/*Sección de Frases Motivacionales*/
 .frases-destacadas {
     text-align: center;
+    
 }
 
 .bg-offer {
-    background-image: linear-gradient(rgba(5,7,12,0.6), rgba(5,7,12,0.6)), url("/imagenes/deporte.jpg"); /* Darker overlay */
+    background-image:  linear-gradient(rgba(5,7,12,0.45),rgba(5,7,12,0.45)),url("/imagenes/deporte.jpg");
     background-repeat: no-repeat;
     background-position: center; 
     background-size: cover;
@@ -155,249 +154,116 @@ section h2 {
     top: 0;
     left: 0;
     right: 0;
-    height: auto; /* Auto height for better content fitting */
-    min-height: 400px; /* Minimum height for visibility */
+    height: 80%;
+
+}
+/*Sección de Beneficios*/
+.beneficios {
     display: flex;
-    align-items: center; /* Vertically center content */
-    justify-content: center; /* Horizontally center content */
-}
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
 
-.bg-offer h1 {
-    font-size: 2.8rem; /* Larger heading */
-    line-height: 1.3;
-}
-
-.bg-offer p {
-    font-size: 1.1rem;
-}
-
-/* Benefits Section */
-.beneficios .contenido {
+  .contenido {
     display: flex;
-    flex-direction: column; /* Stack cards and image on small screens */
+    gap: 20px;
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card {
+    padding: 10px;
+    color: white;
+  }
+
+  .empleo { background-color: #ff5722; }
+  .rutas { background-color: #4caf50; }
+  .eventos { background-color: #2196f3; }
+  .foro { background-color: #9c27b0; }
+
+  .imagen img {
+    width: 91%;
+    height: auto;
+
+  }
+
+
+
+.beneficios li {
+    font-size: 18px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+/*Sección de Testimonios*/
+
+.testimonios {
+    text-align: center;
     gap: 20px;
 }
 
-@media (min-width: 992px) { /* Adjust for larger screens */
-    .beneficios .contenido {
-        flex-direction: row; /* Side-by-side on large screens */
-    }
-}
-
-.beneficios .cards {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Increased gap for better spacing */
-    flex: 1; /* Allow cards to take available space */
-}
-
-.beneficios .card {
-    padding: 20px; /* More padding */
-    color: white;
-    border-radius: 8px; /* Slightly more rounded corners */
-    min-height: 120px; /* Ensure cards have a minimum height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effects */
-}
-
-.beneficios .card:hover {
-    transform: translateY(-5px); /* Lift card on hover */
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* More prominent shadow on hover */
-}
-
-.beneficios .card mat-card-title {
-    font-size: 1.6rem; /* Larger title */
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.beneficios .card mat-card-subtitle {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.empleo { background-color: #ff5722; } /* Deep Orange */
-.rutas { background-color: #4caf50; } /* Green */
-.eventos { background-color: #2196f3; } /* Blue */
-.foro { background-color: #9c27b0; } /* Purple */
-
-.beneficios .imagen {
-    flex: 1; /* Allow image to take available space */
-    text-align: center;
-}
-
-.beneficios .imagen img {
-    width: 100%;
-    height: auto;
-    max-width: 600px; /* Limit image size on larger screens */
+.testimonios .comentario {
+    background: white;
+    padding: 15px;
     border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    max-width: 600px;
+    margin: auto;
 }
 
-/* Testimonials Section */
-.testimonios {
-    text-align: center;
-    padding: 60px 20px; /* More vertical padding */
+.testimonios .comentario:not(:last-child) {
+    margin-bottom: 15px; /* Agrega un espacio entre cada comentario */
 }
 
-.testimonial-card {
-    width: 100%;
-    max-width: 350px; /* Slightly larger max-width for cards */
-    height: auto; /* Auto height to accommodate content */
-    min-height: 300px; /* Ensure a minimum height for consistency */
-    border-radius: 12px; /* More rounded corners */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Softer shadow */
-    transition: transform 0.3s ease;
+.testimonios blockquote{
+    padding: 10px 20px;
 }
 
-.testimonial-card:hover {
-    transform: translateY(-8px);
-}
-
-.testimonial-card mat-card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--dark-text-color);
-}
-
-.testimonial-card mat-card-content {
-    font-size: 1.1rem;
-    color: var(--light-text-color);
-    line-height: 1.6;
-}
-
-/* Registration Section */
+/*Sección de Registro*/
 .registro {
-    background: var(--primary-color);
+    text-align: center;
+    background: #ff9900;
     color: white;
-    padding: 60px 20px; /* More padding */
 }
 
 .registro h2 {
     color: white;
-    margin-bottom: 30px; /* More space below heading */
 }
 
 .registro .botones {
     display: flex;
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
     justify-content: center;
-    gap: 25px; /* Increased gap */
+    gap: 20px; /* Reducir espacio entre botones */
 }
 
 .registro .botones button {
     background-color: white;
-    color: var(--primary-color);
-    padding: 14px 30px; /* Larger buttons */
-    font-size: 1.25rem; /* Larger font size */
+    color: #ff9900;
+    padding: 12px 25px;
+    font-size: 18px;
     border: none;
     cursor: pointer;
-    border-radius: 8px; /* More rounded corners */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-weight: bold;
+    margin: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
 }
 
 .registro .botones button:hover {
-    background-color: #f0f0f0; /* Slightly darker white on hover */
-    transform: translateY(-3px); /* Lift button on hover */
+    background-color: #f5f5f5;
 }
-
-.registro small a {
-    font-weight: bold;
-}
-
-/* Back to Top Button */
 .back-to-top {
     position: fixed;
     display: none;
     right: 30px;
-    bottom: 30px; /* Lift from bottom */
-    border-radius: 50%; /* Make it round */
-    width: 60px; /* Fixed width and height */
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 2rem; /* Larger icon */
+    bottom: 0;
+    border-radius: 0;
     z-index: 99;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease;
 }
 
-.back-to-top:hover {
-    background-color: #e68a00; /* Darker orange on hover */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .carousel-item img {
-        height: 350px; /* Smaller carousel height on mobile */
-    }
-
-    .bienvenida .welcome-image-container {
-        min-height: 300px; /* Adjust min-height for smaller screens */
-    }
-
-    .bienvenida .row {
-        flex-direction: column; /* Stack elements in welcome section */
-    }
-
-    .beneficios .contenido {
-        flex-direction: column; /* Stack cards and image */
-    }
-
-    .beneficios .imagen img {
-        max-width: 100%;
-    }
-
-    .testimonial-card {
-        max-width: 90%; /* Wider cards on smaller screens */
-    }
-
-    .registro .botones {
-        flex-direction: column; /* Stack buttons */
-        gap: 15px;
-    }
-
-    .registro .botones button {
-        width: 80%; /* Make buttons wider */
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 576px) {
-    section {
-        padding: 25px 15px; /* Smaller padding on extra small screens */
-    }
-
-    section h2 {
-        font-size: 2rem; /* Even smaller headings */
-    }
-
-    .carousel-item img {
-        height: 250px;
-    }
-
-    .carousel-caption h5 {
-        font-size: 1.2rem;
-    }
-
-    .carousel-caption p {
-        font-size: 0.9rem;
-    }
-
-    .bg-offer h1 {
-        font-size: 2rem;
-    }
-
-    .beneficios .card mat-card-title {
-        font-size: 1.4rem;
-    }
-
-    .beneficios .card mat-card-subtitle {
-        font-size: 0.9rem;
-    }
-}
