@@ -92,6 +92,9 @@ public class ForoService {
   public List<ReporteF> obtenerTodosLosReportes() {
     return reporteFRepository.findAll();
   }
+  public List<Publicacion> obtenerPublicacionesDestacadas() {
+    return publicacionRepository.findRandomWithAnswers(3);
+  }
 
   /*public void cargarReglasEjemplo() {
     ReglaForo r1 = new ReglaForo("Sé respetuoso", "No se permiten insultos ni ataques personales", 1);

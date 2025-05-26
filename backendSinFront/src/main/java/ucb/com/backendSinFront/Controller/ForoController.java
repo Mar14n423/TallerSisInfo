@@ -60,6 +60,11 @@ public class ForoController {
   public ResponseEntity<List<ReporteF>> obtenerTodosLosReportes() {
     return ResponseEntity.ok(foroService.obtenerTodosLosReportes());
   }
+  @GetMapping("/testimonios")
+  public ResponseEntity<List<Publicacion>> obtenerTestimonios() {
+    List<Publicacion> testimonios = foroService.obtenerPublicacionesDestacadas();
+    return ResponseEntity.ok(testimonios);
+  }
 
   /*@PostMapping("/reglas/cargar")
   public ResponseEntity<String> cargarReglasDePrueba() {

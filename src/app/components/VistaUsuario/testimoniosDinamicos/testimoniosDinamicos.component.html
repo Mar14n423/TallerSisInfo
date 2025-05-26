@@ -1,0 +1,26 @@
+<section class="testimonios-section">
+  <h2 class="section-title">Comentarios destacados de nuestros usuarios</h2>
+  
+  <div *ngIf="comentarios.length > 0" class="testimonios-grid">
+    <mat-card *ngFor="let comentario of comentarios" class="testimonial-card">
+      <mat-card-header>
+        <img mat-card-avatar 
+             [src]="comentario.avatar || 'assets/images/usuario.PNG'" 
+             alt="Foto de perfil"
+             class="user-avatar">
+        <mat-card-title>{{ comentario.usuario || 'Usuario' }}</mat-card-title>
+        <mat-card-subtitle *ngIf="comentario.fecha">
+          {{ comentario.fecha | date:'mediumDate' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <p class="testimonial-message">"{{ comentario.mensaje }}"</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="comentarios.length === 0" class="no-comments">
+    <p>No hay comentarios destacados aún</p>
+  </div>
+</section>
