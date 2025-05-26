@@ -16,6 +16,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import static org.springframework.security.config.Customizer.withDefaults;
 import java.util.Arrays;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import ucb.com.backendSinFront.util.JwtTokenUtil;
+import ucb.com.backendSinFront.service.UsuarioService;
+
 
 @Configuration
 @EnableWebSecurity
@@ -27,20 +32,31 @@ public class SecurityConfig {
   }
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public JwtAuthenticationFilter jwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, UsuarioService usuarioService) {
+    return new JwtAuthenticationFilter(jwtTokenUtil, usuarioService);
+  }
+
+  @Bean
+  public SecurityFilterChain securityFilterChain(
+    HttpSecurity http,
+    JwtTokenUtil jwtTokenUtil,
+    UsuarioService usuarioService
+  ) throws Exception {
     http
       .cors(withDefaults())
       .csrf(csrf -> csrf.disable())
       .authorizeHttpRequests(auth -> auth
         .requestMatchers(
-          "/api/usuarios/**",
+          "/api/usuarios/login",
+          "/api/usuarios/create",
           "/swagger-ui/**",
           "/v3/api-docs/**"
         ).permitAll()
         .anyRequest().authenticated()
       )
+      .addFilterBefore(jwtAuthenticationFilter(jwtTokenUtil, usuarioService), UsernamePasswordAuthenticationFilter.class)
       .logout(logout -> logout
-        .logoutUrl("/api/logout") // Endpoint para logout
+        .logoutUrl("/api/logout")
         .logoutSuccessHandler((request, response, authentication) -> {
           response.setStatus(HttpStatus.OK.value());
           response.getWriter().flush();
@@ -54,6 +70,7 @@ public class SecurityConfig {
 
     return http.build();
   }
+
 
   @Bean // Configuración CORS global
   public CorsConfigurationSource corsConfigurationSource() {

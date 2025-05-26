@@ -46,4 +46,22 @@ public class JwtTokenUtil {
       .signWith(getSigningKey())
       .compact();
   }
+  public String extractUsername(String token) {
+    return extractClaim(token, Claims::getSubject);
+  }
+
+  public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    final Claims claims = extractAllClaims(token);
+    return claimsResolver.apply(claims);
+  }
+
+  private Claims extractAllClaims(String token) {
+    return Jwts
+      .parserBuilder()
+      .setSigningKey(getSigningKey())
+      .build()
+      .parseClaimsJws(token)
+      .getBody();
+  }
+
 }
