@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sin Fronteras</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-<body>
   <app-navbar></app-navbar>
 
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
@@ -90,7 +86,7 @@
             </div>
             <p class="text-white mb-4">Únete a nuestra comunidad y sé parte de un espacio donde la diversidad es nuestra fortaleza y la inclusión es nuestro motor.</p>
             <a href="" class="btn btn-light py-md-3 px-md-5 me-3">Conoce más</a>
-            <a href="" class="btn btn-outline-light py-md-3 px-md-5">Participa</a>
+            <a routerLink="/login" class="btn btn-outline-light py-md-3 px-md-5">Participa</a>
           </div>
         </div>
       </div>
@@ -113,7 +109,7 @@
               </mat-card-header>
             </mat-card>
 
-            <mat-card appearance="outlined" class="card rutas" routerLink="/transporteyy" role="button" tabindex="0">
+            <mat-card appearance="outlined" class="card rutas" routerLink="/transporte" role="button" tabindex="0">
               <mat-card-header>
                 <mat-card-title>Rutas</mat-card-title>
                 <mat-card-subtitle>Encuentra rutas de nuestros buses inclusivos</mat-card-subtitle>
@@ -202,7 +198,3 @@
   <a href="#" class="btn btn-primary py-3 fs-4 back-to-top">
     <i class="bi bi-arrow-up"></i>
   </a>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
