@@ -1,0 +1,15 @@
+
+<div class="contenedor">
+  <div class="mapa" id="map"></div>
+
+  <div class="lista">
+    <h3>Lista de reportes:</h3>
+    <ul>
+      <li *ngFor="let r of reportes">
+        <span>{{ r.descripcion }} ({{ r.latitud }}, {{ r.longitud }})</span>
+        <button (click)="editarReporte(r)">✏️ Editar</button>
+        <button (click)="eliminarReporte(r.id)">❌ Eliminar</button>
+      </li>
+    </ul>
+  </div>
+</div>

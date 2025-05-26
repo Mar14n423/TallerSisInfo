@@ -64,13 +64,6 @@ public class UsuarioService {
       .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
   }
 
-
-  public void eliminar(Long id) {
-    usuarioRepository.deleteById(id);
-  }
-
-
-
   public Usuario actualizarTipoUsuario(Long id, String tipo) {
     return usuarioRepository.findById(id)
       .map(usuario -> {
@@ -82,5 +75,8 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
       })
       .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+  }
+  public void eliminar(Long id) {
+    usuarioRepository.deleteById(id);  // Elimina al usuario usando el ID
   }
 }

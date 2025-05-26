@@ -9,13 +9,13 @@ export const adminRoutes: Routes = [
     canActivate: [AdminGuard], 
     children: [
       {
-        path: '', 
+        path: '',
         loadComponent: () =>
           import('../components/VistaAdmin/homeadmin/homeadmin.component').then(m => m.HomeadminComponent)
       },
       {
         path: 'dashboard',
-        redirectTo: '', 
+        redirectTo: '',
         pathMatch: 'full'
       },
       {
@@ -27,12 +27,26 @@ export const adminRoutes: Routes = [
         path: 'eventos',
         loadComponent: () =>
           import('../components/VistaAdmin/eventos/eventos.component').then(m => m.EventosComponent)
+      },
+      {
+        path: 'foro',
+        loadComponent: () =>
+          import('../components/VistaAdmin/foroAdmin/foroAdmin.component').then(m => m.ForoAdminComponent)
       }
     ]
   },
+
   {
     path: 'login-admin',
     loadComponent: () =>
       import('../components/VistaAdmin/login-admin/login-admin.component').then(m => m.LoginAdminComponent)
+  },
+
+
+  {
+    path: 'reportes',
+    loadComponent: () =>
+      import('../components/VistaAdmin/reportes/reportes.component')
+        .then(m => m.ReportesComponent)
   }
 ];

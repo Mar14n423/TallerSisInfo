@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class UsuarioController {
 
   @Autowired
@@ -58,7 +58,7 @@ public class UsuarioController {
   //Eliminar
   @DeleteMapping("/{id}")
   public void eliminarUsuario(@PathVariable Long id) {
-    usuarioService.eliminar(id);
+    usuarioService.eliminar(id);  // Llamada al servicio para eliminar el usuario
   }
 
   //Editar
