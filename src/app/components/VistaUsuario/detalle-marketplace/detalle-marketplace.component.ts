@@ -5,6 +5,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { MarketplaceService } from '../marketplace/marketplace.service';
+import { CarritoService, Producto } from '../marketplace/carrito/carrito.service';
 
 @Component({
   selector: 'app-detalle-marketplace',
@@ -20,7 +21,8 @@ export class DetalleMarketplaceComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private marketplaceService: MarketplaceService
+    private marketplaceService: MarketplaceService,
+    private carritoService: CarritoService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +50,19 @@ export class DetalleMarketplaceComponent implements OnInit {
   }
 
   agregarAlCarrito(): void {
+    if (!this.producto) return;
+
+    const productoCarrito: Producto = {
+      id: this.producto.id,
+      nombreP: this.producto.nombreP,
+      descripcionP: this.producto.descripcionP,
+      imagenU: this.producto.imagenU,
+      precio: this.producto.precio,
+      cantidad: 1
+    };
+
+    this.carritoService.agregarProducto(productoCarrito);
     alert('Producto agregado al carrito de compras');
   }
+
 }

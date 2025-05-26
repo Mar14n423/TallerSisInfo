@@ -114,3 +114,17 @@
 .btn-volver:hover {
   background-color: #c2c2c2;
 }
+
+.btn-eliminar {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-eliminar:hover {
+  background-color: #c0392b;
+}
