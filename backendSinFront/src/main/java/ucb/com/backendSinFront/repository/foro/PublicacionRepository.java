@@ -11,6 +11,6 @@ import java.util.List;
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long> {
     List<Publicacion> findByUsuario(String usuario);
 
-    @Query("SELECT p FROM Publicacion p WHERE SIZE(p.respuestas) > 0 ORDER BY p.fecha DESC LIMIT 3")
-    List<Publicacion> findTop3WithRespuestas();
+    @Query("SELECT p FROM Publicacion p WHERE SIZE(p.respuestas) > 0 ORDER BY p.fecha DESC")
+    List<Publicacion> findTopPublicacionesWithRespuestasOrderedByDate(Pageable pageable);
 }
