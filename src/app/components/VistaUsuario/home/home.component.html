@@ -149,47 +149,21 @@
     </div>
   </section>
 
-  <section class="testimonios">
-    <h2>Comentarios de algunos usuarios:</h2>
-    <div class="d-flex flex-wrap justify-content-center gap-4">
-        <mat-card appearance="outlined" class="d-flex flex-column align-items-center p-4 testimonial-card">
-            <mat-card-header class="text-center">
-                <div class="d-flex flex-column align-items-center">
-                    <mat-card-title>Jose Andres</mat-card-title>
-                    <i class="bi-person text-primary fs-1 mt-2"></i>
-                </div>
-            </mat-card-header>
-            <mat-card-content class="d-flex justify-content-center align-items-center flex-grow-1 text-center">
-                "Gracias a Sin Fronteras, encontré amigos que entienden mis desafíos y me motivan cada día."
-            </mat-card-content>
-        </mat-card>
+  <section class="testimonios py-5">
+    <div class="container">
+      <div class="border-start border-5 border-primary ps-5 mb-5 text-center">
+        <h6 class="text-primary text-uppercase">Testimonios</h6>
+        <h1 class="display-5 text-uppercase mb-0">Lo que dicen nuestros usuarios</h1>
+      </div>
 
-        <mat-card appearance="outlined" class="d-flex flex-column align-items-center p-4 testimonial-card">
-            <mat-card-header class="text-center">
-                <div class="d-flex flex-column align-items-center">
-                    <mat-card-title>Marco Aurelio</mat-card-title>
-                    <i class="bi-person text-primary fs-1 mt-2"></i>
-                </div>
-            </mat-card-header>
-            <mat-card-content class="d-flex justify-content-center align-items-center flex-grow-1 text-center">
-                "Este foro me ayudó a encontrar recursos para mejorar mi calidad de vida."
-            </mat-card-content>
-        </mat-card>
+      <app-testimoniosDinamicos></app-testimoniosDinamicos>
 
-        <mat-card appearance="outlined" class="d-flex flex-column align-items-center p-4 testimonial-card">
-            <mat-card-header class="text-center">
-                <div class="d-flex flex-column align-items-center">
-                    <mat-card-title>Martina Antonia</mat-card-title>
-                    <i class="bi-person text-primary fs-1 mt-2"></i>
-                </div>
-            </mat-card-header>
-            <mat-card-content class="d-flex justify-content-center align-items-center flex-grow-1 text-center">
-                “Pude conocer más gente gracias a los increíbles eventos de los voluntarios.”
-            </mat-card-content>
-        </mat-card>
+      <!-- Botón para ver más testimonios -->
+      <div class="text-center mt-4">
+        <a routerLink="/foro" class="btn btn-primary">Ver más comentarios</a>
+      </div>
     </div>
   </section>
-
   <section class="registro">
     <h2>Si quieres acceder a todos nuestros beneficios puedes registrarte:</h2>
     <div class="botones">
