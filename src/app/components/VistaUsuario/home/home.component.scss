@@ -338,43 +338,40 @@ section h2 {
     border-radius: 0;
     z-index: 99;
 }
-/* Estilos para el texto del carrusel */
+
 .carousel-caption h5 {
-    font-size: 3rem; /* Aumenta el tamaño de la fuente para el título */
+    font-size: 3rem; 
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Añade sombra para mejorar la legibilidad sobre la imagen */
-    margin-bottom: 1rem; /* Espacio debajo del título */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+    margin-bottom: 1rem; 
 }
 
 .carousel-caption p {
-    font-size: 1.5rem; /* Aumenta el tamaño de la fuente para el párrafo */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Añade sombra para mejorar la legibilidad */
-    margin-bottom: 1.5rem; /* Espacio debajo del párrafo antes del botón */
+    font-size: 1.5rem; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+    margin-bottom: 1.5rem; 
 }
 
-/* Ajustes para el botón dentro del carrusel, si es necesario */
 .carousel-caption .btn {
-    padding: 0.8rem 1.8rem; /* Aumenta el padding del botón */
-    font-size: 1.2rem; /* Hace el texto del botón más grande */
-    border-radius: 0.5rem; /* Bordes ligeramente más redondeados */
-    /* Asegúrate de que el color de fondo y texto del botón ofrezcan buen contraste */
+    padding: 0.8rem 1.8rem; 
+    font-size: 1.2rem; 
+    border-radius: 0.5rem; 
+    
 }
 
-/* Opcional: Ajustar la posición de la leyenda si es necesario */
 .carousel-caption {
-    bottom: 20%; /* Ajusta esta propiedad si quieres subir o bajar la posición del texto */
-    padding-bottom: 20px; /* Asegura espacio inferior dentro de la caja de la leyenda */
+    bottom: 20%; 
+    padding-bottom: 20px; 
     text-align: center;
 }
 
-/* Media queries para adaptar el tamaño del texto en dispositivos más pequeños */
 @media (max-width: 768px) {
     .carousel-caption h5 {
-        font-size: 2rem; /* Tamaño más pequeño en móviles */
+        font-size: 2rem; 
     }
 
     .carousel-caption p {
-        font-size: 1.2rem; /* Tamaño más pequeño en móviles */
+        font-size: 1.2rem; 
     }
 
     .carousel-caption .btn {
@@ -383,7 +380,7 @@ section h2 {
     }
 
     .carousel-caption {
-        bottom: 10%; /* Ajusta la posición para móviles */
+        bottom: 10%; 
     }
 }
 

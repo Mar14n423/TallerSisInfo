@@ -76,22 +76,33 @@
     </div>
   </section>
 
-  <section class="frases-destacadas" >
-    <div class="container-fluid bg-offer my-5 py-5 ">
-      <div class="container py-5">
-        <div class="row gx-5 justify-content-start">
-          <div class="col-lg-7">
-            <div class="border-start border-5 border-primary ps-5 mb-5">
-              <h1 class="display-5 text-uppercase text-white mb-0">La verdadera discapacidad no está en el cuerpo ni en la mente, sino en las barreras que nos separan. Aquí, las derribamos juntos.</h1>
-            </div>
-            <p class="text-white mb-4">Únete a nuestra comunidad y sé parte de un espacio donde la diversidad es nuestra fortaleza y la inclusión es nuestro motor.</p>
-            <a href="" class="btn btn-light py-md-3 px-md-5 me-3">Conoce más</a>
-            <a routerLink="/login" class="btn btn-outline-light py-md-3 px-md-5">Participa</a>
+<section class="frases-destacadas">
+  <div class="container-fluid bg-offer my-5 py-5 ">
+    <div class="container py-5">
+      <div class="row gx-5 justify-content-start">
+        <div class="col-lg-7">
+          <div class="border-start border-5 border-primary ps-5 mb-5">
+            <h1 class="display-5 text-uppercase text-white mb-0">La verdadera discapacidad no está en el cuerpo ni en la mente, sino en las barreras que nos separan. Aquí, las derribamos juntos.</h1>
           </div>
+          
+          <p class="text-white mb-4">
+            Únete a nuestra comunidad y sé parte de un espacio donde la diversidad es nuestra fortaleza y la inclusión es nuestro motor.
+          </p>
+
+          <p class="text-white mb-4" *ngIf="showMoreText">
+            Nuestra plataforma te conecta con oportunidades, recursos y una red de apoyo inigualable. Creemos firmemente que cada persona tiene un valor único y queremos ayudarte a descubrir y potenciar el tuyo. Explora foros de discusión, eventos inclusivos y una bolsa de empleo diseñada para romper barreras.
+          </p>
+
+          <button class="btn btn-light py-md-3 px-md-5 me-3" (click)="toggleText()">
+            {{ showMoreText ? 'Ver menos' : 'Conoce más' }}
+          </button>
+          
+          <a routerLink="/login" class="btn btn-outline-light py-md-3 px-md-5">Participa</a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section class="beneficios">
     <div class="container-fluid py-5">
