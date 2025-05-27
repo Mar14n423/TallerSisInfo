@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmLogoutComponent } from '../confirm-logout/confirm-logout.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -33,7 +34,8 @@ export class LayoutComponent {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) {}
 
   confirmLogout() {
@@ -43,7 +45,9 @@ export class LayoutComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.router.navigate(['/login-admin']);
+        this.authService.logout().then(()=>{
+        this.router.navigate(['/']);
+        })
       }
     });
   }

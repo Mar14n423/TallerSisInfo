@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -113,6 +114,7 @@ public class ForoService {
   }
 
   public ReporteF crearReporte(ReporteF reporte) {
+
     if (reporte.getTipo() == ReporteF.TipoContenido.POST) {
       Publicacion publicacion = publicacionRepository.findById(reporte.getContenidoId())
         .orElseThrow(() -> new RuntimeException("Publicación no encontrada con ID: " + reporte.getContenidoId()));

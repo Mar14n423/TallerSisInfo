@@ -38,18 +38,19 @@ export class EmpleoComponent implements OnInit {
     this.cargarTodasLasOfertas();
   }
 
-  cargarTodasLasOfertas(): void {
+cargarTodasLasOfertas(): void {
     this.cargando = true;
-    this.empleoService.obtenerOfertas()
-      .then(data => {
+    this.empleoService.obtenerOfertas().subscribe({
+      next: (data) => {
         this.todasLasOfertas = data;
         this.ofertasFiltradas = [...data];
         this.cargando = false;
-      })
-      .catch(error => {
+      },
+      error: (error) => {
         console.error('Error al cargar ofertas:', error);
         this.cargando = false;
-      });
+      }
+    });
   }
 
   aplicarFiltros(): void {

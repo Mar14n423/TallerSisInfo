@@ -43,7 +43,9 @@ export class ReportesUsuarioComponent implements OnInit {
         setTimeout(() => {
           this.reportes.forEach((reporte, i) => {
             const mapId = `map-${i}`;
+
             const map = L.map(mapId).setView([reporte.latitud, reporte.longitud], 19);
+
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
               attribution: '&copy; OpenStreetMap contributors'

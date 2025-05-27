@@ -55,16 +55,17 @@ export class ForoComponent implements OnInit {
   cargarUsuario(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      this.usuarioService.obtenerUsuarioPorId(+userId)
-        .then((usuario) => {
+      this.usuarioService.obtenerUsuarioPorId(+userId).subscribe({
+        next: (usuario) => {
           this.user = usuario;
           this.usuarioActual = usuario.nombre;
           // Si el usuario tiene una imagen base64 válida, sanitízala
           if (this.user.profileImage && this.user.profileImage.startsWith('data:image')) {
             this.user.profileImage = this.sanitizer.bypassSecurityTrustUrl(this.user.profileImage);
           }
-        })
-        .catch((err) => console.error('Error al cargar usuario:', err));
+        },
+        error: (err) => console.error('Error al cargar usuario:', err)
+      });
     }
   }
 
