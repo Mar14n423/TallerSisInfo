@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatCardModule } from '@angular/material/card';
@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { UsuarioService } from '../register/usuario.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   standalone: true,
@@ -50,13 +51,17 @@ export class ProfileComponent implements OnInit {
 
   modoEdicion: boolean = false;
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(
+    private usuarioService: UsuarioService, 
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      this.usuarioService.obtenerUsuarioPorId(+userId)
-        .then((usuario) => {
+      this.usuarioService.obtenerUsuarioPorId(+userId).subscribe({
+        next: (usuario) => {
           console.log('Usuario cargado:', usuario);
           this.user = {
             profileImage: usuario.profileImage || 'assets/default-profile.png',
@@ -70,8 +75,9 @@ export class ProfileComponent implements OnInit {
             disabilityInfo: usuario.discapacidad || 'No especificada',
             workExperience: [],
           };
-        })
-        .catch((error) => console.error('Error al cargar perfil:', error));
+        },
+        error: (error) => console.error('Error al cargar perfil:', error)
+      });
     }
   }
 
@@ -118,17 +124,17 @@ export class ProfileComponent implements OnInit {
         passwordHash: null,
       };
 
-      this.usuarioService
-        .actualizarUsuario(+userId, usuarioActualizado)
-        .then(() => {
+      this.usuarioService.actualizarUsuario(+userId, usuarioActualizado).subscribe({
+        next: () => {
           this.user.name = nameInput.value;
           this.user.email = emailInput.value;
           this.user.phone = phoneInput.value;
           this.user.address = addressInput.value;
           this.user.disabilityInfo = discapacidadInput.value;
           this.modoEdicion = false;
-        })
-        .catch((error) => console.error('Error al actualizar perfil:', error));
+        },
+        error: (error) => console.error('Error al actualizar perfil:', error)
+      });
     }
   }
 
@@ -156,10 +162,10 @@ export class ProfileComponent implements OnInit {
             passwordHash: null,
           };
 
-          this.usuarioService
-            .actualizarUsuario(+userId, usuarioActualizado)
-            .then(() => console.log('Imagen actualizada correctamente'))
-            .catch((error) => console.error('Error al actualizar la imagen:', error));
+          this.usuarioService.actualizarUsuario(+userId, usuarioActualizado).subscribe({
+            next: () => console.log('Imagen actualizada correctamente'),
+            error: (error) => console.error('Error al actualizar la imagen:', error)
+          });
         }
       };
       reader.readAsDataURL(file);
@@ -174,16 +180,21 @@ export class ProfileComponent implements OnInit {
         return;
       }
 
-      this.usuarioService.eliminarUsuario(this.user.id).then(
-        () => {
+      this.usuarioService.eliminarUsuario(this.user.id).subscribe({
+        next: () => {
           alert('Tu cuenta ha sido eliminada exitosamente.');
           window.location.href = '/';
         },
-        (error) => {
+        error: (error) => {
           console.error('Error al eliminar la cuenta:', error);
-          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.response?.data || 'Error desconocido'));
+          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.error?.message || 'Error desconocido'));
         }
-      );
+      });
     }
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

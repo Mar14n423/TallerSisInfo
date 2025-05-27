@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { AdminGuard } from '../guards/admin.guard';
 
 export const adminRoutes: Routes = [
   {
     path: 'admin',
     loadComponent: () =>
       import('../components/VistaAdmin/layout/layout.component').then(m => m.LayoutComponent),
+    canActivate: [AdminGuard], 
     children: [
       {
         path: '',

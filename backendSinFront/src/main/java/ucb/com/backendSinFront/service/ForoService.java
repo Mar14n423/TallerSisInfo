@@ -3,6 +3,7 @@ package ucb.com.backendSinFront.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import ucb.com.backendSinFront.entity.foro.Publicacion;
 import ucb.com.backendSinFront.entity.foro.Respuesta;
 import ucb.com.backendSinFront.entity.foro.ReporteF;
@@ -64,6 +65,7 @@ public class ForoService {
   }
 
   public ReporteF crearReporte(ReporteF reporte) {
+
     if (reporte.getTipo() == ReporteF.TipoContenido.POST) {
       Publicacion publicacion = publicacionRepository.findById(reporte.getContenidoId())
         .orElseThrow(() -> new RuntimeException("Publicación no encontrada con ID: " + reporte.getContenidoId()));
@@ -94,6 +96,7 @@ public class ForoService {
   public List<ReporteF> obtenerTodosLosReportes() {
     return reporteFRepository.findAll();
   }
+
 
   public List<Publicacion> obtenerPublicacionesDestacadas() {
     Pageable topThree = PageRequest.of(0, 3, Sort.by("fecha").descending());

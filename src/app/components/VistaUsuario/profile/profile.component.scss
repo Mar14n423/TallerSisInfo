@@ -90,3 +90,14 @@ body {
   border-radius: 50%;
   color: white;
 }
+.logout-item {
+  color: #f44336; /* Color rojo para destacar la acción de salida */
+}
+
+.logout-item:hover {
+  background-color: rgba(244, 67, 54, 0.04); /* Fondo rojo muy claro al pasar el mouse */
+}
+
+.logout-item mat-icon {
+  color: #f44336;
+}

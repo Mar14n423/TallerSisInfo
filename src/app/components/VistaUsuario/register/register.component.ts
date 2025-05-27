@@ -6,6 +6,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import axios from 'axios';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
+import { UsuarioService } from './usuario.service';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -22,9 +23,9 @@ export class RegisterComponent {
     confirmPassword: new FormControl('', [Validators.required]) // Campo para confirmar la contraseña
   });
 
-  constructor() {}
+  constructor(private usuarioService: UsuarioService, private router: Router) {}
 
-  onSubmit() {
+   onSubmit() {
     if (this.registerForm.valid) {
       const usuario = {
         nombre: this.registerForm.value.name,
@@ -33,22 +34,28 @@ export class RegisterComponent {
         passwordHash: this.registerForm.value.password
       };
 
-      axios.post('http://localhost:8080/api/usuarios/create', usuario)
-        .then(response => {
-          console.log('Usuario registrado con éxito:', response.data);
-
-          // ✅ Guardar el ID del usuario
-          localStorage.setItem('userId', response.data.id);
-
-          // ✅ Redirigir manualmente a la página de perfil
-          window.location.href = '/profile';
-        })
-        .catch(error => {
+      this.usuarioService.registrarUsuario(usuario).subscribe({
+        next: (response) => {
+          console.log('Usuario registrado con éxito:', response);
+          localStorage.setItem('userId', response.id);
+          this.router.navigate(['/profile']);
+        },
+        error: (error) => {
           console.error('Error al registrar usuario:', error);
           alert('Error al registrar usuario');
-        });
+        }
+      });
     } else {
       alert('Por favor, completa el formulario correctamente');
     }
   }
 }
+
+
+
+
+
+
+
+
+

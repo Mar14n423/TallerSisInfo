@@ -15,4 +15,5 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, Long> 
   // Consulta personalizada para publicaciones con respuestas ordenadas por fecha
   @Query("SELECT p FROM Publicacion p WHERE SIZE(p.respuestas) > 0 ORDER BY p.fecha DESC")
   List<Publicacion> findTopPublicacionesWithRespuestasOrderedByDate(Pageable pageable);
+
 }
