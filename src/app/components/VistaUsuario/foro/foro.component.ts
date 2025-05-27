@@ -38,7 +38,7 @@ export class ForoComponent implements OnInit {
   otraRazon: string = '';
   mostrarReglasFlag: boolean = false;
   reglasForo: string = '';
-  isLoading: boolean = false;
+  isLoading: boolean = false; // ✅ Línea final conservada
 
   constructor(
     private foroService: ForoService,
@@ -68,39 +68,35 @@ export class ForoComponent implements OnInit {
     }
   }
 
-cargarPublicaciones(): void {
-  this.foroService.obtenerPublicaciones().subscribe({
-    next: (data: any[]) => {
-      console.log('Publicaciones completas:', data);
+  cargarPublicaciones(): void {
+    this.foroService.obtenerPublicaciones().subscribe({
+      next: (data: any[]) => {
+        console.log('Publicaciones completas:', data);
 
-      this.posts = data.map(post => {
-        // ⚠️ Solo sanitizamos base64 para evitar errores con URLs normales
-        if (post.usuarioAvatarUrl && post.usuarioAvatarUrl.startsWith('data:image')) {
-          post.usuarioAvatarUrl = this.sanitizer.bypassSecurityTrustUrl(post.usuarioAvatarUrl);
-        }
-
-        post.respuestas = (post.respuestas || []).map((r: any) => {
-          if (r.usuarioAvatarUrl && r.usuarioAvatarUrl.startsWith('data:image')) {
-            r.usuarioAvatarUrl = this.sanitizer.bypassSecurityTrustUrl(r.usuarioAvatarUrl);
+        this.posts = data.map(post => {
+          // ⚠️ Solo sanitizamos base64 para evitar errores con URLs normales
+          if (post.usuarioAvatarUrl && post.usuarioAvatarUrl.startsWith('data:image')) {
+            post.usuarioAvatarUrl = this.sanitizer.bypassSecurityTrustUrl(post.usuarioAvatarUrl);
           }
-          return r;
+
+          post.respuestas = (post.respuestas || []).map((r: any) => {
+            if (r.usuarioAvatarUrl && r.usuarioAvatarUrl.startsWith('data:image')) {
+              r.usuarioAvatarUrl = this.sanitizer.bypassSecurityTrustUrl(r.usuarioAvatarUrl);
+            }
+            return r;
+          });
+
+          return post;
         });
 
-        return post;
-      });
-
-      this.mostrarFormulario = new Array(this.posts.length).fill(false);
-      this.nuevaRespuesta = new Array(this.posts.length).fill('');
-    },
-    error: (err) => {
-      console.error('Error al cargar publicaciones:', err);
-    }
-  });
-}
-
-
-
-
+        this.mostrarFormulario = new Array(this.posts.length).fill(false);
+        this.nuevaRespuesta = new Array(this.posts.length).fill('');
+      },
+      error: (err) => {
+        console.error('Error al cargar publicaciones:', err);
+      }
+    });
+  }
 
   toggleFormulario(index: number) {
     this.mostrarFormulario[index] = !this.mostrarFormulario[index];
