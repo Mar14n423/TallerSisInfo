@@ -3,7 +3,6 @@ package ucb.com.backendSinFront.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// ✅ IMPORTS CORREGIDOS
 import ucb.com.backendSinFront.entity.foro.Publicacion;
 import ucb.com.backendSinFront.entity.foro.Respuesta;
 import ucb.com.backendSinFront.entity.foro.ReporteF;
@@ -17,6 +16,10 @@ import ucb.com.backendSinFront.repository.foro.ReglaForoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ForoService {
@@ -61,7 +64,6 @@ public class ForoService {
   }
 
   public ReporteF crearReporte(ReporteF reporte) {
-
     if (reporte.getTipo() == ReporteF.TipoContenido.POST) {
       Publicacion publicacion = publicacionRepository.findById(reporte.getContenidoId())
         .orElseThrow(() -> new RuntimeException("Publicación no encontrada con ID: " + reporte.getContenidoId()));
@@ -93,14 +95,17 @@ public class ForoService {
     return reporteFRepository.findAll();
   }
 
-  /*public void cargarReglasEjemplo() {
-    ReglaForo r1 = new ReglaForo("Sé respetuoso", "No se permiten insultos ni ataques personales", 1);
-    ReglaForo r2 = new ReglaForo("No spam", "Evita contenido promocional o repetitivo", 2);
-    ReglaForo r3 = new ReglaForo("Contenido relevante", "Publica temas relacionados al foro", 3);
-    ReglaForo r4 = new ReglaForo("Privacidad", "No compartas información personal", 4);
+  public List<Publicacion> obtenerPublicacionesDestacadas() {
+    Pageable topThree = PageRequest.of(0, 3, Sort.by("fecha").descending());
+    return publicacionRepository.findTopPublicacionesWithRespuestasOrderedByDate(topThree);
+  }
 
-    reglaForoRepository.saveAll(List.of(r1, r2, r3, r4));
-  }*/
+    /*public void cargarReglasEjemplo() {
+        ReglaForo r1 = new ReglaForo("Sé respetuoso", "No se permiten insultos ni ataques personales", 1);
+        ReglaForo r2 = new ReglaForo("No spam", "Evita contenido promocional o repetitivo", 2);
+        ReglaForo r3 = new ReglaForo("Contenido relevante", "Publica temas relacionados al foro", 3);
+        ReglaForo r4 = new ReglaForo("Privacidad", "No compartas información personal", 4);
 
-
+        reglaForoRepository.saveAll(List.of(r1, r2, r3, r4));
+    }*/
 }
