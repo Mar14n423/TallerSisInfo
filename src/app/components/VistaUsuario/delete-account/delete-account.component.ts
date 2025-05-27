@@ -25,19 +25,19 @@ export class DeleteAccountComponent {
   ) {}
 
   eliminarCuenta() {
-    const userId = this.data.user.id;
+  const userId = this.data.user.id;
 
-    this.usuarioService.eliminarUsuario(userId).then(
-      (response) => {
-        console.log('Cuenta eliminada:', response);
-        this.dialogRef.close('eliminar');  // Cierra el diálogo después de eliminar
-      },
-      (error) => {
-        console.error('Error al eliminar cuenta:', error);
-        alert('Hubo un problema al eliminar la cuenta.');
-      }
-    );
-  }
+  this.usuarioService.eliminarUsuario(userId).subscribe({
+    next: (response: any) => {
+      console.log('Cuenta eliminada:', response);
+      this.dialogRef.close('eliminar');  // Cierra el diálogo después de eliminar
+    },
+    error: (error: any) => {
+      console.error('Error al eliminar cuenta:', error);
+      alert('Hubo un problema al eliminar la cuenta.');
+    }
+  });
+}
 
   cerrar() {
     this.dialogRef.close();  // Cierra el diálogo sin eliminar la cuenta

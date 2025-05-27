@@ -53,12 +53,13 @@ export class ForoComponent implements OnInit {
   cargarUsuario(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      this.usuarioService.obtenerUsuarioPorId(+userId)
-        .then((usuario) => {
+      this.usuarioService.obtenerUsuarioPorId(+userId).subscribe({
+        next: (usuario) => {
           this.user = usuario;
           this.usuarioActual = usuario.nombre;
-        })
-        .catch((err) => console.error('Error al cargar usuario:', err));
+        },
+        error: (err) => console.error('Error al cargar usuario:', err)
+      });
     }
   }
 

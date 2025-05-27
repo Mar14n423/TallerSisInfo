@@ -36,15 +36,16 @@ export class DetalleTrabajoComponent implements OnInit {
     }
 
     this.cargando = true;
-    this.empleoService.obtenerOfertaPorId(+id)
-      .then(data => {
-        this.trabajo = data;
-        this.cargando = false;
-      })
-      .catch(error => {
-        console.error('Error al cargar el trabajo:', error);
-        this.error = 'Error al cargar los detalles del empleo';
-        this.cargando = false;
-      });
+    this.empleoService.obtenerOfertaPorId(+id).subscribe({
+        next: (data) => {
+    this.trabajo = data;
+    this.cargando = false;
+  },
+  error: (error) => {
+    console.error('Error al cargar el trabajo:', error);
+    this.error = 'Error al cargar los detalles del empleo';
+    this.cargando = false;
+  }
+    });
   }
 }

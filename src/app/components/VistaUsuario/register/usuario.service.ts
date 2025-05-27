@@ -1,65 +1,66 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:8080/api/usuarios'; // Cambia la URL base
+  private apiUrl = 'http://localhost:8080/api/usuarios';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  registrarUsuario(usuario: any) {
-    return axios.post(`${this.apiUrl}/create`, usuario) // Endpoint para registro
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error('Error al registrar usuario', error);
-        throw error;
-      });
+  private manejarError(error: HttpErrorResponse) {
+    console.error('Error en la petición:', error);
+    return throwError(() => error);
   }
 
-  loginUsuario(usuario: any) {
-    return axios.post(`${this.apiUrl}/login`, usuario) // Endpoint para login
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error('Error al iniciar sesión', error);
-        throw error;
-      });
+  registrarUsuario(usuario: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create`, usuario)
+      .pipe(
+        catchError(this.manejarError)
+      );
   }
-  actualizarTipoUsuario(id: number, tipo: string) {
-    return axios.patch(`${this.apiUrl}/${id}`, { tipo })
-      .then(response => response.data)
-      .catch(error => {
-        console.error('Error al actualizar tipo de usuario:', error);
-        throw error;
-      });
+
+  loginUsuario(usuario: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, usuario)
+      .pipe(
+        catchError(this.manejarError)
+      );
   }
-  obtenerUsuarioPorId(id: number) {
-    return axios.get(`${this.apiUrl}/${id}`)
-      .then(response => response.data)
-      .catch(error => {
-        console.error('Error al obtener usuario por ID:', error);
-        throw error;
-      });
-  }
-actualizarUsuario(id: number, usuarioActualizado: any) {
-  return axios.put(`${this.apiUrl}/${id}`, usuarioActualizado)
-    .then(response => response.data)
-    .catch(error => {
-      console.error('Error al actualizar usuario:', error);
-      throw error;
-    });
+
+ actualizarTipoUsuario(id: number, tipo: string): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+
+  return this.http.patch(`${this.apiUrl}/${id}`, { tipo }, { headers }).pipe(
+    catchError(this.manejarError)
+  );
 }
 
-eliminarUsuario(id: number) {
-  return axios.delete(`http://localhost:8080/api/usuarios/${id}`)
-    .then(response => response.data)  //
-    .catch(error => {
-      console.error('Error al eliminar usuario:', error);
-      throw error;
-    });
-}
 
+  obtenerUsuarioPorId(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`)
+      .pipe(
+        catchError(this.manejarError)
+      );
+  }
+
+  actualizarUsuario(id: number, usuarioActualizado: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, usuarioActualizado)
+      .pipe(
+        catchError(this.manejarError)
+      );
+  }
+
+  eliminarUsuario(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`)
+      .pipe(
+        catchError(this.manejarError)
+      );
+  }
 }

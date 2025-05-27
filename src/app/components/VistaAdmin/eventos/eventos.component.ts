@@ -40,17 +40,19 @@ export class EventosComponent implements OnInit {
     });
   }
 
-  async ngOnInit(): Promise<void> {
-    this.createEventosData();
-    await this.loadEventsForMonth();
+ngOnInit(): void {
+  this.createEventosData();
+  this.loadEventsForMonth();
 
-    try{
-      const allEvents= await this.eventosService.getEventos();
+  this.eventosService.getEventos().subscribe({
+    next: (allEvents) => {
       this.assignEventsToCalendar(allEvents);
-    } catch(error){
+    },
+    error: (error) => {
       console.error('Error cargando todos los eventos', error);
     }
-  }
+  });
+}
 
   // Métodos de navegación
   previousMonth(): void {
@@ -83,34 +85,39 @@ export class EventosComponent implements OnInit {
   }
 
   // Carga de eventos
-  private async loadEventsForMonth(): Promise<void> {
-    const year = this.currentMonth().getFullYear();
-    const month = this.currentMonth().getMonth() + 1; 
-    
-    try {
-      const events = await this.eventosService.getEventosPorMes(year, month);
+private loadEventsForMonth(): void {
+  const year = this.currentMonth().getFullYear();
+  const month = this.currentMonth().getMonth() + 1;
+
+  this.eventosService.getEventosPorMes(year, month).subscribe({
+    next: (events) => {
       this.assignEventsToCalendar(events);
-    } catch (error) {
+    },
+    error: (error) => {
       console.error('Error cargando eventos:', error);
     }
-  }
+  });
+}
 
   private assignEventsToCalendar(events: NEventos.IEvent[]): void {
-    this.eventosData.forEach(day => day.events = []); 
-    
-    events.forEach(event => {
-      const eventDate = new Date(event.date);
-      const dayIndex = this.eventosData.findIndex(
-        day => day.day === eventDate.getDate() && 
-              day.date.getMonth() === eventDate.getMonth() &&
-              day.date.getFullYear() === eventDate.getFullYear()
-      );
-      
-      if (dayIndex !== -1) {
-        this.eventosData[dayIndex].events.push(event);
-      }
+  this.eventosData.forEach(day => day.events = []);
+
+  events.forEach(event => {
+    const eventDate = new Date(event.date);
+    eventDate.setHours(0, 0, 0, 0); // 🔧 Normaliza a medianoche
+
+    const dayIndex = this.eventosData.findIndex(day => {
+      const calendarDate = new Date(day.date);
+      calendarDate.setHours(0, 0, 0, 0); // 🔧 Normaliza también
+
+      return calendarDate.getTime() === eventDate.getTime();
     });
-  }
+
+    if (dayIndex !== -1) {
+      this.eventosData[dayIndex].events.push(event);
+    }
+  });
+}
 
   // Generación de la estructura del calendario
   private createEventosData(): void {
@@ -153,26 +160,33 @@ export class EventosComponent implements OnInit {
   }
 
   // Manejo de eventos
-  private async handleEvent(item: NEventos.IEvent): Promise<void> {
-    if (!item.id) return;
+private handleEvent(item: NEventos.IEvent): void {
+  if (!item.id) return;
 
-    try {
-        // Asegurar que la fecha es un objeto Date válido
-        const eventToProcess = {
-            ...item,
-            date: item.date instanceof Date ? item.date : new Date(item.date)
-        };
+  const eventToProcess = {
+    ...item,
+    date: item.date instanceof Date ? item.date : new Date(item.date)
+  };
 
-        if (this.eventExists(item.id)) {
-            const updatedEvent = await this.eventosService.actualizarEvento(item.id, eventToProcess);
-            this.updateEventInCalendar(updatedEvent);
-        } else {
-            const newEvent = await this.eventosService.crearEvento(eventToProcess);
-            this.addEventToCalendar(newEvent);
-        }
-    } catch (error) {
-        console.error('Error al manejar evento:', error);
-    }
+  if (this.eventExists(item.id)) {
+    this.eventosService.actualizarEvento(item.id, eventToProcess).subscribe({
+      next: (updatedEvent) => {
+        this.updateEventInCalendar(updatedEvent);
+      },
+      error: (error) => {
+        console.error('Error al actualizar evento:', error);
+      }
+    });
+  } else {
+    this.eventosService.crearEvento(eventToProcess).subscribe({
+      next: (newEvent) => {
+        this.addEventToCalendar(newEvent);
+      },
+      error: (error) => {
+        console.error('Error al crear evento:', error);
+      }
+    });
+  }
 }
   private updateEventInCalendar(updatedEvent: NEventos.IEvent): void {
     for (const day of this.eventosData) {

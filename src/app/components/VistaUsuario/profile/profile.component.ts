@@ -51,13 +51,17 @@ export class ProfileComponent implements OnInit {
 
   modoEdicion: boolean = false;
 
-  constructor(private usuarioService: UsuarioService, private authService: AuthService,private router: Router) {}
+  constructor(
+    private usuarioService: UsuarioService, 
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
     if (userId) {
-      this.usuarioService.obtenerUsuarioPorId(+userId)
-        .then((usuario) => {
+      this.usuarioService.obtenerUsuarioPorId(+userId).subscribe({
+        next: (usuario) => {
           console.log('Usuario cargado:', usuario);
           this.user = {
             profileImage: usuario.profileImage || 'assets/default-profile.png',
@@ -71,8 +75,9 @@ export class ProfileComponent implements OnInit {
             disabilityInfo: usuario.discapacidad || 'No especificada',
             workExperience: [],
           };
-        })
-        .catch((error) => console.error('Error al cargar perfil:', error));
+        },
+        error: (error) => console.error('Error al cargar perfil:', error)
+      });
     }
   }
 
@@ -119,20 +124,19 @@ export class ProfileComponent implements OnInit {
         passwordHash: null,
       };
 
-      this.usuarioService
-        .actualizarUsuario(+userId, usuarioActualizado)
-        .then(() => {
+      this.usuarioService.actualizarUsuario(+userId, usuarioActualizado).subscribe({
+        next: () => {
           this.user.name = nameInput.value;
           this.user.email = emailInput.value;
           this.user.phone = phoneInput.value;
           this.user.address = addressInput.value;
           this.user.disabilityInfo = discapacidadInput.value;
           this.modoEdicion = false;
-        })
-        .catch((error) => console.error('Error al actualizar perfil:', error));
+        },
+        error: (error) => console.error('Error al actualizar perfil:', error)
+      });
     }
   }
-
 
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -157,10 +161,10 @@ export class ProfileComponent implements OnInit {
             passwordHash: null,
           };
 
-          this.usuarioService
-            .actualizarUsuario(+userId, usuarioActualizado)
-            .then(() => console.log('Imagen actualizada correctamente'))
-            .catch((error) => console.error('Error al actualizar la imagen:', error));
+          this.usuarioService.actualizarUsuario(+userId, usuarioActualizado).subscribe({
+            next: () => console.log('Imagen actualizada correctamente'),
+            error: (error) => console.error('Error al actualizar la imagen:', error)
+          });
         }
       };
       reader.readAsDataURL(file);
@@ -175,21 +179,21 @@ export class ProfileComponent implements OnInit {
         return;
       }
 
-      this.usuarioService.eliminarUsuario(this.user.id).then(
-        () => {
+      this.usuarioService.eliminarUsuario(this.user.id).subscribe({
+        next: () => {
           alert('Tu cuenta ha sido eliminada exitosamente.');
           window.location.href = '/';
         },
-        (error) => {
+        error: (error) => {
           console.error('Error al eliminar la cuenta:', error);
-          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.response?.data || 'Error desconocido'));
+          alert('Ocurrió un error al eliminar tu cuenta. Detalles: ' + (error.error?.message || 'Error desconocido'));
         }
-      );
+      });
     }
   }
-    logout(): void {
+
+  logout(): void {
     this.authService.logout();
-    //this.router.navigate(['/login']); 
     this.router.navigate(['/']);
   }
 }

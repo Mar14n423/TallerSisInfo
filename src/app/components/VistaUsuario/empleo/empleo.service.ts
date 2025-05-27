@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -7,71 +8,76 @@ import axios from 'axios';
 export class EmpleoService {
   private apiUrl = 'http://localhost:8080/api/ofertas';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  obtenerOfertas() {
-    return axios.get(`${this.apiUrl}`)
-      .then(response => response.data)
-      .catch(error => {
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
+  obtenerOfertas(): Observable<any> {
+    return this.http.get(`${this.apiUrl}`, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
         console.error('Error al obtener ofertas:', error);
-        throw error;
-      });
+        return throwError(() => error);
+      })
+    );
   }
 
-  // Filtrar ofertas por ubicación
-  filtrarPorUbicacion(ubicacion: string) {
-    return axios.get(`${this.apiUrl}/filtrar/ubicacion/${ubicacion}`)
-      .then(response => response.data)
-      .catch(error => {
+  filtrarPorUbicacion(ubicacion: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/filtrar/ubicacion/${ubicacion}`, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
         console.error('Error al filtrar por ubicación:', error);
-        throw error;
-      });
+        return throwError(() => error);
+      })
+    );
   }
 
-  // Filtrar ofertas por tipo de contrato
-  filtrarPorContrato(tipoContrato: string) {
-    return axios.get(`${this.apiUrl}/filtrar/contrato/${tipoContrato}`)
-      .then(response => response.data)
-      .catch(error => {
+  filtrarPorContrato(tipoContrato: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/filtrar/contrato/${tipoContrato}`, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
         console.error('Error al filtrar por contrato:', error);
-        throw error;
-      });
+        return throwError(() => error);
+      })
+    );
   }
 
-  // Filtrar ofertas por estado
-  filtrarPorEstado(estado: string) {
-    return axios.get(`${this.apiUrl}/filtrar/estado/${estado}`)
-      .then(response => response.data)
-      .catch(error => {
+  filtrarPorEstado(estado: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/filtrar/estado/${estado}`, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
         console.error('Error al filtrar por estado:', error);
-        throw error;
-      });
+        return throwError(() => error);
+      })
+    );
   }
 
-  obtenerOfertaPorId(id: number): Promise<any> {
-    return axios.get(`${this.apiUrl}/${id}`)
-      .then(response => response.data)
-      .catch(error => {
+  obtenerOfertaPorId(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
         console.error(`Error al obtener oferta con ID ${id}:`, error);
-        throw error;
-      });
+        return throwError(() => error);
+      })
+    );
   }
 
-  crearOferta(oferta: any) {
-    return axios.post(`${this.apiUrl}/crear`, oferta)
-      .then(response => response.data)
-      .catch(error => {
+  crearOferta(oferta: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/crear`, oferta, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
         console.error('Error al crear oferta:', error);
-        throw error;
-      });
+        return throwError(() => error);
+      })
+    );
   }
 
-  eliminarOferta(id: number) {
-    return axios.delete(`${this.apiUrl}/${id}`)
-      .then(response => response.data)
-      .catch(error => {
+  eliminarOferta(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
         console.error('Error al eliminar oferta:', error);
-        throw error;
-      });
+        return throwError(() => error);
+      })
+    );
   }
 }
