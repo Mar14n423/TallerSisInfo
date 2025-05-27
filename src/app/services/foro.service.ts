@@ -29,4 +29,9 @@ export class ForoService {
   obtenerReglas(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/reglas`);
   }
+
+  obtenerTestimonios(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/testimonios`);
+  }
+
 }

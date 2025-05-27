@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'; 
+import { Component, OnInit } from '@angular/core';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -20,7 +20,8 @@ import { UsuarioService } from '../register/usuario.service';
   templateUrl: './foro.component.html',
   styleUrl: './foro.component.scss'
 })
-export class ForoComponent implements OnInit { 
+
+export class ForoComponent implements OnInit {
   user: any = null;
   posts: any[] = [];
   mostrarFormulario: boolean[] = [];
@@ -29,15 +30,15 @@ export class ForoComponent implements OnInit {
   nuevoPostVisible: boolean = false;
   nuevoTitulo: string = '';
   nuevoMensaje: string = '';
-  usuarioActual: string = 'UsuarioDemo'; 
+  usuarioActual: string = '';
   mostrarModalReporteFlag: boolean = false;
   contenidoReportadoId: string = '';
   tipoContenidoReportado: 'post' | 'comentario' = 'post';
-  postPadreId: string = ''; 
+  postPadreId: string = '';
   razonReporte: string = '';
   otraRazon: string = '';
   mostrarReglasFlag: boolean = false;
-  reglasForo: string = ''; 
+  reglasForo: string = '';
 
   constructor(
     private foroService: ForoService,
@@ -47,7 +48,7 @@ export class ForoComponent implements OnInit {
   ngOnInit(): void {
     this.cargarUsuario();
     this.cargarPublicaciones();
-    this.cargarReglasForo(); 
+    this.cargarReglasForo();
   }
 
   cargarUsuario(): void {
@@ -134,7 +135,7 @@ export class ForoComponent implements OnInit {
   mostrarModalReporte(id: string, tipo: 'post' | 'comentario', postPadreId?: string) {
     this.contenidoReportadoId = id;
     this.tipoContenidoReportado = tipo;
-    this.postPadreId = postPadreId || ''; 
+    this.postPadreId = postPadreId || '';
     this.mostrarModalReporteFlag = true;
     this.razonReporte = '';
     this.otraRazon = '';
@@ -152,9 +153,9 @@ export class ForoComponent implements OnInit {
 
     const razonFinal = this.razonReporte === 'otro' ? this.otraRazon : this.razonReporte;
     const reporte = {
-      tipo: this.tipoContenidoReportado.toUpperCase(), 
-      contenidoId: Number(this.contenidoReportadoId), 
-      postPadreId: this.postPadreId ? Number(this.postPadreId) : null, 
+      tipo: this.tipoContenidoReportado.toUpperCase(),
+      contenidoId: Number(this.contenidoReportadoId),
+      postPadreId: this.postPadreId ? Number(this.postPadreId) : null,
       usuarioReportador: this.usuarioActual,
       razon: razonFinal,
     };
@@ -205,4 +206,5 @@ export class ForoComponent implements OnInit {
     html += '</ol>';
     return html;
   }
+
 }

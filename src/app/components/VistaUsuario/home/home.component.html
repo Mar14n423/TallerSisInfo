@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sin Fronteras</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <app-navbar></app-navbar>
-  <!-- Carrusel -->
+
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="imagenes/voluntariado.jpg" class="d-block w-100" alt="se parte de nosotros">
+        <img src="imagenes/voluntariado.jpg" class="d-block w-100" alt="Sé parte de nosotros">
         <div class="carousel-caption d-none d-md-block">
           <h5>¿Quieres ser voluntario?</h5>
           <p>Tu ayuda hace la diferencia</p>
@@ -21,7 +18,7 @@
         </div>
       </div>
       <div class="carousel-item">
-        <img src="imagenes/reuniones.jpg" class="d-block w-100" alt="reunete con nosotros">
+        <img src="imagenes/reuniones.jpg" class="d-block w-100" alt="Reúnete con nosotros">
         <div class="carousel-caption d-none d-md-block">
           <h5>Únete a nuestra comunidad</h5>
           <p>Descubre nuevas oportunidades</p>
@@ -30,9 +27,11 @@
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
     </button>
   </div>
 
@@ -77,134 +76,110 @@
     </div>
   </section>
 
-  <section class="frases-destacadas" >
-    <div class="container-fluid bg-offer my-5 py-5 ">
-      <div class="container py-5">
-        <div class="row gx-5 justify-content-start">
-          <div class="col-lg-7">
-            <div class="border-start border-5 border-dark ps-5 mb-5">
-              <h1 class="display-5 text-uppercase text-white mb-0">La verdadera discapacidad no está en el cuerpo ni en la mente, sino en las barreras que nos separan. Aquí, las derribamos juntos.</h1>
-            </div>
-            <p class="text-white mb-4">Aprovecha esta oferta especial y da a tu mascota el mejor cuidado veterinario. Ofrecemos una amplia gama de servicios para asegurar la salud y el bienestar de tu compañero peludo.</p>
-            <a href="" class="btn btn-light py-md-3 px-md-5 me-3">Agenda Ahora</a>
-            <a href="" class="btn btn-outline-light py-md-3 px-md-5">Leer Más</a>
+<section class="frases-destacadas">
+  <div class="container-fluid bg-offer my-5 py-5 ">
+    <div class="container py-5">
+      <div class="row gx-5 justify-content-start">
+        <div class="col-lg-7">
+          <div class="border-start border-5 border-primary ps-5 mb-5">
+            <h1 class="display-5 text-uppercase text-white mb-0">La verdadera discapacidad no está en el cuerpo ni en la mente, sino en las barreras que nos separan. Aquí, las derribamos juntos.</h1>
+          </div>
+          
+          <p class="text-white mb-4">
+            Únete a nuestra comunidad y sé parte de un espacio donde la diversidad es nuestra fortaleza y la inclusión es nuestro motor.
+          </p>
+
+          <p class="text-white mb-4" *ngIf="showMoreText">
+            Nuestra plataforma te conecta con oportunidades, recursos y una red de apoyo inigualable. Creemos firmemente que cada persona tiene un valor único y queremos ayudarte a descubrir y potenciar el tuyo. Explora foros de discusión, eventos inclusivos y una bolsa de empleo diseñada para romper barreras.
+          </p>
+
+          <button class="btn btn-light py-md-3 px-md-5 me-3" (click)="toggleText()">
+            {{ showMoreText ? 'Ver menos' : 'Conoce más' }}
+          </button>
+          
+          <a routerLink="/login" class="btn btn-outline-light py-md-3 px-md-5">Participa</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section class="beneficios">
+    <div class="container-fluid py-5">
+      <div class="container">
+        <div class="border-start border-5 border-primary ps-5 mb-5 text-center text-lg-start">
+          <h6 class="text-primary text-uppercase">Beneficios</h6>
+          <h1 class="display-5 text-uppercase mb-0">Tenemos lo que buscas, aquí puedes encontrar</h1>
+        </div>
+        <div class="contenido row justify-content-center align-items-center">
+          <div class="cards col-lg-6 mb-4 mb-lg-0">
+            <mat-card appearance="outlined" class="card empleo" routerLink="/empleo" role="button" tabindex="0">
+              <mat-card-header>
+                <mat-card-title>Bolsa de empleo</mat-card-title>
+                <mat-card-subtitle>Un lugar para buscar nuevas oportunidades</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card appearance="outlined" class="card rutas" routerLink="/transporte" role="button" tabindex="0">
+              <mat-card-header>
+                <mat-card-title>Rutas</mat-card-title>
+                <mat-card-subtitle>Encuentra rutas de nuestros buses inclusivos</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card appearance="outlined" class="card eventos" routerLink="/eventos-usuario" role="button" tabindex="0">
+              <mat-card-header>
+                <mat-card-title>Eventos</mat-card-title>
+                <mat-card-subtitle>Charlas, actividades y más eventos diarios</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+
+            <mat-card appearance="outlined" class="card foro" routerLink="/foro" role="button" tabindex="0">
+              <mat-card-header>
+                <mat-card-title>Foro</mat-card-title>
+                <mat-card-subtitle>Comparte experiencias, consejos y anécdotas</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          </div>
+          <div class="imagen col-lg-6 text-center">
+            <img src="imagenes/imagenMain3ApretonManos.PNG" class="img-fluid" alt="Personas en una mesa">
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="beneficios">
-    <div class="container-fluid py-5">
-      <div class="container">
-          <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 1000px;">
-              <h6 class="text-primary text-uppercase">Beneficios</h6>
-              <h1 class="display-5 text-uppercase mb-0">Tenemos lo que buscas, aqui puedes encontrar</h1>
-          </div>
-          <div class="contenido">
-            <div class="cards">
-              <mat-card appearance="outlined" class="card empleo">
-                <mat-card-header>
-                  <mat-card-title>Bolsa de empleo</mat-card-title>
-                  <mat-card-subtitle>Un lugar para buscar nuevas oportunidades</mat-card-subtitle>
-                </mat-card-header>
-              </mat-card>
+  <section class="testimonios py-5">
+    <div class="container">
+      <div class="border-start border-5 border-primary ps-5 mb-5 text-center">
+        <h6 class="text-primary text-uppercase">Testimonios</h6>
+        <h1 class="display-5 text-uppercase mb-0">Lo que dicen nuestros usuarios</h1>
+      </div>
 
-              <mat-card appearance="outlined" class="card rutas">
-                <mat-card-header>
-                  <mat-card-title>Rutas</mat-card-title>
-                  <mat-card-subtitle>Encuentra rutas de nuestros buses inclusivos</mat-card-subtitle>
-                </mat-card-header>
-              </mat-card>
+      <app-testimoniosDinamicos></app-testimoniosDinamicos>
 
-              <mat-card appearance="outlined" class="card eventos">
-                <mat-card-header>
-                  <mat-card-title>Eventos</mat-card-title>
-                  <mat-card-subtitle>Charlas, actividades y más eventos diarios</mat-card-subtitle>
-                </mat-card-header>
-              </mat-card>
-
-              <mat-card appearance="outlined" class="card foro">
-                <mat-card-header>
-                  <mat-card-title>Foro</mat-card-title>
-                  <mat-card-subtitle>Comparte experiencias, consejos y anécdotas</mat-card-subtitle>
-                </mat-card-header>
-              </mat-card>
-            </div>
-            <div class="imagen">
-              <img src="imagenes/imagenMain3ApretonManos.PNG" alt="Personas en una mesa">
-            </div>
-          </div>
+      <!-- Botón para ver más testimonios -->
+      <div class="text-center mt-4">
+        <a routerLink="/foro" class="btn btn-primary">Ver más comentarios</a>
       </div>
     </div>
-
   </section>
-
-  <section class="testimonios">
-    <h2>Comentarios de algunos usuarios:</h2>
-    <div class="d-flex flex-wrap justify-content-center gap-4">
-        <mat-card appearance="outlined" class="d-flex flex-column align-items-center p-4" style="width: 300px; height: 350px;">
-            <mat-card-header class="text-center">
-                <div class="d-flex flex-column align-items-center">
-                    <mat-card-title>Jose Andres</mat-card-title>
-                    <i class="bi-person text-primary fs-1 text-primary mt-2"></i>
-                </div>
-            </mat-card-header>
-            <mat-card-content class="d-flex justify-content-center align-items-center flex-grow-1">
-                "Gracias a Sin Fronteras, encontré amigos que entienden mis desafíos y me motivan cada día."
-            </mat-card-content>
-        </mat-card>
-
-        <mat-card appearance="outlined" class="d-flex flex-column align-items-center p-4" style="width: 300px; height: 350px;">
-            <mat-card-header class="text-center">
-                <div class="d-flex flex-column align-items-center">
-                    <mat-card-title>Marco Aurelio</mat-card-title>
-                    <i class="bi-person text-primary fs-1 text-primary mt-2"></i>
-                </div>
-            </mat-card-header>
-            <mat-card-content class="d-flex justify-content-center align-items-center flex-grow-1">
-                "Este foro me ayudó a encontrar recursos para mejorar mi calidad de vida."
-            </mat-card-content>
-        </mat-card>
-
-        <mat-card appearance="outlined" class="d-flex flex-column align-items-center p-4" style="width: 300px; height: 350px;">
-            <mat-card-header class="text-center">
-                <div class="d-flex flex-column align-items-center">
-                    <mat-card-title>Martina Antonia</mat-card-title>
-                    <i class="bi-person text-primary fs-1 text-primary mt-2"></i>
-                </div>
-            </mat-card-header>
-            <mat-card-content class="d-flex justify-content-center align-items-center flex-grow-1">
-                “Pude conocer más gente gracias a los increíbles eventos de los voluntarios.”
-            </mat-card-content>
-        </mat-card>
-    </div>
-  </section>
-
   <section class="registro">
     <h2>Si quieres acceder a todos nuestros beneficios puedes registrarte:</h2>
     <div class="botones">
       <button routerLink="/registrate">Registrarse</button>
       <button routerLink="/login">Iniciar Sesión</button>
     </div>
-
+    <div class="text-center mt-3">
+      <small class="text-white">
+        ¿Eres administrador?
+        <a routerLink="/login-admin" class="text-decoration-underline text-white">Inicia sesión aquí</a>
+      </small>
+    </div>
   </section>
-  <div class="text-center mt-3">
-    <small class="text-muted">
-      ¿Eres administrador?
-      <a routerLink="/login-admin" class="text-decoration-underline">Inicia sesión aquí</a>
-    </small>
-  </div>
 
 
   <app-footer></app-footer>
-  <!-- Back to Top -->
   <a href="#" class="btn btn-primary py-3 fs-4 back-to-top">
-    <i class="bi bi-arrow-up">
-      ::before == $0
-    </i>
+    <i class="bi bi-arrow-up"></i>
   </a>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

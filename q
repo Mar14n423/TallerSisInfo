@@ -1,0 +1,27 @@
+  [31morigin/HEAD[m -> origin/main
+  [31morigin/LoginEmpresa[m
+  [31morigin/REFACTOR-DEFENSA-S1-MERCADO[m
+  [31morigin/SF-ADM1[m
+  [31morigin/SF-ADM3[m
+  [31morigin/SF-ADM4[m
+  [31morigin/SF-BE1[m
+  [31morigin/SF-BE1a[m
+  [31morigin/SF-BE2[m
+  [31morigin/SF-EMP2[m
+  [31morigin/SF-EMP3[m
+  [31morigin/SF-EV[m
+  [31morigin/SF-EV1-2[m
+  [31morigin/SF-FORO1[m
+  [31morigin/SF-FORO2[m
+  [31morigin/SF-HOME[m
+  [31morigin/SF-MK1[m
+  [31morigin/SF-PERFIL[m
+  [31morigin/SF-REFACTOR1[m
+  [31morigin/SF-RUTAS[m
+  [31morigin/TestingController[m
+  [31morigin/defensa-nogales[m
+  [31morigin/enhancement-defensa-s1-revollo[m
+  [31morigin/main[m
+  [31morigin/ramaFeli[m
+  [31morigin/revert-17-ramaFeli[m
+  [31morigin/tech-debt[m
