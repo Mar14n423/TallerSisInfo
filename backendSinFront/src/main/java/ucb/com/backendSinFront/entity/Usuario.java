@@ -19,7 +19,7 @@ public class Usuario {
   @Column(nullable = true, length = 50)
   private String discapacidad;
 
-  @Column(nullable = true)
+  @Column(nullable = false, length = 255)
   private String passwordHash;
 
   @Column(nullable = true, length = 1)

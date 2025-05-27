@@ -4,7 +4,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
-import axios from 'axios';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, finalize } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { UsuarioService } from '../../VistaUsuario/register/usuario.service';
 
 @Component({
   standalone: true,
@@ -26,22 +29,30 @@ export class UsuariosComponent implements OnInit {
   error: string | null = null;
   private apiUrl = 'http://localhost:8080/api/usuarios';
 
+  constructor(private http: HttpClient,private usuarioService: UsuarioService) {}
+
   ngOnInit(): void {
     this.cargarUsuarios();
   }
 
-  async cargarUsuarios(): Promise<void> {
-    try {
-      this.isLoading = true;
-      this.error = null;
-      const response = await axios.get(this.apiUrl);
-      this.usuarios = response.data;
-    } catch (error) {
-      console.error('Error al cargar usuarios:', error);
-      this.error = 'Error al cargar los usuarios. Por favor intenta nuevamente.';
-    } finally {
-      this.isLoading = false;
-    }
+  cargarUsuarios(): void {
+    this.isLoading = true;
+    this.error = null;
+    
+    this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() }).pipe(
+      catchError(error => {
+        console.error('Error al cargar usuarios:', error);
+        this.error = 'Error al cargar los usuarios. Por favor intenta nuevamente.';
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    ).subscribe({
+      next: (data) => {
+        this.usuarios = data;
+      }
+    });
   }
 
   getNombreCompleto(usuario: {nombre: string, apellido?: string}): string {
@@ -56,19 +67,31 @@ export class UsuariosComponent implements OnInit {
     return tipo;
   }
 
-  async cambiarTipoUsuario(usuario: any, nuevoTipo: string): Promise<void> {
-    try {
-      const tipoParaBackend = nuevoTipo === 'Administrador' ? 'A' : 'U';
-      
-      await axios.patch(`${this.apiUrl}/${usuario.id}`, { 
-        tipo: tipoParaBackend 
-      });
-      
-      // Actualizar localmente sin recargar
-      usuario.tipo = tipoParaBackend;
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error);
-      this.error = 'Error al actualizar el usuario. Por favor intenta nuevamente.';
-    }
+  cambiarTipoUsuario(usuario: any, nuevoTipo: string): void {
+    const tipoParaBackend = nuevoTipo === 'Administrador' ? 'A' : 'U';
+    
+    this.http.patch(`${this.apiUrl}/${usuario.id}`, 
+      { tipo: tipoParaBackend },
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(error => {
+        console.error('Error al actualizar usuario:', error);
+        this.error = 'Error al actualizar el usuario. Por favor intenta nuevamente.';
+        return throwError(() => error);
+      })
+    ).subscribe({
+      next: () => {
+        // Actualizar localmente sin recargar
+        usuario.tipo = tipoParaBackend;
+      }
+    });
+  }
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
   }
 }

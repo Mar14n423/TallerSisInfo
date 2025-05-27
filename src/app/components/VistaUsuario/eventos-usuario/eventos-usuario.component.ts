@@ -56,17 +56,19 @@ export class EventosUsuarioComponent implements OnInit {
     this.loadEventsForMonth();
   }
 
-  private async loadEventsForMonth(): Promise<void> {
-    const year = this.currentMonth().getFullYear();
-    const month = this.currentMonth().getMonth() + 1;
-    
-    try {
-      const events = await this.eventosService.getEventosPorMes(year, month);
+  private loadEventsForMonth(): void {
+  const year = this.currentMonth().getFullYear();
+  const month = this.currentMonth().getMonth() + 1;
+
+  this.eventosService.getEventosPorMes(year, month).subscribe({
+    next: (events) => {
       this.assignEventsToCalendar(events);
-    } catch (error) {
+    },
+    error: (error) => {
       console.error('Error cargando eventos:', error);
     }
-  }
+  });
+}
 
   private assignEventsToCalendar(events: NEventos.IEvent[]): void {
     this.eventosData.forEach(day => day.events = []);
