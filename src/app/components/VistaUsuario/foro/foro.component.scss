@@ -260,7 +260,7 @@
 
 .post-actions {
   margin-left: auto;
-  
+
   .report-btn {
     background: none;
     border: none;
@@ -270,7 +270,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    
+
     &:hover {
       text-decoration: underline;
     }
@@ -282,13 +282,13 @@
   gap: 10px;
   margin-bottom: 10px;
   position: relative;
-  
+
   .respuesta-content {
     flex-grow: 1;
     position: relative;
     padding-right: 30px;
   }
-  
+
   .report-btn-small {
     position: absolute;
     right: 0;
@@ -313,7 +313,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  
+
   .modal-content {
     background: white;
     padding: 25px;
@@ -321,12 +321,12 @@
     width: 90%;
     max-width: 500px;
     position: relative;
-    
+
     h3 {
       margin-top: 0;
       color: #3f51b5;
     }
-    
+
     select, textarea {
       width: 100%;
       padding: 10px;
@@ -334,11 +334,11 @@
       border: 1px solid #ddd;
       border-radius: 4px;
     }
-    
+
     textarea {
       min-height: 100px;
     }
-    
+
     .enviar-reporte-btn {
       background-color: #ff6b6b;
       color: white;
@@ -347,12 +347,12 @@
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
-      
+
       &:hover {
         background-color: #ff5252;
       }
     }
-    
+
     .close-btn {
       position: absolute;
       top: 10px;
@@ -371,14 +371,14 @@
     max-width: 700px;
     max-height: 80vh;
     overflow-y: auto;
-    
+
     .reglas-content {
       line-height: 1.6;
-      
+
       ol {
         padding-left: 20px;
       }
-      
+
       li {
         margin-bottom: 10px;
       }
@@ -391,13 +391,13 @@
   .post-header {
     flex-direction: column;
     align-items: flex-start;
-    
+
     .post-actions {
       margin-left: 0;
       margin-top: 10px;
     }
   }
-  
+
   .modal-reporte, .modal-reglas {
     .modal-content {
       width: 95%;
@@ -405,4 +405,10 @@
     }
   }
 }
+
+.spinner-container {
+  width: 100%;
+  margin: 10px 0;
+}
+
 

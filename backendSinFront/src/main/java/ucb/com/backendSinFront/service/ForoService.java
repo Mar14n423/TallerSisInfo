@@ -1,44 +1,93 @@
 package ucb.com.backendSinFront.service;
 
+import ucb.com.backendSinFront.dto.PublicacionDTO;
+import ucb.com.backendSinFront.dto.RespuestaDTO;
+import ucb.com.backendSinFront.entity.Usuario;
+import ucb.com.backendSinFront.entity.foro.Publicacion;
+import ucb.com.backendSinFront.entity.foro.ReporteF;
+import ucb.com.backendSinFront.entity.foro.Respuesta;
+import ucb.com.backendSinFront.entity.foro.ReglaForo;
+import ucb.com.backendSinFront.repository.UsuarioRepository;
+import ucb.com.backendSinFront.repository.foro.PublicacionRepository;
+import ucb.com.backendSinFront.repository.foro.ReporteFRepository;
+import ucb.com.backendSinFront.repository.foro.RespuestaRepository;
+import ucb.com.backendSinFront.repository.foro.ReglaForoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import ucb.com.backendSinFront.entity.foro.Publicacion;
-import ucb.com.backendSinFront.entity.foro.Respuesta;
-import ucb.com.backendSinFront.entity.foro.ReporteF;
-import ucb.com.backendSinFront.entity.foro.ReglaForo;
-
-import ucb.com.backendSinFront.repository.foro.PublicacionRepository;
-import ucb.com.backendSinFront.repository.foro.RespuestaRepository;
-import ucb.com.backendSinFront.repository.foro.ReporteFRepository;
-import ucb.com.backendSinFront.repository.foro.ReglaForoRepository;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Pageable;
+import java.util.stream.Collectors;
 
 @Service
 public class ForoService {
+
   private final PublicacionRepository publicacionRepository;
   private final RespuestaRepository respuestaRepository;
   private final ReporteFRepository reporteFRepository;
   private final ReglaForoRepository reglaForoRepository;
+  private final UsuarioRepository usuarioRepository;
 
   @Autowired
   public ForoService(PublicacionRepository publicacionRepository,
                      RespuestaRepository respuestaRepository,
                      ReporteFRepository reporteFRepository,
-                     ReglaForoRepository reglaForoRepository) {
+                     ReglaForoRepository reglaForoRepository,
+                     UsuarioRepository usuarioRepository) {
     this.publicacionRepository = publicacionRepository;
     this.respuestaRepository = respuestaRepository;
     this.reporteFRepository = reporteFRepository;
     this.reglaForoRepository = reglaForoRepository;
+    this.usuarioRepository = usuarioRepository;
   }
 
+  // ✅ Devuelve las publicaciones con avatar de usuario y de cada respuesta
+  public List<PublicacionDTO> obtenerTodasLasPublicacionesDTO() {
+    List<Publicacion> publicaciones = publicacionRepository.findAll();
+
+    return publicaciones.stream().map(pub -> {
+      // Avatar del autor de la publicación
+      String avatarUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+      List<Usuario> usuariosPub = usuarioRepository.findByNombre(pub.getUsuario());
+      if (!usuariosPub.isEmpty() && usuariosPub.get(0).getProfileImage() != null && !usuariosPub.get(0).getProfileImage().isEmpty()) {
+        avatarUrl = usuariosPub.get(0).getProfileImage();
+      }
+
+      // Procesar las respuestas con el avatar real de cada autor
+      List<RespuestaDTO> respuestaDTOs = pub.getRespuestas().stream().map(resp -> {
+        String avatarRespUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        List<Usuario> usuariosResp = usuarioRepository.findByNombre(resp.getUsuario());
+        if (!usuariosResp.isEmpty() && usuariosResp.get(0).getProfileImage() != null && !usuariosResp.get(0).getProfileImage().isEmpty()) {
+          avatarRespUrl = usuariosResp.get(0).getProfileImage();
+        }
+
+        return new RespuestaDTO(
+          resp.getId(),
+          resp.getUsuario(),
+          resp.getMensaje(),
+          avatarRespUrl
+        );
+      }).collect(Collectors.toList());
+
+      // Crear DTO completo
+      PublicacionDTO dto = new PublicacionDTO(
+        pub.getId(),
+        pub.getUsuario(),
+        pub.getFecha().toString(),
+        pub.getTitulo(),
+        pub.getMensaje(),
+        avatarUrl
+      );
+      dto.setRespuestas(respuestaDTOs);
+
+      return dto;
+    }).collect(Collectors.toList());
+  }
+
+  // ✅ Otros métodos
   public Publicacion crearPublicacion(Publicacion publicacion) {
     return publicacionRepository.save(publicacion);
   }
@@ -100,12 +149,4 @@ public class ForoService {
     return publicacionRepository.findTopPublicacionesWithRespuestasOrderedByDate(topThree);
   }
 
-    /*public void cargarReglasEjemplo() {
-        ReglaForo r1 = new ReglaForo("Sé respetuoso", "No se permiten insultos ni ataques personales", 1);
-        ReglaForo r2 = new ReglaForo("No spam", "Evita contenido promocional o repetitivo", 2);
-        ReglaForo r3 = new ReglaForo("Contenido relevante", "Publica temas relacionados al foro", 3);
-        ReglaForo r4 = new ReglaForo("Privacidad", "No compartas información personal", 4);
-
-        reglaForoRepository.saveAll(List.of(r1, r2, r3, r4));
-    }*/
 }

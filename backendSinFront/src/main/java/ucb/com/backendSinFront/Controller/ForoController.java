@@ -7,6 +7,8 @@ import ucb.com.backendSinFront.entity.foro.Publicacion;
 import ucb.com.backendSinFront.entity.foro.Respuesta;
 import ucb.com.backendSinFront.entity.foro.ReporteF;
 import ucb.com.backendSinFront.entity.foro.ReglaForo;
+import ucb.com.backendSinFront.dto.PublicacionDTO;
+
 
 import ucb.com.backendSinFront.service.ForoService;
 
@@ -28,10 +30,11 @@ public class ForoController {
   }
 
   @GetMapping("/publicaciones")
-  public ResponseEntity<List<Publicacion>> obtenerTodasLasPublicaciones() {
-    List<Publicacion> publicaciones = foroService.obtenerTodasLasPublicaciones();
+  public ResponseEntity<List<PublicacionDTO>> obtenerTodasLasPublicaciones() {
+    List<PublicacionDTO> publicaciones = foroService.obtenerTodasLasPublicacionesDTO();
     return ResponseEntity.ok(publicaciones);
   }
+
 
   @GetMapping("/publicacion/{id}")
   public ResponseEntity<Publicacion> obtenerPublicacionPorId(@PathVariable Long id) {

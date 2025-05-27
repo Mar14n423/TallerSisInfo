@@ -4,8 +4,9 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {ForoService} from '../../../services/foro.service';
+import { ForoService } from '../../../services/foro.service';
 import { UsuarioService } from '../register/usuario.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-foro',
@@ -25,7 +26,6 @@ export class ForoComponent implements OnInit {
   posts: any[] = [];
   mostrarFormulario: boolean[] = [];
   nuevaRespuesta: string[] = [];
-
   nuevoPostVisible: boolean = false;
   nuevoTitulo: string = '';
   nuevoMensaje: string = '';
@@ -38,10 +38,12 @@ export class ForoComponent implements OnInit {
   otraRazon: string = '';
   mostrarReglasFlag: boolean = false;
   reglasForo: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private foroService: ForoService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -57,23 +59,48 @@ export class ForoComponent implements OnInit {
         .then((usuario) => {
           this.user = usuario;
           this.usuarioActual = usuario.nombre;
+          // Si el usuario tiene una imagen base64 válida, sanitízala
+          if (this.user.profileImage && this.user.profileImage.startsWith('data:image')) {
+            this.user.profileImage = this.sanitizer.bypassSecurityTrustUrl(this.user.profileImage);
+          }
         })
         .catch((err) => console.error('Error al cargar usuario:', err));
     }
   }
 
-  cargarPublicaciones(): void {
-    this.foroService.obtenerPublicaciones().subscribe({
-      next: (data: any[]) => {
-        this.posts = data;
-        this.mostrarFormulario = new Array(data.length).fill(false);
-        this.nuevaRespuesta = new Array(data.length).fill('');
-      },
-      error: (err) => {
-        console.error('Error al cargar publicaciones:', err);
-      }
-    });
-  }
+cargarPublicaciones(): void {
+  this.foroService.obtenerPublicaciones().subscribe({
+    next: (data: any[]) => {
+      console.log('Publicaciones completas:', data);
+
+      this.posts = data.map(post => {
+        // ⚠️ Solo sanitizamos base64 para evitar errores con URLs normales
+        if (post.usuarioAvatarUrl && post.usuarioAvatarUrl.startsWith('data:image')) {
+          post.usuarioAvatarUrl = this.sanitizer.bypassSecurityTrustUrl(post.usuarioAvatarUrl);
+        }
+
+        post.respuestas = (post.respuestas || []).map((r: any) => {
+          if (r.usuarioAvatarUrl && r.usuarioAvatarUrl.startsWith('data:image')) {
+            r.usuarioAvatarUrl = this.sanitizer.bypassSecurityTrustUrl(r.usuarioAvatarUrl);
+          }
+          return r;
+        });
+
+        return post;
+      });
+
+      this.mostrarFormulario = new Array(this.posts.length).fill(false);
+      this.nuevaRespuesta = new Array(this.posts.length).fill('');
+    },
+    error: (err) => {
+      console.error('Error al cargar publicaciones:', err);
+    }
+  });
+}
+
+
+
+
 
   toggleFormulario(index: number) {
     this.mostrarFormulario[index] = !this.mostrarFormulario[index];
@@ -109,6 +136,8 @@ export class ForoComponent implements OnInit {
 
   crearNuevoPost() {
     if (this.nuevoTitulo.trim() !== '' && this.nuevoMensaje.trim() !== '') {
+      this.isLoading = true;
+
       const nuevaPublicacion = {
         usuario: this.usuarioActual,
         titulo: this.nuevoTitulo,
@@ -116,15 +145,17 @@ export class ForoComponent implements OnInit {
       };
 
       this.foroService.crearPublicacion(nuevaPublicacion).subscribe({
-        next: (nuevaPost) => {
-          this.posts.push({ ...nuevaPost, respuestas: [] });
+        next: () => {
+          this.cargarPublicaciones();
           this.nuevoTitulo = '';
           this.nuevoMensaje = '';
           this.nuevoPostVisible = false;
+          this.isLoading = false;
         },
         error: (err) => {
           console.error('Error al crear publicación:', err);
           alert('Ocurrió un error al crear la publicación. Intenta nuevamente.');
+          this.isLoading = false;
         }
       });
     }
