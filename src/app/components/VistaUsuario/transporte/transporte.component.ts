@@ -132,11 +132,11 @@ export class TransporteComponent implements OnInit, AfterViewInit {
       popupAnchor: [1, -34]
     });
     this.resultadosBusqueda.forEach(ruta => {
-      const markerInicio = L.marker(ruta.coordenadasInicio, { icon: customIcon })
+      const markerInicio = L.marker(ruta.coordenadasInicio)
         .addTo(this.map)
         .bindPopup(`<b>${ruta.ubicacionInicio}</b><br>${ruta.nombre}`);
       
-      const markerFin = L.marker(ruta.coordenadasFin, { icon: customIcon })
+      const markerFin = L.marker(ruta.coordenadasFin)
         .addTo(this.map)
         .bindPopup(`<b>${ruta.ubicacionFin}</b><br>${ruta.nombre}`);
 
