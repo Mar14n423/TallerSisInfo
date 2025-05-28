@@ -1,0 +1,91 @@
+.detalle-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem 1rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fefefe;
+}
+
+.detalle-producto {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.detalle-img {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.detalle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bloque {
+  background-color: #eeeeee;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.bloque p, .bloque ul {
+  margin: 0.5rem 0 0;
+}
+
+ul {
+  padding-left: 1.2rem;
+}
+
+.detalle-botones {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.btn-agregar,
+.btn-comprar {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-agregar {
+  background-color: #7FB685;
+  color: white;
+
+  &:hover {
+    background-color: #5a8f6e;
+  }
+}
+
+.btn-comprar {
+  background-color: #5A92C2;
+  color: white;
+
+  &:hover {
+    background-color: #2A4E6E;
+  }
+}
+
+@media (max-width: 768px) {
+  .detalle-botones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-agregar,
+  .btn-comprar {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,10 +1,50 @@
 <app-navbar></app-navbar> <!-- 🔹 Navbar reutilizable -->
 
-<div class="container mt-5">
-  <h2>En proceso</h2>
-  <p>Contenido de la página <strong>marketplace...</strong></p>
-</div>
-<div class="d-flex justify-content-center mt-4">
-  <mat-progress-bar mode="indeterminate" color="accent" style="width: 50%;"></mat-progress-bar>
-</div>
+<main class="marketplace-container">
+
+  <!-- 🔹 Sección Título -->
+  <section class="marketplace-header">
+    <h1>MarketPlace</h1>
+    <button class="cart-button" [routerLink]="['/marketplace/carrito']">🛒</button>
+
+  </section>
+
+  <!-- 🔹 Producto Principal -->
+  <section class="producto-principal">
+    <img src="imagenes/sillaRuedas.jpg" alt="Silla de Ruedas" class="producto-img">
+
+    <div class="producto-info">
+      <h2>Silla de Ruedas</h2>
+      <p class="precio">$10.99</p>
+      <p class="descripcion">
+        La silla de ruedas de tipo estándar es un dispositivo de desplazamiento,
+        que permite que las personas con discapacidad o movilidad reducida se trasladen
+        de manera independiente o con ayuda.
+      </p>
+      <button class="btn-info" [routerLink]="['/marketplace/mas-informacion']">Más información</button>
+
+      <p class="aviso">* Este producto está disponible en Sin Fronteras</p>
+    </div>
+  </section>
+
+  <!-- 🔹 Productos Relacionados -->
+  <section class="relacionados">
+    <h3>Related products</h3>
+
+    <div class="productos-grid">
+      <div
+        class="producto-card"
+        *ngFor="let producto of productosFiltrados"
+        [routerLink]="['/marketplace', producto.id]"
+        style="cursor: pointer;"
+      >
+        <img [src]="producto.imagenU" alt="producto.nombreP">
+        <h4>{{ producto.nombreP }}</h4>
+        <p>{{ producto.descripcionP }}</p>
+        <span class="precio">${{ producto.precio }}</span>
+      </div>
+    </div>
+  </section>
+
+</main>
 <app-footer></app-footer> <!-- 🔹 Footer reutilizable -->

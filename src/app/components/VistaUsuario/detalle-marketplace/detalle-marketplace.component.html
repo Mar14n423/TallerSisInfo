@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+
+<main class="detalle-container">
+  <mat-progress-bar *ngIf="cargando" mode="indeterminate"></mat-progress-bar>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!cargando && producto" class="detalle-producto">
+    <img [src]="producto.imagenU" alt="Producto" class="detalle-img" />
+    <div class="detalle-info">
+      <h1>{{ producto.nombreP }}</h1>
+      <p><strong>Descripción:</strong> {{ producto.descripcionP }}</p>
+      <p><strong>Caracteristicas:</strong> {{ producto.caracteristicasT }}</p>
+      <p><strong>Precio:</strong> {{ producto.precio | currency }}</p>
+      <div class="detalle-botones">
+        <button class="btn-agregar" (click)="agregarAlCarrito()">Agregar al carrito</button>
+        <button class="btn-comprar">Comprar ahora</button>
+      </div>
+      <button routerLink="/marketplace" class="btn-volver">← Volver al Marketplace</button>
+    </div>
+  </div>
+
+  <br><div class="bloque">
+    <strong>Opiniones y Reseñas:</strong>
+    <p>★★★★★ (4.8/5 basado en 120 reseñas)</p>
+  </div>
+  <div *ngIf="!producto && !cargando && !error" class="no-encontrado">
+    <p>No se encontró información para este producto.</p>
+  </div>
+</main>
+
+<app-footer></app-footer>

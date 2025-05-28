@@ -1,0 +1,31 @@
+<app-navbar></app-navbar>
+
+<main class="carrito-wrapper">
+  <section class="carrito-lista">
+    <h2>Productos en tu Carrito</h2>
+
+    <div *ngFor="let producto of productosCarrito" class="carrito-item">
+      <img [src]="producto.imagenU" [alt]="producto.nombreP" />
+      <div class="info">
+        <h3>{{ producto.nombreP }}</h3>
+        <p>{{ producto.descripcionP }}</p>
+        <p>Precio: ${{ producto.precio }}</p>
+        <p>Cantidad: {{ producto.cantidad }}</p>
+        <button class="btn-eliminar" (click)="eliminarDelCarrito(producto.id)">Eliminar</button>
+      </div>
+    </div>
+
+    <button routerLink="/marketplace" class="btn-volver">← Seguir comprando</button>
+  </section>
+
+  <aside class="resumen-pedido">
+    <h2>Resumen del Pedido</h2>
+    <p>Subtotal: ${{ obtenerSubtotal().toFixed(2) }}</p>
+    <p>Envío: Gratis</p>
+    <p class="total">Total: ${{ obtenerSubtotal().toFixed(2) }}</p>
+    <button class="pagar-btn">Pagar</button>
+  </aside>
+</main>
+
+
+<app-footer></app-footer>
