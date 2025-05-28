@@ -14,6 +14,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "publicacion")
 public class Publicacion {
 
+  @Column(name = "usuario_id")
+  private Long usuarioId;
+
+  public Long getUsuarioId() { return usuarioId; }
+  public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }
+
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

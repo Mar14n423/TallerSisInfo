@@ -1,4 +1,4 @@
-<app-navbar></app-navbar> 
+<app-navbar></app-navbar>
 
 <body>
 <div class="foro-container">
@@ -25,10 +25,14 @@
       <textarea [(ngModel)]="nuevoMensaje" placeholder="Contenido del mensaje..."></textarea>
       <button (click)="crearNuevoPost()">Publicar</button>
     </div>
-
+    <!-- Spinner de carga -->
+    <div *ngIf="isLoading" class="spinner-container">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
     <section class="post" *ngFor="let post of posts; let i = index">
       <div class="post-header">
-        <img src="imagenes/usuario.PNG" alt="Usuario" class="mini-avatar">
+        <img [src]="post.usuarioAvatarUrl || 'assets/default-profile.png'" alt="Usuario" class="mini-avatar">
+
         <div>
           <strong>{{ post.usuario }}</strong> <span class="fecha">{{ post.fecha }}</span>
           <p class="titulo">{{ post.titulo }}</p>
@@ -42,7 +46,7 @@
       <p class="mensaje">{{ post.mensaje }}</p>
 
       <div class="respuesta" *ngFor="let r of post.respuestas; let j = index">
-        <img src="imagenes/usuario.PNG" alt="Respuesta" class="mini-avatar">
+        <img [src]="r.usuarioAvatarUrl || 'assets/default-profile.png'" alt="Respuesta" class="mini-avatar">
         <div class="respuesta-content">
           <p><strong>{{ r.usuario }}:</strong> {{ r.mensaje }}</p>
           <button class="report-btn-small" (click)="mostrarModalReporte(r.id, 'comentario', post.id)">
@@ -51,12 +55,14 @@
         </div>
       </div>
 
+
       <p class="comentar" (click)="toggleFormulario(i)">Comentar</p>
       <div class="formulario-respuesta" *ngIf="mostrarFormulario[i]">
         <textarea [(ngModel)]="nuevaRespuesta[i]" placeholder="Escribe tu respuesta..."></textarea>
         <button (click)="publicarRespuesta(i)">Publicar</button>
       </div>
     </section>
+
   </main>
 
   <aside class="filtros">
