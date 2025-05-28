@@ -51,13 +51,15 @@ export const usuarioRoutes: Routes = [
   {
     path: 'profile',
     loadComponent: () =>
-      import('../components/VistaUsuario/profile/profile.component').then(m => m.ProfileComponent)
+      import('../components/VistaUsuario/profile/profile.component').then(m => m.ProfileComponent),
+    canActivate: [AuthGuard],
   },
   {
        path: 'trabajo/:id',
        loadComponent: () =>
          import('../components/VistaUsuario/detalle-trabajo/detalle-trabajo.component')
-           .then(m => m.DetalleTrabajoComponent)
+           .then(m => m.DetalleTrabajoComponent),
+           canActivate: [AuthGuard],
   },
   {
     path: '',
@@ -68,13 +70,13 @@ export const usuarioRoutes: Routes = [
     path: 'delete-account',
     loadComponent: () =>
       import('../components/VistaUsuario/delete-account/delete-account.component')
-        .then(m => m.DeleteAccountComponent)
+        .then(m => m.DeleteAccountComponent),canActivate: [AuthGuard],
   },
 
   {
     path: 'reportes-usuario',
     loadComponent: () =>
       import('../components/VistaUsuario/reportes-usuario/reportes-usuario.component')
-        .then(m => m.ReportesUsuarioComponent)
+        .then(m => m.ReportesUsuarioComponent),canActivate: [AuthGuard],
   }
 ];
