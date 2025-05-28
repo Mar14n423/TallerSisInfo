@@ -1,0 +1,42 @@
+<app-navbar></app-navbar>
+
+<main class="bolsa-contenedor">
+
+  <section class="tarjeta-empleo" *ngFor="let i of [0]">
+    <ng-container *ngIf="!completados[i]; else vistaFinal">
+      <div class="formulario">
+        <h3>Agregar empleo</h3>
+        <input type="text" placeholder="Título del trabajo" [(ngModel)]="empleos[i].tituloTrabajo">
+        <textarea placeholder="Descripción" [(ngModel)]="empleos[i].descripcion"></textarea>
+        <textarea placeholder="Requisitos" [(ngModel)]="empleos[i].requisitos"></textarea>
+        <input type="text" placeholder="Ubicación" [(ngModel)]="empleos[i].ubicacion">
+        <input type="text" placeholder="Tipo de contrato" [(ngModel)]="empleos[i].tipoContrato">
+        <input type="text" placeholder="Estado (ej: Activo)" [(ngModel)]="empleos[i].estado">
+
+        <div class="imagen-upload">
+          <p>Agregar Foto</p>
+          <label class="upload-label">
+            <input type="file" accept="image/*" (change)="onFileSelected($event, i)">
+            <img [src]="previews[i] || 'assets/img/upload-icon.png'" alt="Subir archivo" width="100">
+          </label>
+        </div>
+
+        <div class="botones">
+          <button class="btn añadir" (click)="agregarEmpleo(i)">Añadir</button>
+          <button class="btn eliminar" (click)="eliminarEmpleo(i)">Eliminar</button>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #vistaFinal>
+      <div class="empleo-finalizado">
+        <img [src]="previews[i]" alt="Imagen subida" width="100">
+        <p><strong>{{ empleos[i].tituloTrabajo }}</strong></p>
+        <p>{{ empleos[i].descripcion }}</p>
+        <button class="btn eliminar" (click)="eliminarEmpleo(i)">Eliminar</button>
+      </div>
+    </ng-template>
+  </section>
+
+
+</main>
