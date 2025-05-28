@@ -5,8 +5,7 @@ export const usuarioRoutes: Routes = [
   {
     path: 'registrate',
     loadComponent: () =>
-      import('../components/VistaUsuario/register/register.component').then(m => m.RegisterComponent),
-    canActivate: [AuthGuard],
+      import('../components/VistaUsuario/register/register.component').then(m => m.RegisterComponent)
   },
   {
     path: 'login',
@@ -16,32 +15,38 @@ export const usuarioRoutes: Routes = [
   {
     path: 'empleo',
     loadComponent: () =>
-      import('../components/VistaUsuario/empleo/empleo.component').then(m => m.EmpleoComponent)
+      import('../components/VistaUsuario/empleo/empleo.component').then(m => m.EmpleoComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'empleos/:id',
     loadComponent: () =>
-      import('../components/VistaUsuario/detalle-trabajo/detalle-trabajo.component').then(m => m.DetalleTrabajoComponent)
+      import('../components/VistaUsuario/detalle-trabajo/detalle-trabajo.component').then(m => m.DetalleTrabajoComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'transporte',
     loadComponent: () =>
-      import('../components/VistaUsuario/transporte/transporte.component').then(m => m.TransporteComponent)
+      import('../components/VistaUsuario/transporte/transporte.component').then(m => m.TransporteComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'foro',
     loadComponent: () =>
-      import('../components/VistaUsuario/foro/foro.component').then(m => m.ForoComponent)
+      import('../components/VistaUsuario/foro/foro.component').then(m => m.ForoComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'marketplace',
     loadComponent: () =>
-      import('../components/VistaUsuario/marketplace/marketplace.component').then(m => m.MarketplaceComponent)
+      import('../components/VistaUsuario/marketplace/marketplace.component').then(m => m.MarketplaceComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'eventos-usuario',
     loadComponent: () =>
-      import('../components/VistaUsuario/eventos-usuario/eventos-usuario.component').then(m => m.EventosUsuarioComponent)
+      import('../components/VistaUsuario/eventos-usuario/eventos-usuario.component').then(m => m.EventosUsuarioComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile',
