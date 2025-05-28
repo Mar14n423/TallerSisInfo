@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
-import axios from 'axios';
 
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
-// Iconos personalizados
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
@@ -25,33 +24,31 @@ L.Icon.Default.mergeOptions({
     FooterComponent
   ]
 })
-
 export class ReportesUsuarioComponent implements OnInit {
   reportes: any[] = [];
   copiados: boolean[] = [];
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.cargarReportes();
   }
 
   private cargarReportes(): void {
-    axios.get('http://localhost:8080/api/reportes')
-      .then(response => {
-        this.reportes = response.data;
+    this.http.get<any[]>('http://localhost:8080/api/reportes').subscribe({
+      next: data => {
+        this.reportes = data;
         this.copiados = new Array(this.reportes.length).fill(false);
 
         setTimeout(() => {
           this.reportes.forEach((reporte, i) => {
             const mapId = `map-${i}`;
-
             const map = L.map(mapId).setView([reporte.latitud, reporte.longitud], 19);
-
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
               attribution: '&copy; OpenStreetMap contributors'
             }).addTo(map);
 
-            // Marcador exacto con popup
             L.marker([reporte.latitud, reporte.longitud], {
               icon: L.divIcon({
                 className: 'custom-icon',
@@ -61,20 +58,17 @@ export class ReportesUsuarioComponent implements OnInit {
               })
             }).addTo(map).bindPopup(`<b>${reporte.descripcion}</b>`);
           });
-        }, 100); // Espera a que los elementos HTML existan
-      })
-      .catch(error => console.error('Error al cargar reportes:', error));
+        }, 100);
+      },
+      error: err => console.error('Error al cargar reportes:', err)
+    });
   }
 
   copiarCoordenadas(index: number, lat: number, lng: number): void {
     const texto = `Latitud: ${lat}, Longitud: ${lng}`;
-    navigator.clipboard.writeText(texto)
-      .then(() => {
-        this.copiados[index] = true;
-        setTimeout(() => {
-          this.copiados[index] = false;
-        }, 2000);
-      })
-      .catch(err => console.error('Error al copiar', err));
+    navigator.clipboard.writeText(texto).then(() => {
+      this.copiados[index] = true;
+      setTimeout(() => this.copiados[index] = false, 2000);
+    }).catch(err => console.error('Error al copiar', err));
   }
 }
