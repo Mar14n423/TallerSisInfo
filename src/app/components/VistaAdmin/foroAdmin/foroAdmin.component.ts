@@ -12,7 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClient } from '@angular/common/http';
-
+import { HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-foroAdmin',
   standalone: true,
@@ -68,6 +68,7 @@ export class ForoAdminComponent implements OnInit {
       }
     };
   }
+
 
   cargarComentariosReportados(): void {
     this.http.get<any[]>('http://localhost:8080/api/foro/reportes/comentarios', this.getAuthHeaders()).subscribe({

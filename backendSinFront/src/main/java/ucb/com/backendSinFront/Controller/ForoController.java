@@ -10,6 +10,9 @@ import ucb.com.backendSinFront.entity.foro.ReglaForo;
 import ucb.com.backendSinFront.dto.PublicacionDTO;
 import ucb.com.backendSinFront.dto.ComentarioReportadoDTO;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.AccessDeniedException;
 
 import ucb.com.backendSinFront.service.ForoService;
 
@@ -87,12 +90,32 @@ public class ForoController {
 
   @GetMapping("/reportes/comentarios")
   public ResponseEntity<List<ComentarioReportadoDTO>> obtenerComentariosReportados() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    if (auth == null || auth.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+      throw new AccessDeniedException("Solo los administradores pueden ver comentarios reportados");
+    }
+
     return ResponseEntity.ok(foroService.obtenerComentariosReportadosDetallado());
   }
 
   @GetMapping("/reportes/posts")
   public ResponseEntity<List<ReporteF>> obtenerPostsReportados() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+    // 👇 DEBUG: Imprimir usuario y rol en consola
+    System.out.println("=== DEBUG DE ACCESO ===");
+    System.out.println("Usuario autenticado: " + (auth != null ? auth.getName() : "null"));
+    System.out.println("Authorities: " + (auth != null ? auth.getAuthorities() : "null"));
+    System.out.println("========================");
+
+    if (auth == null || auth.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+      throw new AccessDeniedException("Solo los administradores pueden ver posts reportados");
+    }
+
     return ResponseEntity.ok(foroService.obtenerPostsReportados());
   }
+
+
 
 }

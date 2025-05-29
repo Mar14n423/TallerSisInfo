@@ -49,6 +49,7 @@ public SecurityFilterChain securityFilterChain(
         "/api/usuarios/login",
         "/api/usuarios/create",
         "/api/foro/**",
+        "/api/foro/reporte",
         "/api/empresas",
         "/api/empresas/{id}",
         "/api/empresas/create",
