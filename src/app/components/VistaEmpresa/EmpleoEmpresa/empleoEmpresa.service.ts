@@ -10,7 +10,7 @@ export class EmpleoEmpresaService {
   constructor() {}
 
   subirEmpleo(formData: FormData): Promise<any> {
-      return fetch('http://localhost:8080/api/empresa/ofertas/crear', {
+      return fetch('http://localhost:8080/api/empresa/empleos/crear', {
       method: 'POST',
       body: formData
     }).then(res => {
