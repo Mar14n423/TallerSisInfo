@@ -21,19 +21,32 @@ export class MarketplaceAdminService {
   }
 
   obtenerProductos(): Observable<any> {
-      return this.http.get(this.apiUrl, {
-        headers: this.getHeaders()
-      });
-    }
+    return this.http.get(this.apiUrl, {
+      headers: this.getHeaders()
+    });
+  }
 
-    obtenerProductoPorId(id: number): Observable<any> {
-      return this.http.get(`${this.apiUrl}/${id}`, {
-        headers: this.getHeaders()
-      });
-    }
+  obtenerProductoPorId(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  crearProducto(producto: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create`, producto, {
+      headers: this.getHeaders()
+    });
+  }
+
+  actualizarProducto(id: number, producto: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, producto, {
+      headers: this.getHeaders()
+    });
+  }
+
   eliminarProducto(id: number): Observable<void> {
-      return this.http.delete<void>(`${this.apiUrl}/${id}`, {
-        headers: this.getHeaders()
-      });
-    }
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
 }

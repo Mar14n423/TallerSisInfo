@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
-import { FooterComponent } from '../../../shared/footer/footer.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { DialogAdminMkComponent } from '../dialog-admin-mk/dialog-admin-mk.component';
 import { MarketplaceAdminService } from './marketplace-admin.service';
+
 
 @Component({
   selector: 'app-marketplace-admin',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule,
     MatProgressBarModule,
-    NavbarComponent,
-    FooterComponent
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './marketplace-admin.component.html',
   styleUrls: ['./marketplace-admin.component.scss']
@@ -23,7 +24,10 @@ export class MarketplaceAdminComponent implements OnInit {
   productos: any[] = [];
   cargando: boolean = true;
 
-  constructor(private marketplaceAdminService: MarketplaceAdminService) {}
+  constructor(
+    private marketplaceAdminService: MarketplaceAdminService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -32,32 +36,50 @@ export class MarketplaceAdminComponent implements OnInit {
   cargarProductos(): void {
     this.cargando = true;
     this.marketplaceAdminService.obtenerProductos().subscribe({
-      next: (data: any[]) => {
+      next: (data) => {
         this.productos = data;
         this.cargando = false;
       },
-      error: (error: any) => {
+      error: (error) => {
         console.error('Error al cargar productos:', error);
         this.cargando = false;
       }
     });
   }
 
-  eliminarProducto(id: number): void {
-    if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
-      this.marketplaceAdminService.eliminarProducto(id).subscribe({
-        next: () => {
-          // Elimina el producto localmente para actualizar la vista
-          this.productos = this.productos.filter(p => p.id !== id);
-        },
-        error: (error: any) => {
-          console.error('Error al eliminar producto:', error);
-        }
-      });
-    }
+  abrirDialogoProducto(producto?: any): void {
+    const dialogRef = this.dialog.open(DialogAdminMkComponent, {
+      width: '600px',
+      data: producto || null
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        result.id ? this.actualizarProducto(result) : this.crearProducto(result);
+      }
+    });
   }
 
-  abrirFormulario(): void {
-      alert('Aquí iría el formulario para agregar producto (por implementar)');
+  crearProducto(producto: any): void {
+    this.marketplaceAdminService.crearProducto(producto).subscribe({
+      next: () => this.cargarProductos(),
+      error: (error) => console.error('Error al crear producto:', error)
+    });
+  }
+
+  actualizarProducto(producto: any): void {
+    this.marketplaceAdminService.actualizarProducto(producto.id, producto).subscribe({
+      next: () => this.cargarProductos(),
+      error: (error) => console.error('Error al actualizar producto:', error)
+    });
+  }
+
+  eliminarProducto(id: number): void {
+    if (confirm('¿Estás seguro de eliminar este producto?')) {
+      this.marketplaceAdminService.eliminarProducto(id).subscribe({
+        next: () => this.cargarProductos(),
+        error: (error) => console.error('Error al eliminar producto:', error)
+      });
+    }
   }
 }
