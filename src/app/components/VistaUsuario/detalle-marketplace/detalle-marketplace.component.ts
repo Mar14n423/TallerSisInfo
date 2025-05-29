@@ -10,7 +10,13 @@ import { CarritoService, Producto } from '../marketplace/carrito/carrito.service
 @Component({
   selector: 'app-detalle-marketplace',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatProgressBarModule, NavbarComponent, FooterComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatProgressBarModule,
+    NavbarComponent,
+    FooterComponent
+  ],
   templateUrl: './detalle-marketplace.component.html',
   styleUrls: ['./detalle-marketplace.component.scss']
 })
@@ -37,16 +43,17 @@ export class DetalleMarketplaceComponent implements OnInit {
       return;
     }
 
-    this.marketplaceService.obtenerProductoPorId(+id)
-      .then(producto => {
+    this.marketplaceService.obtenerProductoPorId(+id).subscribe({
+      next: (producto: any) => {
         this.producto = producto;
         this.cargando = false;
-      })
-      .catch(error => {
+      },
+      error: (error: any) => {
         console.error('Error al cargar el producto:', error);
         this.error = 'Error al cargar los detalles del producto';
         this.cargando = false;
-      });
+      }
+    });
   }
 
   agregarAlCarrito(): void {
@@ -64,5 +71,4 @@ export class DetalleMarketplaceComponent implements OnInit {
     this.carritoService.agregarProducto(productoCarrito);
     alert('Producto agregado al carrito de compras');
   }
-
 }

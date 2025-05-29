@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button'; // Si vas a usar botones Material
 import { MatIconModule } from '@angular/material/icon';     // Opcional si usas íconos
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+
 
 
 
@@ -29,7 +31,7 @@ export class CreateCompanyAccountComponent {
     descripcion: new FormControl('', [Validators.required])
   });
 
-  constructor(private empresaService: EmpresaService) {}
+  constructor(private empresaService: EmpresaService,private router: Router) {}
 
   onSubmit() {
     if (this.registerCompanyForm.valid) {
@@ -46,6 +48,13 @@ export class CreateCompanyAccountComponent {
         .then(response => {
           console.log('Empresa registrada con éxito:', response);
           alert('Empresa registrada con éxito');
+          // ✅ Guardar la empresa en localStorage
+           localStorage.setItem('userId', response.id);
+           localStorage.setItem('empresa', JSON.stringify(response));
+
+           // ✅ Redirigir a la vista de empresa
+           this.router.navigate(['/homecompany']);
+
         })
         .catch(error => {
           console.error('Error al registrar empresa:', error);

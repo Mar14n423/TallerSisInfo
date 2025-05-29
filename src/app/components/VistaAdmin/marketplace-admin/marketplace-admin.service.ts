@@ -5,19 +5,18 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class MarketplaceService {
+export class MarketplaceAdminService {
   private apiUrl = 'http://localhost:8080/api/productos';
 
   constructor(private http: HttpClient) {}
 
-  // Simula obtener el token (puedes adaptarlo según de dónde lo tomes)
   private getToken(): string {
     return localStorage.getItem('token') || '';
   }
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`
+      'Authorization': `Bearer ${this.getToken()}`,
     });
   }
 
@@ -29,6 +28,24 @@ export class MarketplaceService {
 
   obtenerProductoPorId(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
+  }
+
+  crearProducto(producto: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create`, producto, {
+      headers: this.getHeaders()
+    });
+  }
+
+  actualizarProducto(id: number, producto: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, producto, {
+      headers: this.getHeaders()
+    });
+  }
+
+  eliminarProducto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders()
     });
   }

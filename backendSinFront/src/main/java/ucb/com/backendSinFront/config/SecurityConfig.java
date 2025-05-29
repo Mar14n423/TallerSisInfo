@@ -35,42 +35,48 @@ public class SecurityConfig {
   public JwtAuthenticationFilter jwtAuthenticationFilter(JwtTokenUtil jwtTokenUtil, UsuarioService usuarioService) {
     return new JwtAuthenticationFilter(jwtTokenUtil, usuarioService);
   }
+@Bean
+public SecurityFilterChain securityFilterChain(
+  HttpSecurity http,
+  JwtTokenUtil jwtTokenUtil,
+  UsuarioService usuarioService
+) throws Exception {
+  http
+    .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+    .csrf(csrf -> csrf.disable())
+    .authorizeHttpRequests(auth -> auth
+      .requestMatchers(
+        "/api/usuarios/login",
+        "/api/usuarios/create",
+        "/api/foro/**",
+        "/api/empresas",
+        "/api/empresas/{id}",
+        "/api/empresas/create",
+        "/api/empresas/login",
+        "/api/empresa/empleos/crear",
+        "/api/empresa/empleos/crear-con-imagen",
+        "/swagger-ui/**",
+        "/v3/api-docs/**"
+      ).permitAll()
+      .anyRequest().authenticated()
+    )
+    .addFilterBefore(jwtAuthenticationFilter(jwtTokenUtil, usuarioService), UsernamePasswordAuthenticationFilter.class)
+    .logout(logout -> logout
+      .logoutUrl("/api/logout")
+      .logoutSuccessHandler((request, response, authentication) -> {
+        response.setStatus(HttpStatus.OK.value());
+        response.getWriter().flush();
+      })
+      .invalidateHttpSession(true)
+      .deleteCookies("JSESSIONID")
+      .permitAll()
+    )
+    .formLogin(form -> form.disable())
+    .httpBasic(basic -> basic.disable());
 
-  @Bean
-  public SecurityFilterChain securityFilterChain(
-    HttpSecurity http,
-    JwtTokenUtil jwtTokenUtil,
-    UsuarioService usuarioService
-  ) throws Exception {
-    http
-      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-      .csrf(csrf -> csrf.disable())
-      .authorizeHttpRequests(auth -> auth
-        .requestMatchers(
-          "/api/usuarios/login",
-          "/api/usuarios/create",
-          "/api/foro/**",
-          "/swagger-ui/**",
-          "/v3/api-docs/**"
-        ).permitAll()
-        .anyRequest().authenticated()
-      )
-      .addFilterBefore(jwtAuthenticationFilter(jwtTokenUtil, usuarioService), UsernamePasswordAuthenticationFilter.class)
-      .logout(logout -> logout
-        .logoutUrl("/api/logout")
-        .logoutSuccessHandler((request, response, authentication) -> {
-          response.setStatus(HttpStatus.OK.value());
-          response.getWriter().flush();
-        })
-        .invalidateHttpSession(true)
-        .deleteCookies("JSESSIONID")
-        .permitAll()
-      )
-      .formLogin(form -> form.disable())
-      .httpBasic(basic -> basic.disable());
+  return http.build();
+}
 
-    return http.build();
-  }
 
 
   @Bean // Configuración CORS global
