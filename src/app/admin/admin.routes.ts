@@ -6,7 +6,7 @@ export const adminRoutes: Routes = [
     path: 'admin',
     loadComponent: () =>
       import('../components/VistaAdmin/layout/layout.component').then(m => m.LayoutComponent),
-    canActivate: [AdminGuard], 
+    canActivate: [AdminGuard],
     children: [
       {
         path: '',
@@ -37,7 +37,12 @@ export const adminRoutes: Routes = [
         path: 'reportes',
         loadComponent: () =>
           import('../components/VistaAdmin/reportes/reportes.component').then(m => m.ReportesComponent)
-      }
+      },
+      {
+        path: 'marketplace-admi',
+        loadComponent: () =>
+          import('../components/VistaAdmin/marketplace-admin/marketplace-admin.component').then(m => m.MarketplaceAdminComponent)
+      },
     ]
   },
 
@@ -48,5 +53,5 @@ export const adminRoutes: Routes = [
   },
 
 
-  
+
 ];

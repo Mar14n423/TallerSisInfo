@@ -1,65 +1,24 @@
 <app-navbar></app-navbar>
 
 <main class="marketplace-container">
-
-  <!-- 🔹 Sección Producto Principal Editable -->
-  <section class="producto-principal">
-    <img src="imagenes/logo.PNG" alt="Silla de Ruedas" class="producto-img">
-
-    <div class="producto-info">
-      <h2>Silla de Ruedas</h2>
-
-      <label for="precio">Añadir precio:</label>
-      <input id="precio" type="text" placeholder="$10.99" class="input-admin" />
-
-      <label for="descripcion">Añadir texto:</label>
-      <textarea id="descripcion" rows="3" placeholder="Descripción del producto..." class="input-admin"></textarea>
-
-      <button class="btn-guardar">Guardar</button>
-    </div>
-  </section>
-
-  <!-- 🔹 Productos Relacionados -->
   <section class="relacionados">
-    <h3>Related products</h3>
+    <h3>Productos del marketplace</h3>
     <div class="productos-grid">
 
-      <!-- Producto 1 -->
-      <div class="producto-card">
-        <img src="imagenes/logo.PNG" alt="conjunto">
-        <h4>Conjunto</h4>
-        <p>Muletas, bastón, andador para uso adulto</p>
-        <span class="precio">$100</span>
+      <!-- 🔄 Productos cargados dinámicamente -->
+      <div class="producto-card" *ngFor="let producto of productos">
+        <img [src]="producto.imagenU || 'assets/placeholder.png'" alt="{{ producto.nombreP }}">
+        <h4>{{ producto.nombreP }}</h4>
+        <p>{{ producto.descripcionP }}</p>
+        <span class="precio">${{ producto.precio }}</span>
+
+        <!-- Botón para eliminar -->
+        <br>
+        <button (click)="eliminarProducto(producto.id)" class="eliminar-btn">Eliminar</button>
       </div>
 
-      <!-- Producto 2 -->
-      <div class="producto-card">
-        <img src="imagenes/logo.PNG" alt="Burrito">
-        <h4>Burrito</h4>
-        <p>Andador ortopédico con soporte firme</p>
-        <span class="precio">$20</span>
-      </div>
-
-      <!-- Producto 3 -->
-      <div class="producto-card">
-        <img src="imagenes/logo.PNG" alt="Muleta">
-        <h4>Muleta</h4>
-        <p>Muleta ligera de aluminio</p>
-        <span class="precio">$15</span>
-      </div>
-
-      <!-- 🔹 Tarjetas vacías para agregar -->
-      <div class="producto-card agregar-card">
-        <p>AGREGAR OBJETO</p>
-        <div class="mas">+</div>
-      </div>
-
-      <div class="producto-card agregar-card">
-        <p>AGREGAR OBJETO</p>
-        <div class="mas">+</div>
-      </div>
-
-      <div class="producto-card agregar-card">
+      <!-- 🔹 Tarjeta para agregar producto -->
+      <div class="producto-card agregar-card" (click)="abrirFormulario()">
         <p>AGREGAR OBJETO</p>
         <div class="mas">+</div>
       </div>
