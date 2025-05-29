@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -7,23 +8,28 @@ import axios from 'axios';
 export class MarketplaceService {
   private apiUrl = 'http://localhost:8080/api/productos';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  obtenerProductos() {
-    return axios.get(`${this.apiUrl}`)
-      .then(response => response.data)
-      .catch(error => {
-        console.error('Error al obtener productos:', error);
-        throw error;
-      });
+  // Simula obtener el token (puedes adaptarlo según de dónde lo tomes)
+  private getToken(): string {
+    return localStorage.getItem('token') || '';
   }
 
-  obtenerProductoPorId(id: number): Promise<any> {
-    return axios.get(`${this.apiUrl}/${id}`)
-      .then(response => response.data)
-      .catch(error => {
-        console.error(`Error al obtener producto con ID ${id}:`, error);
-        throw error;
-      });
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+  }
+
+  obtenerProductos(): Observable<any> {
+    return this.http.get(this.apiUrl, {
+      headers: this.getHeaders()
+    });
+  }
+
+  obtenerProductoPorId(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders()
+    });
   }
 }
