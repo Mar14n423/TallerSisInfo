@@ -13,6 +13,7 @@ public class ReglaForo {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
     private int orden;
+
     public ReglaForo() {
     }
 
