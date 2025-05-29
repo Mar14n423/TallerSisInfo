@@ -24,20 +24,33 @@ export class LoginComponent {
   errorMessage: string = '';
 
   constructor(
-    private authService: AuthService, // Inyectar AuthService
+    private authService: AuthService,
     private router: Router
   ) {}
 
   async onSubmit() {
     try {
-      const success = await this.authService.login(this.email, this.password);
-      
-      if (!success) {
+      // Llama a tu servicio para loguear y obtener la respuesta completa
+      const response = await this.authService.login(this.email, this.password);
+
+      if (!response) {
         this.errorMessage = 'Credenciales incorrectas. Inténtalo de nuevo.';
       } else {
-        // Verificar si es admin o usuario normal
+        // ✅ GUARDAR EL ID DEL USUARIO EN LOCALSTORAGE
+        localStorage.setItem('userId', response.id);
+
+        // ✅ Guardar en localStorage si es usuario o empresa
+        if (response.tipo === 'empresa') {
+          localStorage.setItem('empresa', JSON.stringify(response));
+        } else {
+          localStorage.setItem('usuario', JSON.stringify(response));
+        }
+
+        // ✅ Verificar si es admin
         if (this.authService.isAdmin()) {
           this.router.navigate(['/admin']);
+        } else if (response.tipo === 'empresa') {
+          this.router.navigate(['/homecompany']);
         } else {
           this.router.navigate(['/profile']);
         }

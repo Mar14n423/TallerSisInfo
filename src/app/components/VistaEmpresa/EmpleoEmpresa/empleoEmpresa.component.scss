@@ -1,0 +1,219 @@
+$color-principal: #800000;
+$color-secundario: #5c0000;
+$color-fondo: #f9f9f9;
+$color-texto: #333;
+$color-borde: #ccc;
+$color-hover: #a00000;
+
+.bolsa-contenedor {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+}
+
+.tarjeta-empleo {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+  gap: 1.5rem;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  h3 {
+    margin-bottom: 0.5rem;
+    color: $color-principal;
+  }
+
+  .input-text, .textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid $color-borde;
+    border-radius: 6px;
+    transition: border 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      border-color: $color-principal;
+      box-shadow: 0 0 5px rgba($color-principal, 0.3);
+      outline: none;
+    }
+  }
+
+  .textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+}
+
+.imagen-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  p {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-label {
+    cursor: pointer;
+    display: inline-block;
+
+    input[type="file"] {
+      display: none;
+    }
+
+    img {
+      width: 220px;
+      height: 150px;
+      border: 2px dashed $color-borde;
+      border-radius: 8px;
+      object-fit: cover;
+      transition: transform 0.2s, border-color 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+        border-color: $color-principal;
+      }
+    }
+  }
+}
+
+.botones {
+  display: flex;
+  gap: 0.8rem;
+
+  .btn {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  .añadir {
+    background-color: $color-principal;
+
+    &:hover {
+      background-color: darken($color-principal, 10%);
+    }
+  }
+
+  .eliminar {
+    background-color: $color-secundario;
+
+    &:hover {
+      background-color: darken($color-secundario, 10%);
+    }
+  }
+}
+
+.empleo-finalizado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-fondo;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  gap: 1rem;
+
+  img {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+
+  .empleo-detalle {
+    flex: 1;
+    p {
+      margin: 0;
+      color: $color-texto;
+
+      &:first-child {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .btn.eliminar {
+    background-color: $color-secundario;
+
+    &:hover {
+      background-color: $color-hover;
+    }
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.empleo-finalizado {
+  animation: fadeIn 0.4s ease-in;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .tarjeta-empleo {
+    padding: 1rem;
+  }
+
+  .imagen-upload img {
+    width: 180px;
+    height: 120px;
+  }
+
+  .empleo-finalizado {
+    flex-direction: column;
+    align-items: flex-start;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    .btn.eliminar {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.input-text, .textarea {
+  transition: box-shadow 0.2s, border-color 0.2s;
+
+  &:focus {
+    border-color: lighten($color-principal, 10%);
+    box-shadow: 0 0 5px rgba($color-principal, 0.3);
+  }
+}
+

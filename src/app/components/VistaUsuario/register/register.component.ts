@@ -7,10 +7,11 @@ import axios from 'axios';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { UsuarioService } from './usuario.service';
+
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent,RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
@@ -25,7 +26,7 @@ export class RegisterComponent {
 
   constructor(private usuarioService: UsuarioService, private router: Router) {}
 
-   onSubmit() {
+  onSubmit() {
     if (this.registerForm.valid) {
       const usuario = {
         nombre: this.registerForm.value.name,
@@ -37,7 +38,12 @@ export class RegisterComponent {
       this.usuarioService.registrarUsuario(usuario).subscribe({
         next: (response) => {
           console.log('Usuario registrado con éxito:', response);
+
+          // ✅ Guardar en localStorage el usuario registrado
           localStorage.setItem('userId', response.id);
+          localStorage.setItem('usuario', JSON.stringify(response));
+
+          // ✅ Redirigir al perfil
           this.router.navigate(['/profile']);
         },
         error: (error) => {
@@ -50,12 +56,3 @@ export class RegisterComponent {
     }
   }
 }
-
-
-
-
-
-
-
-
-
