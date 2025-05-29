@@ -32,6 +32,11 @@ export const adminRoutes: Routes = [
         path: 'foro',
         loadComponent: () =>
           import('../components/VistaAdmin/foroAdmin/foroAdmin.component').then(m => m.ForoAdminComponent)
+      },
+      {
+        path: 'reportes',
+        loadComponent: () =>
+          import('../components/VistaAdmin/reportes/reportes.component').then(m => m.ReportesComponent)
       }
     ]
   },
@@ -43,10 +48,5 @@ export const adminRoutes: Routes = [
   },
 
 
-  {
-    path: 'reportes',
-    loadComponent: () =>
-      import('../components/VistaAdmin/reportes/reportes.component')
-        .then(m => m.ReportesComponent)
-  }
+  
 ];
