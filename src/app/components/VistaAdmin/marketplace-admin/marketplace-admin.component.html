@@ -1,30 +1,39 @@
-<app-navbar></app-navbar>
 
-<main class="marketplace-container">
-  <section class="relacionados">
-    <h3>Productos del marketplace</h3>
+<main class="marketplace-admin">
+  <section class="productos-section">
+    <div class="header-section">
+      <h2>Administración de Productos</h2>
+      <button mat-raised-button color="primary" (click)="abrirDialogoProducto()">
+        <mat-icon>add</mat-icon> Nuevo Producto
+      </button>
+    </div>
+
+    <mat-progress-bar mode="indeterminate" *ngIf="cargando"></mat-progress-bar>
+
     <div class="productos-grid">
-
-      <!-- 🔄 Productos cargados dinámicamente -->
       <div class="producto-card" *ngFor="let producto of productos">
-        <img [src]="producto.imagenU || 'assets/placeholder.png'" alt="{{ producto.nombreP }}">
-        <h4>{{ producto.nombreP }}</h4>
-        <p>{{ producto.descripcionP }}</p>
-        <span class="precio">${{ producto.precio }}</span>
-
-        <!-- Botón para eliminar -->
-        <br>
-        <button (click)="eliminarProducto(producto.id)" class="eliminar-btn">Eliminar</button>
+        <img [src]="producto.imagenU || 'assets/placeholder.png'" alt="{{producto.nombreP}}">
+        <div class="producto-info">
+          <h3>{{producto.nombreP}}</h3>
+          <p>{{producto.descripcionP}}</p>
+          <span class="precio">{{producto.precio | currency}}</span>
+        </div>
+        <div class="producto-actions">
+          <button mat-icon-button color="primary" (click)="abrirDialogoProducto(producto)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminarProducto(producto.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </div>
+    </div>
 
-      <!-- 🔹 Tarjeta para agregar producto -->
-      <div class="producto-card agregar-card" (click)="abrirFormulario()">
-        <p>AGREGAR OBJETO</p>
-        <div class="mas">+</div>
-      </div>
-
+    <div *ngIf="!cargando && productos.length === 0" class="no-products">
+      <p>No hay productos registrados</p>
+      <button mat-raised-button color="primary" (click)="abrirDialogoProducto()">
+        Crear primer producto
+      </button>
     </div>
   </section>
 </main>
-
-<app-footer></app-footer>
