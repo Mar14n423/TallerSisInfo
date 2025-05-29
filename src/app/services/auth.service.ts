@@ -11,7 +11,7 @@ export class AuthService {
 
   constructor(private router: Router, private http: HttpClient) {}
 
-  async login(correo: string, password: string): Promise<boolean> {
+  async login(correo: string, password: string): Promise<any> {
     try {
       const response: any = await firstValueFrom(this.http.post(`${this.apiUrl}/login`, {
         correo,
@@ -24,14 +24,18 @@ export class AuthService {
         localStorage.setItem('token', response.token);
         localStorage.setItem('tipo', response.tipo);
         localStorage.setItem('userId', response.id);
-        return true;
+
+        // 🔥 Devolvemos el objeto completo para el navbar
+        return response;
       }
-      return false;
+
+      return null;
     } catch (error) {
       console.error('Error en login:', error);
-      return false;
+      return null;
     }
   }
+
 
   async logout(): Promise<void> {
     try {

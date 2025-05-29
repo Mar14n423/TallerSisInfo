@@ -1,71 +1,73 @@
-<head>
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-</head>
-<body>
-    <!-- Topbar Start -->
-    <div class="container-fluid border-bottom d-none d-lg-block">
-        <div class="row gx-0">
-            <div class="col-lg-4 text-center py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Dirección</h6>
-                        <span>123 Calle Jordan, Cochabamba, Bolivia</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 text-center border-start border-end py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Correo Electrónico</h6>
-                        <span>informaciones123&#64;gmail.com</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 text-center py-2">
-                <div class="d-inline-flex align-items-center">
-                    <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
-                    <div class="text-start">
-                        <h6 class="text-uppercase mb-1">Llamanos</h6>
-                        <span>+591 555 5978</span>
-                    </div>
-                </div>
-            </div>
+<!-- Topbar Start -->
+<div class="container-fluid border-bottom d-none d-lg-block">
+  <div class="row gx-0">
+    <div class="col-lg-4 text-center py-2">
+      <div class="d-inline-flex align-items-center">
+        <i class="bi bi-geo-alt fs-1 text-primary me-3"></i>
+        <div class="text-start">
+          <h6 class="text-uppercase mb-1">Dirección</h6>
+          <span>123 Calle Jordan, Cochabamba, Bolivia</span>
         </div>
+      </div>
     </div>
-    <!-- Topbar End -->
-
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg navbar-custom shadow-sm py-3 py-lg-0 px-3 px-lg-0 ">
-        <a href="index.html" class="navbar-brand ms-lg-5">
-            <img src="imagenes/LOGONUEVO.png" alt="Logo " class="img-fluid" style="max-height: 90px;">
-            <img src="imagenes/logoSF.png" alt="sin fronteras" class="img-fluid ms-2" style="max-height: 200px;">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <div class="navbar-nav ms-auto py-0">
-              <a href="index.html" class="nav-item nav-link active">Inicio</a>
-              <a routerLink="/empleo" class="nav-item nav-link">Empleo</a>
-              <a routerLink="/transporte" class="nav-item nav-link">Transporte</a>
-              <a routerLink="/foro" class="nav-item nav-link">Foro</a>
-              <a routerLink="/marketplace" class="nav-item nav-link">Marketplace</a>
-              <a routerLink="/eventos-usuario" class="nav-item nav-link">Eventos</a>
-                <a routerLink="/registrate" class="nav-item nav-link nav-contact bg-primary w-300 text-white px-5 ms-lg-5">Registrate <i class="bi bi-arrow-right"></i></a>
-            </div>
+    <div class="col-lg-4 text-center border-start border-end py-2">
+      <div class="d-inline-flex align-items-center">
+        <i class="bi bi-envelope-open fs-1 text-primary me-3"></i>
+        <div class="text-start">
+          <h6 class="text-uppercase mb-1">Correo Electrónico</h6>
+          <span>informaciones123&#64;gmail.com</span>
         </div>
-    </nav>
-    
-    <!-- Navbar End -->
-</body>
+      </div>
+    </div>
+    <div class="col-lg-4 text-center py-2">
+      <div class="d-inline-flex align-items-center">
+        <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+        <div class="text-start">
+          <h6 class="text-uppercase mb-1">Llamanos</h6>
+          <span>+591 555 5978</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Topbar End -->
+
+<!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg navbar-custom shadow-sm py-3 py-lg-0 px-3 px-lg-0 ">
+  <a routerLink="/" class="navbar-brand ms-lg-5">
+    <img src="imagenes/LOGONUEVO.png" alt="Logo" class="img-fluid" style="max-height: 90px;">
+    <img src="imagenes/logoSF.png" alt="sin fronteras" class="img-fluid ms-2" style="max-height: 200px;">
+  </a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <div class="navbar-nav ms-auto py-0">
+      <!-- Rutas para USUARIO -->
+      <ng-container *ngIf="tipoUsuario === 'usuario'">
+        <a routerLink="/empleo" class="nav-item nav-link">Empleo</a>
+        <a routerLink="/transporte" class="nav-item nav-link">Transporte</a>
+        <a routerLink="/foro" class="nav-item nav-link">Foro</a>
+        <a routerLink="/marketplace" class="nav-item nav-link">Marketplace</a>
+        <a routerLink="/eventos-usuario" class="nav-item nav-link">Eventos</a>
+        <a routerLink="/profile" class="nav-item nav-link">Mi Perfil</a>
+        <a class="nav-item nav-link text-danger" (click)="logout()">Cerrar sesión</a>
+      </ng-container>
+      <!-- Rutas para EMPRESA -->
+      <ng-container *ngIf="tipoUsuario === 'empresa'">
+        <a routerLink="/homecompany" class="nav-item nav-link">Inicio Empresa</a>
+        <a routerLink="/empleo-empresa" class="nav-item nav-link">Empleos Publicados</a>
+        <a routerLink="/profilecompany" class="nav-item nav-link">Perfil</a>
+        <a class="nav-item nav-link text-danger" (click)="logout()">Cerrar sesión</a>
+      </ng-container>
+      <!-- Rutas para NO AUTENTICADOS -->
+      <ng-container *ngIf="!tipoUsuario">
+        <a routerLink="/login" class="nav-item nav-link">Iniciar sesión</a>
+        <a routerLink="/registrate" class="nav-item nav-link nav-contact bg-primary w-300 text-white px-5 ms-lg-5">
+          Regístrate <i class="bi bi-arrow-right"></i>
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</nav>
+<!-- Navbar End -->
