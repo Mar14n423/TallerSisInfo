@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { EmpleoEmpresaService } from './empleo-empresa.service';
+import { EmpleoEmpresaService } from './empleoEmpresa.service'; // ✅ Cambiado
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
 @Component({
@@ -14,8 +14,8 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
     RouterModule,
     NavbarComponent
   ],
-  templateUrl: './empleo-empresa.component.html',
-  styleUrls: ['./empleo-empresa.component.scss']
+  templateUrl: './empleoEmpresa.component.html', // ✅ Asegúrate que también el HTML tiene el nombre correcto
+  styleUrls: ['./empleoEmpresa.component.scss']
 })
 export class EmpleoEmpresaComponent {
   previews: string[] = ['', '', '', ''];
@@ -23,11 +23,11 @@ export class EmpleoEmpresaComponent {
   completados: boolean[] = [false, false, false, false];
 
   empleos = [
-      { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
-      { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
-      { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
-      { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' }
-    ];
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' }
+  ];
 
   constructor(private empleoService: EmpleoEmpresaService) {}
 
@@ -69,7 +69,7 @@ export class EmpleoEmpresaComponent {
           this.completados[index] = true;
           console.log('Empleo agregado correctamente');
         })
-        .catch(err => {
+        .catch((err: any) => { // ✅ Cambiado aquí
           alert('Error al subir el empleo. Intenta nuevamente.');
           console.error(err);
         });
