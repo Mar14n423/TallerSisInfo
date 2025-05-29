@@ -57,11 +57,127 @@ export class ForoAdminComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
+  comentariosReportados: any[] = [];
+  comentariosReportadosFiltrados: any[] = [];
+
+  getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+  }
+
+  cargarComentariosReportados(): void {
+    this.http.get<any[]>('http://localhost:8080/api/foro/reportes/comentarios', this.getAuthHeaders()).subscribe({
+      next: (data) => {
+        const agrupados = this.agruparPorComentario(data);
+        this.comentariosReportados = agrupados;
+        this.comentariosReportadosFiltrados = [...agrupados];
+      },
+      error: (err) => {
+        console.error('Error al cargar comentarios reportados:', err);
+      }
+    });
+  }
+
+  private agruparPorComentario(reportes: any[]): any[] {
+    const resultado: any[] = [];
+
+    for (const rep of reportes) {
+      resultado.push({
+        id: rep.comentarioId,
+        mensaje: rep.contenido,
+        usuario: rep.usuario,
+        fecha: rep.fecha,
+        reportes: rep.reportes.length,
+        reportesDetalle: rep.reportes.map((r: any) => ({
+          usuario: r.usuarioReportador,
+          razon: r.razon,
+          fecha: r.fecha
+        }))
+      });
+    }
+
+    return resultado;
+  }
+
+
+  eliminarComentario(id: string): void {
+    if (confirm('¿Eliminar este comentario?')) {
+      this.http.delete(`http://localhost:8080/api/foro/comentario/${id}`).subscribe({
+        next: () => {
+          this.comentariosReportados = this.comentariosReportados.filter(c => c.id !== id);
+          this.comentariosReportadosFiltrados = this.comentariosReportadosFiltrados.filter(c => c.id !== id);
+          alert('Comentario eliminado');
+        },
+        error: err => {
+          console.error('Error al eliminar comentario:', err);
+          alert('Error al eliminar comentario');
+        }
+      });
+    }
+  }
+
+  ignorarComentario(id: string): void {
+    this.comentariosReportados = this.comentariosReportados.filter(c => c.id !== id);
+    this.comentariosReportadosFiltrados = this.comentariosReportadosFiltrados.filter(c => c.id !== id);
+    alert('Reporte ignorado');
+  }
+
+  verDetallesComentario(comentario: any): void {
+    this.postSeleccionado = comentario;
+  }
   ngOnInit(): void {
 
-    this.cargarReglasDesdeBackend();
-      this.cargarDatosMock();
+      this.cargarReglasDesdeBackend();
+      this.cargarComentariosReportados(); // ✅ Carga reales
+      this.cargarPostsReportados();
   }
+
+  cargarPostsReportados(): void {
+    this.http.get<any[]>('http://localhost:8080/api/foro/reportes/posts', this.getAuthHeaders()).subscribe({
+      next: (data) => {
+        const agrupados = this.agruparPorPost(data);
+        this.postsReportados = agrupados;
+        this.postsReportadosFiltrados = [...agrupados];
+      },
+      error: (err) => {
+        console.error('Error al cargar posts reportados:', err);
+        console.error('Detalles del error completo:', JSON.stringify(err, null, 2));
+      }
+    });
+  }
+
+  private agruparPorPost(reportes: any[]): any[] {
+    const mapa = new Map<string, any>();
+    for (const rep of reportes) {
+      const id = rep.publicacion.id;
+      if (!mapa.has(id)) {
+        mapa.set(id, {
+          id,
+          titulo: rep.publicacion.titulo,
+          mensaje: rep.publicacion.mensaje,
+          usuario: rep.publicacion.usuario,
+          fecha: rep.publicacion.fecha,
+          reportes: 0,
+          reportesDetalle: []
+        });
+      }
+      const post = mapa.get(id);
+      post.reportes += 1;
+      post.reportesDetalle.push({
+        usuario: rep.usuarioReportador,
+        razon: rep.razon,
+        fecha: rep.fecha
+      });
+    }
+    return Array.from(mapa.values());
+  }
+
+
+
 
   guardarConfiguracion(): void {
     const reglas = this.reglasForo
@@ -85,58 +201,9 @@ export class ForoAdminComponent implements OnInit {
         alert('Ocurrió un error al guardar las reglas');
       }
     });
-
-
-
   }
 
-  cargarDatosMock(): void {
-    this.postsReportados = [
-      {
-        id: '1',
-        usuario: 'usuario1',
-        fecha: new Date('2023-05-15'),
-        titulo: '¿Cómo puedo hackear el sistema?',
-        mensaje: 'Estoy buscando formas de entrar al sistema administrativo...',
-        reportes: 3,
-        reportesDetalle: [
-          { usuario: 'moderador1', razon: 'Contenido inapropiado', fecha: new Date('2023-05-16') },
-          { usuario: 'admin', razon: 'Intento de hacking', fecha: new Date('2023-05-16') },
-          { usuario: 'usuario2', razon: 'Contenido peligroso', fecha: new Date('2023-05-15') }
-        ]
-      },
-      {
-        id: '2',
-        usuario: 'usuario_spam',
-        fecha: new Date('2023-05-10'),
-        titulo: 'COMPRA MI PRODUCTO!!!',
-        mensaje: 'Hola a todos, visiten mi sitio web www.productomilagroso.com...',
-        reportes: 5,
-        reportesDetalle: [
-          { usuario: 'moderador2', razon: 'Spam', fecha: new Date('2023-05-10') },
-          { usuario: 'usuario3', razon: 'Spam', fecha: new Date('2023-05-10') },
-          { usuario: 'usuario4', razon: 'Enlace sospechoso', fecha: new Date('2023-05-11') }
-        ]
-      }
-    ];
-    this.postsReportadosFiltrados = [...this.postsReportados];
 
-    this.usuariosSancionados = [
-      {
-        id: '101',
-        nombre: 'usuario_ofensivo',
-        razon: 'Lenguaje ofensivo recurrente',
-        finSancion: new Date('2023-06-15')
-      },
-      {
-        id: '102',
-        nombre: 'spammer123',
-        razon: 'Publicación de spam múltiple',
-        finSancion: new Date('2023-05-30')
-      }
-    ];
-    this.usuariosSancionadosFiltrados = [...this.usuariosSancionados];
-  }
 
   filtrarContenido(): void {
     const filtro = this.filtroBusqueda.toLowerCase();
@@ -178,9 +245,8 @@ export class ForoAdminComponent implements OnInit {
   }
 
 cargarReglasDesdeBackend(): void {
-  this.http.get<any[]>('http://localhost:8080/api/foro/reglas').subscribe({
+  this.http.get<any[]>('http://localhost:8080/api/foro/reglas', this.getAuthHeaders()).subscribe({
     next: (data) => {
-      // Convertimos el array de reglas en string con saltos de línea
       this.reglasForo = data
         .sort((a, b) => a.orden - b.orden)
         .map(regla => regla.descripcion)

@@ -47,6 +47,34 @@
       </mat-card-header>
       <mat-card-content>
         <mat-tab-group>
+          <mat-tab label="Comentarios Reportados">
+            <div class="posts-list">
+              <div class="post-item" *ngFor="let c of comentariosReportadosFiltrados">
+                <div class="post-header">
+                  <span class="post-author">{{c.usuario}}</span>
+                  <span class="post-date">{{c.fecha | date:'medium'}}</span>
+                  <span class="report-count">{{c.reportes}} reporte(s)</span>
+                </div>
+                <div class="post-content">
+                  <p>{{c.mensaje}}</p>
+                </div>
+                <div class="post-actions">
+                  <button mat-stroked-button color="warn" (click)="eliminarComentario(c.id)">
+                    <mat-icon>delete</mat-icon> Eliminar
+                  </button>
+                  <button mat-stroked-button color="primary" (click)="ignorarComentario(c.id)">
+                    <mat-icon>done</mat-icon> Ignorar Reporte
+                  </button>
+                  <button mat-stroked-button (click)="verDetallesComentario(c)">
+                    <mat-icon>visibility</mat-icon> Ver Detalles
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="comentariosReportadosFiltrados.length === 0" class="no-results">
+                No hay comentarios reportados
+              </div>
+            </div>
+          </mat-tab>
           <mat-tab label="Posts Reportados">
             <div class="posts-list">
               <div class="post-item" *ngFor="let post of postsReportadosFiltrados">

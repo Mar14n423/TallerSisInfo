@@ -34,6 +34,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                   FilterChain filterChain)
     throws ServletException, IOException {
 
+    String path = request.getRequestURI();
+
+    // ✅ Lista de rutas públicas que NO requieren autenticación
+    if (path.startsWith("/api/foro/") ||
+      path.equals("/api/usuarios/login") ||
+      path.equals("/api/usuarios/create") ||
+      path.startsWith("/swagger-ui/") ||
+      path.startsWith("/v3/api-docs/")) {
+      filterChain.doFilter(request, response);
+      return;
+    }
+
+    // 🟡 JWT normal (para rutas protegidas)
     String authHeader = request.getHeader("Authorization");
     if (authHeader != null && authHeader.startsWith("Bearer ")) {
       String token = authHeader.substring(7);
@@ -45,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (usuarioOpt.isPresent() && SecurityContextHolder.getContext().getAuthentication() == null) {
           Usuario usuario = usuarioOpt.get();
           UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-            usuario, null, List.of() // puedes añadir roles si los defines
+            usuario, null, List.of()
           );
           authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
           SecurityContextHolder.getContext().setAuthentication(authToken);

@@ -7,4 +7,6 @@ import java.util.List;
 public interface ReporteFRepository extends JpaRepository<ReporteF, Long> {
   List<ReporteF> findByRevisadoFalse();
   List<ReporteF> findByTipoAndContenidoId(ReporteF.TipoContenido tipo, Long contenidoId);
+  List<ReporteF> findByTipoOrderByFechaDesc(ReporteF.TipoContenido tipo);
+
 }

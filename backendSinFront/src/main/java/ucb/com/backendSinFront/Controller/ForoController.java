@@ -8,6 +8,7 @@ import ucb.com.backendSinFront.entity.foro.Respuesta;
 import ucb.com.backendSinFront.entity.foro.ReporteF;
 import ucb.com.backendSinFront.entity.foro.ReglaForo;
 import ucb.com.backendSinFront.dto.PublicacionDTO;
+import ucb.com.backendSinFront.dto.ComentarioReportadoDTO;
 
 
 import ucb.com.backendSinFront.service.ForoService;
@@ -15,7 +16,9 @@ import ucb.com.backendSinFront.service.ForoService;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
+
+
 @RestController
 @RequestMapping("/api/foro")
 public class ForoController {
@@ -82,5 +85,14 @@ public class ForoController {
     return ResponseEntity.ok("Reglas guardadas correctamente");
   }
 
+  @GetMapping("/reportes/comentarios")
+  public ResponseEntity<List<ComentarioReportadoDTO>> obtenerComentariosReportados() {
+    return ResponseEntity.ok(foroService.obtenerComentariosReportadosDetallado());
+  }
+
+  @GetMapping("/reportes/posts")
+  public ResponseEntity<List<ReporteF>> obtenerPostsReportados() {
+    return ResponseEntity.ok(foroService.obtenerPostsReportados());
+  }
 
 }
