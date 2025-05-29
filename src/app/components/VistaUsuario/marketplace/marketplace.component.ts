@@ -31,14 +31,15 @@ export class MarketplaceComponent implements OnInit {
 
   cargarTodosLosProductos(): void {
     this.cargando = true;
-    this.marketplaceService.obtenerProductos()
-      .then(data => {
+    this.marketplaceService.obtenerProductos().subscribe({
+      next: (data: any[]) => {
         this.productosFiltrados = data;
         this.cargando = false;
-      })
-      .catch(error => {
+      },
+      error: (error: any) => {
         console.error('Error al cargar productos:', error);
         this.cargando = false;
-      });
+      }
+    });
   }
 }
