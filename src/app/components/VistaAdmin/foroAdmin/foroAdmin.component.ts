@@ -11,6 +11,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-foroAdmin',
@@ -44,7 +45,7 @@ export class ForoAdminComponent implements OnInit {
   columnasUsuarios: string[] = ['usuario', 'razon', 'finSancion', 'acciones'];
   usuariosSancionados: any[] = [];
   usuariosSancionadosFiltrados: any[] = [];
-  
+
   estadisticas = {
     totalPosts: 1245,
     postsDia: 23,
@@ -54,10 +55,39 @@ export class ForoAdminComponent implements OnInit {
 
   postSeleccionado: any = null;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.cargarDatosMock();
+
+    this.cargarReglasDesdeBackend();
+      this.cargarDatosMock();
+  }
+
+  guardarConfiguracion(): void {
+    const reglas = this.reglasForo
+      .split('\n')
+      .filter(linea => linea.trim() !== '')
+      .map((texto, i) => ({
+        titulo: `Regla ${i + 1}`,
+        descripcion: texto.trim(),
+        orden: i + 1
+      }));
+
+    this.http.post('http://localhost:8080/api/foro/reglas', reglas, {
+      responseType: 'text'
+    }).subscribe({
+      next: (res) => {
+        console.log('✅ Respuesta de backend:', res);
+        alert('Reglas guardadas correctamente');
+      },
+      error: (err) => {
+        console.error('❌ Error completo al guardar reglas:', err);
+        alert('Ocurrió un error al guardar las reglas');
+      }
+    });
+
+
+
   }
 
   cargarDatosMock(): void {
@@ -108,29 +138,21 @@ export class ForoAdminComponent implements OnInit {
     this.usuariosSancionadosFiltrados = [...this.usuariosSancionados];
   }
 
-  guardarConfiguracion(): void {
-    alert('Configuración guardada (simulado)\n' + 
-          `Reglas: ${this.reglasForo}\n` +
-          `Permitir posts: ${this.permiteNuevosPosts}\n` +
-          `Permitir comentarios: ${this.permiteComentarios}\n` +
-          `Moderación previa: ${this.moderacionPrevia}`);
-  }
-
   filtrarContenido(): void {
     const filtro = this.filtroBusqueda.toLowerCase();
-    
-    this.postsReportadosFiltrados = this.postsReportados.filter(post => 
-      post.usuario.toLowerCase().includes(filtro) || 
-      post.titulo.toLowerCase().includes(filtro) || 
+
+    this.postsReportadosFiltrados = this.postsReportados.filter(post =>
+      post.usuario.toLowerCase().includes(filtro) ||
+      post.titulo.toLowerCase().includes(filtro) ||
       post.mensaje.toLowerCase().includes(filtro));
-    
-    this.usuariosSancionadosFiltrados = this.usuariosSancionados.filter(user => 
-      user.nombre.toLowerCase().includes(filtro) || 
+
+    this.usuariosSancionadosFiltrados = this.usuariosSancionados.filter(user =>
+      user.nombre.toLowerCase().includes(filtro) ||
       user.razon.toLowerCase().includes(filtro));
   }
 
   eliminarPost(postId: string): void {
-    if(confirm('¿Estás seguro de eliminar este post?')) {
+    if (confirm('¿Estás seguro de eliminar este post?')) {
       this.postsReportados = this.postsReportados.filter(p => p.id !== postId);
       this.postsReportadosFiltrados = this.postsReportadosFiltrados.filter(p => p.id !== postId);
       this.estadisticas.postsReportados--;
@@ -154,4 +176,20 @@ export class ForoAdminComponent implements OnInit {
   verDetallesPost(post: any): void {
     this.postSeleccionado = post;
   }
+
+cargarReglasDesdeBackend(): void {
+  this.http.get<any[]>('http://localhost:8080/api/foro/reglas').subscribe({
+    next: (data) => {
+      // Convertimos el array de reglas en string con saltos de línea
+      this.reglasForo = data
+        .sort((a, b) => a.orden - b.orden)
+        .map(regla => regla.descripcion)
+        .join('\n');
+    },
+    error: (err) => {
+      console.error('❌ Error al cargar reglas desde backend:', err);
+      this.reglasForo = 'Error al cargar reglas.';
+    }
+  });
+}
 }

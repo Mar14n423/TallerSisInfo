@@ -76,5 +76,11 @@ public class ForoController {
     return ResponseEntity.ok("Reglas cargadas exitosamente");
   }*/
 
+  @PostMapping("/reglas")
+  public ResponseEntity<String> guardarReglas(@RequestBody List<ReglaForo> reglas) {
+    foroService.guardarReglas(reglas);
+    return ResponseEntity.ok("Reglas guardadas correctamente");
+  }
+
 
 }

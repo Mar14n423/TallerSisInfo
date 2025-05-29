@@ -150,4 +150,8 @@ public class ForoService {
     Pageable topThree = PageRequest.of(0, 3, Sort.by("fecha").descending());
     return publicacionRepository.findTopPublicacionesWithRespuestasOrderedByDate(topThree);
   }
+  public void guardarReglas(List<ReglaForo> reglas) {
+    reglaForoRepository.deleteAll();
+    reglaForoRepository.saveAll(reglas);
+  }
 }
