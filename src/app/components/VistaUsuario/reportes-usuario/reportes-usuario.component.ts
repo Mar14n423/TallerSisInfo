@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
-
+import { MatIconModule } from '@angular/material/icon';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
@@ -21,7 +21,8 @@ L.Icon.Default.mergeOptions({
   imports: [
     CommonModule,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    MatIconModule
   ]
 })
 export class ReportesUsuarioComponent implements OnInit {
