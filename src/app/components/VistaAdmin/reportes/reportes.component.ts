@@ -3,22 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 
-// Configuración correcta de iconos
-const iconRetinaUrl = 'assets/marker-icon-2x.png';
-const iconUrl = 'assets/marker-icon.png';
-const shadowUrl = 'assets/marker-shadow.png';
-const iconDefault = L.icon({
-  iconRetinaUrl,
-  iconUrl,
-  shadowUrl,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
-L.Marker.prototype.options.icon = iconDefault;
-
 @Component({
   selector: 'app-reportes',
   standalone: true,
@@ -40,49 +24,62 @@ export class ReportesComponent implements OnInit {
   }
 
   private initMap(): void {
+    const iconDefault = L.icon({
+      iconRetinaUrl: 'assets/marker-icon-2x.png',
+      iconUrl: 'assets/marker-icon.png',
+      shadowUrl: 'assets/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+    L.Marker.prototype.options.icon = iconDefault;
+
+    // Inicializar mapa
     this.map = L.map('map').setView([-17.3895, -66.1568], 13);
 
+    // Capa base de OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
     // Marcador inicial
-    L.marker([-17.3895, -66.1568]).addTo(this.map)
+    L.marker([-17.3895, -66.1568], { icon: iconDefault })
+      .addTo(this.map)
       .bindPopup('Aquí puedes registrar un reporte.')
       .openPopup();
 
+    // Evento para agregar nuevos reportes
     this.map.on('dblclick', (e: L.LeafletMouseEvent) => {
-      this.agregarReporte(e.latlng.lat, e.latlng.lng);
+      const { lat, lng } = e.latlng;
+
+      if (this.tempMarker) {
+        this.map.removeLayer(this.tempMarker);
+      }
+
+      this.tempMarker = L.marker([lat, lng], { 
+        draggable: true,
+        icon: iconDefault
+      }).addTo(this.map)
+        .bindPopup('Ubicación seleccionada')
+        .openPopup();
+
+      const descripcion = prompt("Ingresa la descripción del reporte:");
+      if (descripcion) {
+        this.http.post('http://localhost:8080/api/reportes', {
+          descripcion,
+          latitud: lat,
+          longitud: lng,
+          fechaCreacion: new Date().toISOString()
+        }).subscribe({
+          next: () => {
+            alert('Reporte guardado');
+            this.cargarReportes();
+          },
+          error: err => console.error('Error al agregar reporte:', err)
+        });
+      }
     });
-  }
-
-  private agregarReporte(lat: number, lng: number): void {
-    if (this.tempMarker) {
-      this.map.removeLayer(this.tempMarker);
-    }
-
-    this.tempMarker = L.marker([lat, lng], {
-      draggable: true,
-      icon: iconDefault
-    }).addTo(this.map)
-      .bindPopup('Ubicación seleccionada')
-      .openPopup();
-
-    const descripcion = prompt("Ingresa la descripción del reporte:");
-    if (descripcion) {
-      this.http.post('http://localhost:8080/api/reportes', {
-        descripcion,
-        latitud: lat,
-        longitud: lng,
-        fechaCreacion: new Date().toISOString()
-      }).subscribe({
-        next: () => {
-          alert('Reporte guardado');
-          this.cargarReportes();
-        },
-        error: err => console.error('Error al agregar reporte:', err)
-      });
-    }
   }
 
   private cargarReportes(): void {
@@ -95,7 +92,15 @@ export class ReportesComponent implements OnInit {
         this.reportes = data;
         this.reportes.forEach(reporte => {
           const marker = L.marker([reporte.latitud, reporte.longitud], {
-            icon: iconDefault
+            icon: L.icon({
+              iconRetinaUrl: 'assets/marker-icon-2x.png',
+              iconUrl: 'assets/marker-icon.png',
+              shadowUrl: 'assets/marker-shadow.png',
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowSize: [41, 41]
+            })
           })
             .addTo(this.map)
             .bindPopup(`<b>${reporte.descripcion}</b><br>${new Date(reporte.fechaCreacion).toLocaleString()}`);
@@ -106,12 +111,13 @@ export class ReportesComponent implements OnInit {
       error: err => console.error('Error al cargar reportes:', err)
     });
   }
+
   eliminarReporte(id: number): void {
     if (confirm("¿Estás seguro de eliminar este reporte?")) {
       this.http.delete(`http://localhost:8080/api/reportes/${id}`).subscribe({
         next: () => {
           alert('Reporte eliminado');
-          location.reload();
+          this.cargarReportes(); // Mejor que location.reload()
         },
         error: err => console.error('Error al eliminar reporte:', err)
       });
