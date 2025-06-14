@@ -33,14 +33,31 @@
 <!-- Topbar End -->
 
 <!-- Navbar Start -->
+<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg navbar-custom shadow-sm py-3 py-lg-0 px-3 px-lg-0">
-  <a routerLink="/" class="navbar-brand ms-lg-5">
-    <img src="imagenes/LOGONUEVO.png" alt="Logo" class="img-fluid" style="max-height: 90px;">
-    <img src="imagenes/logoSF.png" alt="sin fronteras" class="img-fluid ms-2" style="max-height: 200px;">
+  <a routerLink="/" class="navbar-brand ms-lg-5 d-flex align-items-center">
+    <!-- Imagen icono: solo visible si NO está en modo daltonismo -->
+    <img *ngIf="!modoDaltonismo" src="imagenes/LOGONUEVO.png" alt="Logo" class="img-fluid" style="max-height: 90px;">
+
+    <!-- Imagen de texto: cambia dinámicamente según modo -->
+    <img
+      [src]="modoDaltonismo ? 'imagenes/img.png' : 'imagenes/logoSF.png'"
+      alt="SIN FRONTERAS"
+      class="img-fluid"
+      [ngStyle]="{
+        'max-height': '90px',
+        'max-width': modoDaltonismo ? '300px' : 'auto',
+        'margin-left': modoDaltonismo ? '300px' : '8px',
+        'transition': 'all 0.3s ease'
+      }"
+    />
   </a>
+
+
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <div class="navbar-nav ms-auto py-0">
       <!-- Botón de modo daltonismo -->
