@@ -171,3 +171,88 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   color: #666;
 }
+.modo-daltonismo-empleo {
+  background-color: #111 !important;
+  color: #FFD700 !important;
+}
+
+/* Todo el texto amarillo */
+.modo-daltonismo-empleo *,
+.modo-daltonismo-empleo h1,
+.modo-daltonismo-empleo h2,
+.modo-daltonismo-empleo h3,
+.modo-daltonismo-empleo p,
+.modo-daltonismo-empleo label,
+.modo-daltonismo-empleo select,
+.modo-daltonismo-empleo legend,
+.modo-daltonismo-empleo button {
+  color: #FFD700 !important;
+}
+
+/* Fondo oscuro en secciones */
+.modo-daltonismo-empleo section,
+.modo-daltonismo-empleo main,
+.modo-daltonismo-empleo .job-board,
+.modo-daltonismo-empleo .filtros-container {
+  background-color: #111 !important;
+  color: #FFD700 !important;
+}
+
+/* Borde de fieldset y selects */
+.modo-daltonismo-empleo fieldset {
+  border: 1px solid #FFD700 !important;
+}
+
+.modo-daltonismo-empleo select {
+  background-color: #222 !important;
+  border: 1px solid #FFD700 !important;
+  color: #FFD700 !important;
+}
+
+/* Botones */
+.modo-daltonismo-empleo button {
+  background-color: transparent !important;
+  border: 1px solid #FFD700 !important;
+  color: #FFD700 !important;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 6px 12px;
+}
+
+.modo-daltonismo-empleo button:hover {
+  background-color: #FFD700 !important;
+  color: #000 !important;
+}
+
+/* Card de oferta */
+.modo-daltonismo-empleo .job-card {
+  background-color: #222 !important;
+  color: #FFD700 !important;
+  border: 1px solid #FFD700 !important;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Imagen de la oferta */
+.modo-daltonismo-empleo .job-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #FFD700;
+  border-radius: 5px;
+}
+
+/* Mensaje de sin resultados */
+.modo-daltonismo-empleo .sin-ofertas {
+  background-color: #222 !important;
+  color: #FFD700 !important;
+  border: 1px dashed #FFD700;
+  padding: 15px;
+  text-align: center;
+  font-style: italic;
+}
