@@ -1,84 +1,194 @@
-.contenedor {
-  padding: 1rem;
+.reportes-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-section {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.info-section {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   gap: 1.5rem;
 }
 
-.titulo {
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
+.info-icon {
+  font-size: 3rem;
+  width: auto;
+  height: auto;
+  color: #e74c3c;
 }
 
-.reporte {
-  background-color: #f9f9f9;
-  padding: 1rem;
+.info-content {
+  flex: 1;
+}
+
+.title {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.description {
+  color: #34495e;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.features {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #3498db;
+  font-weight: 500;
+}
+
+
+.section-title {
+  color: #2c3e50;
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #e9ecef;
+  text-align: center;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: #2a9d8f;
+}
+
+.reporte-card {
+  background: white;
   border-radius: 10px;
-  box-shadow: 0 0 5px #ccc;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid #2a9d8f;
+}
+
+.reporte-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.mapa-container {
+  margin-bottom: 1.2rem;
+  position: relative;
 }
 
 .mapa-individual {
-  height: 250px;
+  height: 280px;
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0 0 5px #aaa;
-  margin-bottom: 0.75rem;
-  z-index: 1;
-    cursor: crosshair;
-    position: relative;
-    overflow: hidden;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
 .descripcion {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 1rem 0;
+  font-weight: 500;
+  color: #495057;
   text-align: center;
-  font-weight: bold;
-  margin-bottom: 0.25rem;
+  font-size: 1.05rem;
 }
 
 .coordenadas {
+  background: #f1f8fe;
+  padding: 0.8rem;
+  border-radius: 6px;
   text-align: center;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.coordenadas button {
+  background: #2a9d8f;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
   font-size: 0.9rem;
-  margin-top: 0.3rem;
-  color: #444;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 
-  button {
-    margin-left: 10px;
-    padding: 4px 8px;
-    font-size: 0.85rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #2a9d8f;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.coordenadas button:hover {
+  background: #21867a;
+  transform: translateY(-1px);
+}
 
-    &:hover {
-      background-color: #1d6f66;
-    }
-  }
+.admin-info {
+  text-align: center;
+  margin: 0.8rem 0;
+  font-size: 0.95rem;
+  color: #6c757d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icono-admin {
+  color: #e67e22;
+  font-size: 1.2rem;
 }
 
 .fecha {
   text-align: center;
   font-size: 0.9rem;
-  color: #555;
-  margin-top: 0.25rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
 }
 
-.icon-cross {
-  font-size: 20px;
-  color: red;
-}
-.admin-info {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #2c3e50;
-  margin-top: 0.4rem;
-
-  .icono-admin {
-    font-size: 1.1rem;
-    margin-right: 5px;
-    color: #e67e22; // tono dorado
+@media (max-width: 768px) {
+  .reporte-card {
+    padding: 1.2rem;
+  }
+  
+  .mapa-individual {
+    height: 220px;
+  }
+  
+  .coordenadas {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .coordenadas button {
+    width: 100%;
+    justify-content: center;
   }
 }
