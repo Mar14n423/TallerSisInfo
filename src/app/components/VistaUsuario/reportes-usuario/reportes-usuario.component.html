@@ -1,19 +1,42 @@
 <app-navbar></app-navbar>
-
-<div class="container mt-5">
-  <div class="contenedor">
-    <h3 class="titulo">Reportes disponibles:</h3>
-
-    <div class="reporte" *ngFor="let r of reportes; let i = index">
-      <!-- Mapa -->
-      <div class="mapa-individual" [id]="'map-' + i"></div>
-
-      <!-- Descripción -->
-      <div class="descripcion">
-        <p>{{ r.descripcion }}</p>
+<div class="reportes-container">
+  <div class="header-section">
+    <div class="info-section">
+      <mat-icon class="info-icon">report_problem</mat-icon>
+      <div class="info-content">
+        <h1 class="title">Sistema de Reportes</h1>
+        <p class="description">
+       Visualiza los reportes verificados por nuestro equipo sobre problemas de accesibilidad en la ciudad.
+        Cada marcador representa una ubicación con necesidades de mejora.
+        Cada reporte incluye coordenadas (latitud, longitud). Puedes copiarlas y pegarlas en Google Maps para ver la ubicación exacta del incidente.
+        </p>
+        <div class="features">
+          <div class="feature">
+            <mat-icon>location_on</mat-icon>
+            <span>Ubicación exacta con mapa</span>
+          </div>
+          <div class="feature">
+            <mat-icon>verified</mat-icon>
+            <span>Verificados por administradores</span>
+          </div>
+          <div class="feature">
+            <mat-icon>accessibility_new</mat-icon>
+            <span>Enfocado en accesibilidad</span>
+          </div>
+        </div>
       </div>
+    </div>
+  </div>
+  <div class="reportes-list">
+    <h3 class="section-title">Reportes disponibles:</h3>
 
-      <!-- Coordenadas + botón copiar -->
+    <div div class="reporte-card" *ngFor="let r of reportes; let i = index">
+      <div class="mapa-container">
+        <div class="mapa-individual" [id]="'map-' + i"></div>
+        <div class="descripcion">
+          <p>{{ r.descripcion }}</p>
+        </div>
+
       <div class="coordenadas">
         Latitud: {{ r.latitud }} | Longitud: {{ r.longitud }}
         <button (click)="copiarCoordenadas(i, r.latitud, r.longitud)">
@@ -21,12 +44,9 @@
         </button>
       </div>
 
-      <!-- Publicado por admin -->
       <div class="admin-info">
-        <span class="icono-admin">👑</span> Publicado por administrador
+        <span class="icono-admin">👑</span> Verificado por administrador
       </div>
-
-      <!-- Fecha -->
       <div class="fecha">
         Fecha: {{ r.fechaCreacion | date:'short' }}
       </div>
