@@ -256,3 +256,23 @@ body {
   text-align: center;
   font-style: italic;
 }
+
+.modo-daltonismo .navbar,
+.modo-daltonismo .nav-link,
+.modo-daltonismo .navbar-brand,
+.modo-daltonismo .bi,
+.modo-daltonismo .text-start,
+.modo-daltonismo .topbar {
+  background-color: #111 !important;
+  color: #FFD700 !important;
+}
+
+.modo-daltonismo .nav-link:hover {
+  background-color: #222 !important;
+  color: #FFD700 !important;
+  text-decoration: underline !important;
+}
+
+.modo-daltonismo .text-danger {
+  color: #FF4444 !important;
+}
