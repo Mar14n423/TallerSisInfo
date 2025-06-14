@@ -8,7 +8,6 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Estilo del mapa - Más profesional */
 #map {
   height: 450px;
   width: 100%;
@@ -22,7 +21,6 @@
   }
 }
 
-/* Lista de reportes - Más elegante */
 .lista {
   & ul {
     list-style: none;
@@ -48,7 +46,6 @@
   }
 }
 
-/* Botones - Más modernos */
 button {
   margin-left: 0.75rem;
   cursor: pointer;
@@ -58,7 +55,7 @@ button {
   font-weight: 500;
   transition: all 0.2s ease;
   
-  &:first-of-type { /* Botón Editar */
+  &:first-of-type { 
     background: #3498db;
     color: white;
     
@@ -67,7 +64,7 @@ button {
     }
   }
   
-  &:last-of-type { /* Botón Eliminar */
+  &:last-of-type { 
     background: #e74c3c;
     color: white;
     
