@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
-import { FooterComponent } from '../../../shared/footer/footer.component';
 import { AuthService } from '../../../services/auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,8 +14,6 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     FormsModule,
     CommonModule,
-    NavbarComponent,
-    FooterComponent,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

@@ -1,14 +1,14 @@
-<div class="login-container mat-elevation-z8">
-  <mat-card class="login-card">
-    <mat-card-header>
-      <mat-card-title>Iniciar Sesión</mat-card-title>
-    </mat-card-header>
+<div class="login-container">
+  <mat-card class="login-card mat-elevation-z8">
+    <div class="login-header">
+      <h1>Bienvenido </h1>
+      <p>Ingresa tus credenciales para acceder</p>
+    </div>
 
-    <mat-card-content>
-      <form (ngSubmit)="onSubmit()" class="login-form">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Correo Electrónico</mat-label>
-          <input
+  <form (ngSubmit)="onSubmit()" class="login-form">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Correo Electrónico</mat-label>
+        <input
             matInput
             type="email"
             id="email"
@@ -17,10 +17,9 @@
             placeholder="Ingresa tu email"
             required
           >
-          <mat-icon matSuffix>email</mat-icon>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Contraseña</mat-label>
           <input
             matInput
@@ -47,26 +46,28 @@
           <mat-error>{{ errorMessage }}</mat-error>
         </div>
 
-        <div class="button-container">
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            class="login-button"
-          >
-            Iniciar Sesión
-          </button>
-          
-          <button
-            mat-stroked-button
-            type="button"
-            routerLink="/"
-            class="home-button"
-          >
-            Volver al Inicio
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
+             <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit"
+        class="login-button"
+      >
+        INICIAR SESIÓN
+      </button>
+
+      <div class="login-footer">
+        <p>¿No tienes una cuenta? 
+          <a routerLink="/registrate" class="register-link">Regístrate aquí</a>
+        </p>
+        <button 
+          mat-stroked-button 
+          type="button" 
+          routerLink="/"
+          class="home-button"
+        >
+          Volver al inicio
+        </button>
+      </div>
+    </form>
   </mat-card>
 </div>
