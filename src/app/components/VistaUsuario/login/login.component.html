@@ -1,8 +1,18 @@
-<div class="login-container">
+<div class="login-container" [class.daltonic-mode]="daltonicMode">
   <mat-card class="login-card mat-elevation-z8">
     <div class="login-header">
       <h1>Bienvenido </h1>
       <p>Ingresa tus credenciales para acceder</p>
+    </div>
+
+    <div class="accessibility-control">
+      <mat-slide-toggle [(ngModel)]="daltonicMode" 
+                        name="daltonicMode"
+                        (change)="toggleColorMode()"
+                        ngDefaultControl
+                        aria-label="Modo de accesibilidad para daltonismo">
+        Daltonismo {{daltonicMode ? '' : ''}}
+      </mat-slide-toggle>
     </div>
 
   <form (ngSubmit)="onSubmit()" class="login-form">
@@ -59,14 +69,6 @@
         <p>¿No tienes una cuenta? 
           <a routerLink="/registrate" class="register-link">Regístrate aquí</a>
         </p>
-        <button 
-          mat-stroked-button 
-          type="button" 
-          routerLink="/"
-          class="home-button"
-        >
-          Volver al inicio
-        </button>
       </div>
     </form>
   </mat-card>
