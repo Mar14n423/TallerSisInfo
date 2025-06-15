@@ -14,15 +14,21 @@ import { TestimoniosDinamicosComponent } from '../testimoniosDinamicos/testimoni
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [CommonModule, RouterModule, FooterComponent, NavbarComponent,MatCardModule, MatInputModule, MatButtonModule, RouterLink, TestimoniosDinamicosComponent] 
+  imports: [CommonModule, RouterModule, FooterComponent, NavbarComponent,MatCardModule, MatInputModule, MatButtonModule, RouterLink, TestimoniosDinamicosComponent]
 })
 export class HomeComponent {
-  showMoreText: boolean = false; 
+  showMoreText: boolean = false;
 
   constructor() { }
 
   toggleText() {
-    this.showMoreText = !this.showMoreText; 
+    this.showMoreText = !this.showMoreText;
   }
+modoDaltonismo: boolean = false;
+
+toggleDaltonismo(): void {
+  this.modoDaltonismo = !this.modoDaltonismo;
+}
+
 }
 

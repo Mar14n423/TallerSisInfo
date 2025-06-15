@@ -31,6 +31,12 @@ export class EmpleoComponent implements OnInit {
   todasLasOfertas: any[] = [];
   ofertasFiltradas: any[] = [];
   cargando: boolean = true;
+  modoDaltonismo: boolean = false;
+
+  toggleDaltonismo(): void {
+    this.modoDaltonismo = !this.modoDaltonismo;
+  }
+
 
   constructor(private empleoService: EmpleoService) {}
 
