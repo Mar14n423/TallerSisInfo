@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -22,7 +22,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule 
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
@@ -39,10 +40,20 @@ export class RegisterComponent {
   daltonicMode: boolean = false;
   hidePassword: boolean = true;
 
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+    constructor(
+    private usuarioService: UsuarioService, 
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
   toggleColorMode() {
     
+  }
+  showSocialMediaMessage() {
+  this.snackBar.open('Por el momento no contamos con este servicio. Se implementará en un futuro. Disculpe las molestias.', 'Cerrar', {
+      duration: 5000,
+      panelClass: ['social-media-snackbar']
+  });
   }
 
   onSubmit() {

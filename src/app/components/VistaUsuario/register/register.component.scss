@@ -324,7 +324,16 @@ mat-form-field {
     }
   }
 }
-
+.social-media-snackbar {
+  background: #4361ee;
+  color: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  
+  .mat-simple-snackbar-action {
+    color: #FFFF00;
+  }
+}
 @media (max-width: 768px) {
   .register-form {
     flex-direction: column;
