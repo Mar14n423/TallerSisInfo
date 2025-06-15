@@ -1,16 +1,15 @@
-<!-- login.component.html -->
-<app-navbar></app-navbar>
+<div class="login-container mat-elevation-z8">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Iniciar Sesión</mat-card-title>
+    </mat-card-header>
 
-  <div class="login-container">
-    <div class="imagen">
-      <img src="assets/imagenes/iniciarSesionNormalFondo.PNG" alt="Persona con prótesis">
-    </div>
-
-    <div class="formulario">
-      <form (ngSubmit)="onSubmit()">
-        <div class="campo">
-          <label for="email">Correo Electrónico</label>
+    <mat-card-content>
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Correo Electrónico</mat-label>
           <input
+            matInput
             type="email"
             id="email"
             [(ngModel)]="email"
@@ -18,28 +17,56 @@
             placeholder="Ingresa tu email"
             required
           >
-        </div>
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
 
-        <div class="campo">
-          <label for="password">Contraseña</label>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
           <input
-            type="password"
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
             id="password"
             [(ngModel)]="password"
             name="password"
             placeholder="Ingresa tu contraseña"
             required
           >
-        </div>
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Ocultar contraseña'"
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
 
         <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
+          <mat-error>{{ errorMessage }}</mat-error>
         </div>
 
-        <button type="submit" class="btn-iniciar">Iniciar Sesión</button>
-        <button type="button" class="btn-home" routerLink="/">Volver al Inicio</button>
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="login-button"
+          >
+            Iniciar Sesión
+          </button>
+          
+          <button
+            mat-stroked-button
+            type="button"
+            routerLink="/"
+            class="home-button"
+          >
+            Volver al Inicio
+          </button>
+        </div>
       </form>
-    </div>
-  </div>
-
-<app-footer></app-footer>
+    </mat-card-content>
+  </mat-card>
+</div>
