@@ -1,4 +1,3 @@
-/* Estilos base */
 .register-container {
   display: flex;
   justify-content: center;
@@ -65,7 +64,6 @@
   justify-content: center;
 }
 
-/* Componentes Material */
 mat-form-field {
   width: 100%;
   
@@ -83,7 +81,6 @@ mat-form-field {
   }
 }
 
-/* Botones */
 .login-button {
   width: 100%;
   padding: 0.75rem;
@@ -91,10 +88,21 @@ mat-form-field {
   font-weight: 500;
   margin-bottom: 1rem;
   transition: all 0.3s ease;
+  background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #FF5E5E, #3EC7BC);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -105,14 +113,48 @@ mat-form-field {
   font-weight: 500;
   margin-bottom: 1.5rem;
   transition: all 0.3s ease;
+  background: white;
+  color: #4ECDC4 !important;
+  border: 2px solid #4ECDC4;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: rgba(78, 205, 196, 0.1);
+    color: #3EC7BC;
+    border-color: #3EC7BC;
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 }
 
-/* Enlaces */
+.daltonic-mode {
+  .login-button {
+    background: linear-gradient(135deg, #000080, #1E90FF) !important;
+    color: #FFFF00 !important;
+    border: 2px solid #000 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+    
+    &:hover {
+      background: linear-gradient(135deg, #0000CD, #1A82FF) !important;
+    }
+  }
+  
+  .btn-empresa {
+    background: #FFFF00 !important;
+    color: #000080 !important;
+    border: 2px solid #000080 !important;
+    
+    &:hover {
+      background: rgba(255, 255, 0, 0.8) !important;
+    }
+  }
+}
 .login-links {
   margin: 1.5rem 0;
   text-align: center;
@@ -129,7 +171,6 @@ mat-form-field {
   }
 }
 
-/* Sección social */
 .social-section {
   margin-top: 2rem;
   
@@ -185,7 +226,6 @@ mat-form-field {
   }
 }
 
-/* Modo Daltonico COMPLETO */
 .daltonic-mode {
   background: linear-gradient(135deg, #F5F5DC 0%, #E6E6FA 100%) !important;
 
@@ -225,7 +265,6 @@ mat-form-field {
     }
   }
 
-  /* Botones */
   .login-button {
     background: linear-gradient(to right, #000080, #1E90FF) !important;
     color: #FFFF00 !important;
@@ -253,13 +292,11 @@ mat-form-field {
     }
   }
 
-  /* Textos */
   .social-section p {
     color: #000 !important;
     font-weight: 600;
   }
 
-  /* Botones sociales */
   .botones-sociales {
     button {
       background-color: #333 !important;
@@ -272,8 +309,6 @@ mat-form-field {
       }
     }
   }
-
-  /* Switch de accesibilidad */
   .mat-slide-toggle {
     .mat-slide-toggle-bar {
       background-color: rgba(0, 0, 128, 0.5) !important;
@@ -290,7 +325,6 @@ mat-form-field {
   }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .register-form {
     flex-direction: column;
