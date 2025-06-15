@@ -1,30 +1,40 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { FooterComponent } from '../../../shared/footer/footer.component';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
-import axios from 'axios';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import { UsuarioService } from './usuario.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'; 
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, NavbarComponent, RouterModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    RouterModule,
+    MatSlideToggleModule 
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required]), // Campo para el nombre
-    email: new FormControl('', [Validators.required, Validators.email]), // Campo para el correo
-    discapacidad: new FormControl('', [Validators.required]), // Campo para la discapacidad
-    password: new FormControl('', [Validators.required]), // Campo para la contraseña
-    confirmPassword: new FormControl('', [Validators.required]) // Campo para confirmar la contraseña
+    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    discapacidad: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required])
   });
 
+  daltonicMode: boolean = false;
+  hidePassword: boolean = true;
+
   constructor(private usuarioService: UsuarioService, private router: Router) {}
+
+  toggleColorMode() {
+  }
 
   onSubmit() {
     if (this.registerForm.valid) {
@@ -38,12 +48,8 @@ export class RegisterComponent {
       this.usuarioService.registrarUsuario(usuario).subscribe({
         next: (response) => {
           console.log('Usuario registrado con éxito:', response);
-
-          // ✅ Guardar en localStorage el usuario registrado
           localStorage.setItem('userId', response.id);
           localStorage.setItem('usuario', JSON.stringify(response));
-
-          // ✅ Redirigir al perfil
           this.router.navigate(['/profile']);
         },
         error: (error) => {
