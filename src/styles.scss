@@ -1,1 +1,75 @@
 /* You can add global styles to this file, and also import other style files */
+.modo-daltonismo .navbar,
+.modo-daltonismo .nav-link,
+.modo-daltonismo .navbar-brand,
+.modo-daltonismo .bi,
+.modo-daltonismo .text-start,
+.modo-daltonismo .topbar {
+  background-color: #111 !important;
+  color: #FFD700 !important;
+}
+
+.modo-daltonismo .nav-link:hover {
+  background-color: #222 !important;
+  color: #FFD700 !important;
+  text-decoration: underline !important;
+}
+
+.modo-daltonismo .text-danger {
+  color: #FF4444 !important;
+}
+
+.modo-daltonismo .navbar,
+.modo-daltonismo .navbar-custom {
+  background-color: #111 !important;
+  color: #FFD700 !important;
+  border-bottom: 2px solid #FFD700;
+}
+
+.modo-daltonismo .navbar a,
+.modo-daltonismo .nav-link,
+.modo-daltonismo .navbar-brand {
+  color: #FFD700 !important;
+}
+
+.modo-daltonismo .navbar a:hover,
+.modo-daltonismo .nav-link:hover {
+  color: #fff700 !important;
+  text-decoration: underline;
+}
+
+:host ::ng-deep .modo-daltonismo .navbar-custom {
+  background-color: #111 !important;
+}
+.modo-daltonismo .navbar,
+.modo-daltonismo .navbar-custom,
+.modo-daltonismo .container-fluid.border-bottom {
+  background-color: #111 !important;
+  border-bottom: 1px solid #FFD700;
+}
+
+.modo-daltonismo .text-start,
+.modo-daltonismo .navbar a,
+.modo-daltonismo .nav-link {
+  color: #FFD700 !important;
+}
+
+.modo-daltonismo .navbar a:hover {
+  color: white !important;
+  text-decoration: underline;
+}
+body.modo-daltonismo .navbar-custom {
+  background-color: #111 !important;
+  color: #FFD700 !important;
+  border-bottom: 2px solid #FFD700;
+}
+
+body.modo-daltonismo .navbar-custom .nav-link,
+body.modo-daltonismo .navbar-custom .navbar-brand {
+  color: #FFD700 !important;
+}
+
+body.modo-daltonismo .navbar-custom .nav-link:hover {
+  color: white !important;
+  text-decoration: underline;
+}

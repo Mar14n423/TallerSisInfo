@@ -6,7 +6,12 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <app-navbar></app-navbar>
-
+  <div class="d-flex justify-content-end p-3">
+    <button class="btn btn-outline-dark" (click)="toggleDaltonismo()">
+      🌈 Modo Daltonismo
+    </button>
+  </div>
+  <div [ngClass]="{'modo-daltonismo-home': modoDaltonismo}">
   <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -178,8 +183,9 @@
     </div>
   </section>
 
-
+  </div>
   <app-footer></app-footer>
   <a href="#" class="btn btn-primary py-3 fs-4 back-to-top">
     <i class="bi bi-arrow-up"></i>
   </a>
+
