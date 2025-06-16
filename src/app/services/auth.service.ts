@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
@@ -24,8 +24,6 @@ export class AuthService {
         localStorage.setItem('token', response.token);
         localStorage.setItem('tipo', response.tipo);
         localStorage.setItem('userId', response.id);
-
-        // 🔥 Devolvemos el objeto completo para el navbar
         return response;
       }
 
@@ -35,7 +33,6 @@ export class AuthService {
       return null;
     }
   }
-
 
   async logout(): Promise<void> {
     try {

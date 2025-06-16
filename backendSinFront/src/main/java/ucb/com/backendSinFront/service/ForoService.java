@@ -2,6 +2,8 @@ package ucb.com.backendSinFront.service;
 
 import ucb.com.backendSinFront.dto.PublicacionDTO;
 import ucb.com.backendSinFront.dto.RespuestaDTO;
+import ucb.com.backendSinFront.dto.ComentarioReportadoDTO;
+import ucb.com.backendSinFront.dto.ReporteDetalleDTO;
 import ucb.com.backendSinFront.entity.Usuario;
 import ucb.com.backendSinFront.entity.foro.Publicacion;
 import ucb.com.backendSinFront.entity.foro.ReporteF;
@@ -19,8 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,19 +46,16 @@ public class ForoService {
     this.usuarioRepository = usuarioRepository;
   }
 
-  // ✅ Devuelve las publicaciones con avatar de usuario y de cada respuesta
   public List<PublicacionDTO> obtenerTodasLasPublicacionesDTO() {
     List<Publicacion> publicaciones = publicacionRepository.findAll();
 
     return publicaciones.stream().map(pub -> {
-      // Avatar del autor de la publicación
       String avatarUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
       List<Usuario> usuariosPub = usuarioRepository.findByNombre(pub.getUsuario());
       if (!usuariosPub.isEmpty() && usuariosPub.get(0).getProfileImage() != null && !usuariosPub.get(0).getProfileImage().isEmpty()) {
         avatarUrl = usuariosPub.get(0).getProfileImage();
       }
 
-      // Procesar las respuestas con el avatar real de cada autor
       List<RespuestaDTO> respuestaDTOs = pub.getRespuestas().stream().map(resp -> {
         String avatarRespUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
         List<Usuario> usuariosResp = usuarioRepository.findByNombre(resp.getUsuario());
@@ -73,7 +71,6 @@ public class ForoService {
         );
       }).collect(Collectors.toList());
 
-      // Crear DTO completo
       PublicacionDTO dto = new PublicacionDTO(
         pub.getId(),
         pub.getUsuario(),
@@ -88,7 +85,6 @@ public class ForoService {
     }).collect(Collectors.toList());
   }
 
-  // ✅ Otros métodos
   public Publicacion crearPublicacion(Publicacion publicacion) {
     return publicacionRepository.save(publicacion);
   }
@@ -114,7 +110,6 @@ public class ForoService {
   }
 
   public ReporteF crearReporte(ReporteF reporte) {
-
     if (reporte.getTipo() == ReporteF.TipoContenido.POST) {
       Publicacion publicacion = publicacionRepository.findById(reporte.getContenidoId())
         .orElseThrow(() -> new RuntimeException("Publicación no encontrada con ID: " + reporte.getContenidoId()));
@@ -149,5 +144,52 @@ public class ForoService {
   public List<Publicacion> obtenerPublicacionesDestacadas() {
     Pageable topThree = PageRequest.of(0, 3, Sort.by("fecha").descending());
     return publicacionRepository.findTopPublicacionesWithRespuestasOrderedByDate(topThree);
+  }
+
+  public void guardarReglas(List<ReglaForo> reglas) {
+    reglaForoRepository.deleteAll();
+    reglaForoRepository.saveAll(reglas);
+  }
+
+  public List<ReporteF> obtenerComentariosReportados() {
+    return reporteFRepository.findByTipoOrderByFechaDesc(ReporteF.TipoContenido.COMENTARIO);
+  }
+
+  public List<ReporteF> obtenerPostsReportados() {
+    return reporteFRepository.findByTipoOrderByFechaDesc(ReporteF.TipoContenido.POST);
+  }
+
+  public List<ComentarioReportadoDTO> obtenerComentariosReportadosDetallado() {
+    List<ReporteF> reportes = reporteFRepository.findByTipoOrderByFechaDesc(ReporteF.TipoContenido.COMENTARIO);
+    Map<Long, List<ReporteF>> agrupado = reportes.stream().collect(Collectors.groupingBy(ReporteF::getContenidoId));
+
+    List<ComentarioReportadoDTO> resultado = new ArrayList<>();
+    for (Map.Entry<Long, List<ReporteF>> entry : agrupado.entrySet()) {
+      Long comentarioId = entry.getKey();
+      List<ReporteF> reportesDeEsteComentario = entry.getValue();
+
+      Optional<Respuesta> respuestaOpt = respuestaRepository.findById(comentarioId);
+      if (!respuestaOpt.isPresent()) continue;
+      Respuesta respuesta = respuestaOpt.get();
+
+      ComentarioReportadoDTO dto = new ComentarioReportadoDTO();
+      dto.setComentarioId(comentarioId);
+      dto.setContenido(respuesta.getMensaje());
+      dto.setUsuario(respuesta.getUsuario());
+      dto.setFecha(respuesta.getFecha().atStartOfDay());
+
+      List<ReporteDetalleDTO> detalles = reportesDeEsteComentario.stream().map(rep -> {
+        ReporteDetalleDTO det = new ReporteDetalleDTO();
+        det.setUsuarioReportador(rep.getUsuarioReportador());
+        det.setRazon(rep.getRazon());
+        det.setOtraRazon(rep.getOtraRazon());
+        det.setFecha(rep.getFecha());
+        return det;
+      }).collect(Collectors.toList());
+
+      dto.setReportes(detalles);
+      resultado.add(dto);
+    }
+    return resultado;
   }
 }

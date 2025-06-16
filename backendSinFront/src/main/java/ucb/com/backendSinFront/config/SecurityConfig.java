@@ -17,10 +17,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
 import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import ucb.com.backendSinFront.util.JwtTokenUtil;
 import ucb.com.backendSinFront.service.UsuarioService;
-
 
 @Configuration
 @EnableWebSecurity
@@ -49,7 +47,7 @@ public class SecurityConfig {
         .requestMatchers(
           "/api/usuarios/login",
           "/api/usuarios/create",
-          "/api/foro/**",
+          "/api/foro/",
           "/api/foro/reporte",
           "/api/empresas",
           "/api/empresas/{id}",
@@ -58,8 +56,8 @@ public class SecurityConfig {
           "/api/empresa/empleos/crear",
           "/api/empresa/empleos/crear-con-imagen",
           "/api/ofertas/crear-con-imagen",
-          "/swagger-ui/**",
-          "/v3/api-docs/**"
+          "/swagger-ui/",
+          "/v3/api-docs/"
         ).permitAll()
         .anyRequest().authenticated()
       )
@@ -80,7 +78,6 @@ public class SecurityConfig {
     return http.build();
   }
 
-
   @Bean // Configuración CORS global
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
@@ -90,7 +87,7 @@ public class SecurityConfig {
     configuration.setAllowCredentials(true);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
+    source.registerCorsConfiguration("/", configuration);
     return source;
   }
 }
