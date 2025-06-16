@@ -34,16 +34,18 @@ public class EmpresaService {
         empresaRepository.deleteById(id);
     }
 
-    public Empresa actualizarEmpresa(Long id, Empresa empresaActualizada) {
-        return empresaRepository.findById(id)
-                .map(empresa -> {
-                    empresa.setNombre(empresaActualizada.getNombre());
-                    empresa.setCorreo(empresaActualizada.getCorreo());
-                    empresa.setPasswordHash(empresaActualizada.getPasswordHash());
-                    empresa.setTelefono(empresaActualizada.getTelefono());
-                    empresa.setDescripcion(empresaActualizada.getDescripcion());
-                    return empresaRepository.save(empresa);
-                })
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada con id: " + id));
+  public Empresa actualizarEmpresa(Long id, Empresa empresaActualizada) {
+    Optional<Empresa> empresaOpt = empresaRepository.findById(id);
+    if (empresaOpt.isPresent()) {
+      Empresa empresa = empresaOpt.get();
+      empresa.setNombre(empresaActualizada.getNombre());
+      empresa.setCorreo(empresaActualizada.getCorreo());
+      empresa.setTelefono(empresaActualizada.getTelefono());
+      empresa.setDescripcion(empresaActualizada.getDescripcion());
+      empresa.setProfileImage(empresaActualizada.getProfileImage()); // ✅ ESTA LÍNEA ES CLAVE
+      return empresaRepository.save(empresa);
     }
+    return null;
+  }
+
 }
