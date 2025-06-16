@@ -8,4 +8,6 @@ public interface OfertaEmpleoRepository extends JpaRepository<OfertaEmpleo, Long
   List<OfertaEmpleo> findByUbicacion(String ubicacion);
   List<OfertaEmpleo> findByTipoContrato(String tipoContrato);
   List<OfertaEmpleo> findByEstado(String estado);
+
+  List<OfertaEmpleo> findByIdEmpresa(Long idEmpresa);
 }

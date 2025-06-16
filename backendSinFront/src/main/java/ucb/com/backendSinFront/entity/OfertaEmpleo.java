@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "oferta_empleo")
+@Table(name = "oferta_empleo") // Este será el nombre final de tu tabla
 public class OfertaEmpleo {
 
   @Id
@@ -12,7 +12,7 @@ public class OfertaEmpleo {
   private Long id;
 
   @Column(nullable = false)
-  private Long idEmpresa; // Empresa que publica
+  private Long idEmpresa;
 
   @Column(nullable = false)
   private String tituloTrabajo;
@@ -20,7 +20,7 @@ public class OfertaEmpleo {
   @Column(nullable = false, columnDefinition = "TEXT")
   private String descripcion;
 
-  @Column(nullable = true, columnDefinition = "TEXT")
+  @Column(columnDefinition = "TEXT")
   private String requisitos;
 
   @Column(nullable = false)
@@ -30,15 +30,15 @@ public class OfertaEmpleo {
   private String tipoContrato;
 
   @Column(nullable = false)
-  private LocalDate fechaPublicacion;
+  private String estado;
 
   @Column(nullable = false)
-  private String estado; // Ejemplo: "Activo", "Cerrado"
+  private LocalDate fechaPublicacion;
 
-  @Column(name = "imagen_nombre")
+  @Column(name = "imagen_nombre", length = 500)
   private String imagenNombre;
 
-  public OfertaEmpleo() {}
+  // === Getters y Setters ===
 
   public Long getId() { return id; }
   public void setId(Long id) { this.id = id; }
@@ -61,11 +61,11 @@ public class OfertaEmpleo {
   public String getTipoContrato() { return tipoContrato; }
   public void setTipoContrato(String tipoContrato) { this.tipoContrato = tipoContrato; }
 
-  public LocalDate getFechaPublicacion() { return fechaPublicacion; }
-  public void setFechaPublicacion(LocalDate fechaPublicacion) { this.fechaPublicacion = fechaPublicacion; }
-
   public String getEstado() { return estado; }
   public void setEstado(String estado) { this.estado = estado; }
+
+  public LocalDate getFechaPublicacion() { return fechaPublicacion; }
+  public void setFechaPublicacion(LocalDate fechaPublicacion) { this.fechaPublicacion = fechaPublicacion; }
 
   public String getImagenNombre() { return imagenNombre; }
   public void setImagenNombre(String imagenNombre) { this.imagenNombre = imagenNombre; }

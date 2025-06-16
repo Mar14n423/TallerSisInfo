@@ -2,7 +2,7 @@
 <div [ngClass]="{ 'modo-daltonismo-empleo': modoDaltonismo }">
   <app-navbar></app-navbar>
   <div class="d-flex justify-content-end p-3">
-    <button class="btn btn-outline-warning" (click)="toggleDaltonismo()">🌈 Modo Daltonismo</button>
+    <button class="btn btn-outline-warning" (click)="toggleDaltonismo()">👁️ Modo Daltonismo</button>
   </div>
 
   <section class="filtros-container">
@@ -14,11 +14,11 @@
         <label for="ubicacion">Ubicación:</label>
         <select id="ubicacion" [(ngModel)]="filtroUbicacion" name="ubicacion" (change)="aplicarFiltros()">
           <option value="">Todas</option>
-          <option value="Santa Cruz">Santa Cruz</option>
-          <option value="La Paz">La Paz</option>
-          <option value="Cochabamba">Cochabamba</option>
-          <option value="Sucre">Sucre</option>
-          <option value="Trabajo remoto">Trabajo remoto</option>
+          <option value="zona sur">Zona Sur</option>
+          <option value="zona norte">Zona Norte</option>
+          <option value="zona este">Zona Este</option>
+          <option value="zona oeste">Zona Oeste</option>
+          <option value="remoto">Trabajo remoto</option>
         </select>
       </div>
 
