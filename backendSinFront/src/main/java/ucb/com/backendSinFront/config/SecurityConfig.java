@@ -55,6 +55,7 @@ public class SecurityConfig {
           "/api/empresas/login",
           "/api/empresa/empleos/crear",
           "/api/empresa/empleos/crear-con-imagen",
+          "/api/ofertas/crear-con-imagen",
           "/swagger-ui/**",
           "/v3/api-docs/**"
         ).permitAll()

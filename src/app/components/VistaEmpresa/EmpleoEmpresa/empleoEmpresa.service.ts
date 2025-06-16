@@ -5,12 +5,12 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class EmpleoEmpresaService {
-  private apiUrl = 'http://localhost:8080/api/empleos';
+  private apiUrl = 'http://localhost:8080/api/ofertas';
 
   constructor() {}
 
   subirEmpleo(formData: FormData): Promise<any> {
-      return fetch('http://localhost:8080/api/empresa/empleos/crear', {
+      return fetch('http://localhost:8080/api/ofertas/crear-con-imagen', {
       method: 'POST',
       body: formData
     }).then(res => {

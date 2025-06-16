@@ -23,10 +23,10 @@ export class EmpleoEmpresaComponent {
   completados: boolean[] = [false, false, false, false];
 
   empleos = [
-    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
-    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
-    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' },
-    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '', estado: '' }
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '' },
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '' },
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '' },
+    { tituloTrabajo: '', descripcion: '', requisitos: '', ubicacion: '', tipoContrato: '' }
   ];
 
   constructor(private empleoService: EmpleoEmpresaService) {}
