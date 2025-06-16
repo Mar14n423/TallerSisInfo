@@ -25,6 +25,16 @@ public class Empresa {
     @Column(nullable = true, columnDefinition = "TEXT")
     private String descripcion;
 
+  @Column(columnDefinition = "LONGTEXT")
+  private String profileImage;
+
+  public String getProfileImage() {
+    return profileImage;
+  }
+
+  public void setProfileImage(String profileImage) {
+    this.profileImage = profileImage;
+  }
     // Constructor vacío requerido por JPA
     public Empresa() {}
 
@@ -85,4 +95,5 @@ public class Empresa {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
 }
